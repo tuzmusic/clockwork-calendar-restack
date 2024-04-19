@@ -22,7 +22,9 @@ module.exports = {
 
   // Base config
   extends: ["eslint:recommended"],
-
+  rules: {
+    "object-curly-spacing": "error"
+  },
   overrides: [
     // React
     {
