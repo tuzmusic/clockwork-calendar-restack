@@ -53,6 +53,3 @@ describe("EmailGig", () => {
     });
   });
 });
-
-describe("CalendarGig", () => {
-});

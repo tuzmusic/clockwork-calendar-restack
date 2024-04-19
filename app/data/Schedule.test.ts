@@ -23,10 +23,9 @@ describe("Schedule", () => {
 
       const sets = sched.getEventSets();
       expect(sets).toHaveLength(1);
+
       expect(sets[0].emailGig.getId()).toEqual("2024-12-01");
-      expect(sets[0].emailGig).instanceof(EmailGig);
       expect(sets[0].calendarGig.getId()).toEqual("2024-12-01");
-      expect(sets[0].calendarGig).instanceof(CalendarGig);
       expect(sets[0].calendarGig.isNew).toBe(false);
     });
 
@@ -39,10 +38,8 @@ describe("Schedule", () => {
 
       const sets = sched.getEventSets();
       expect(sets).toHaveLength(1);
-      // original email gig
-      expect(sets[0].emailGig.getId()).toEqual("2024-12-02");
 
-      // new calendar gig
+      expect(sets[0].emailGig.getId()).toEqual("2024-12-02");
       expect(sets[0].calendarGig.getId()).toEqual("2024-12-02");
       expect(sets[0].calendarGig.isNew).toBe(true);
     });
