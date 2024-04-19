@@ -5,13 +5,14 @@ describe("Gig abstract class", () => {
   const end = "2024-12-01T23:00:00-04:00";
 
   class GigImpl extends Gig {
-    public static make(location: string) {
-      return new this(location, start, end);
+    public static make(location: string, startDateTimeStr: string, endDateTimeStr: string) {
+      return new this(location, startDateTimeStr, endDateTimeStr);
     }
   }
 
   describe("public data", () => {
-    const gig = GigImpl.make("somewhere");
+    const gig = GigImpl.make("somewhere", start, end);
+
     it("has a location", () => {
       expect(gig.getLocation()).toEqual("somewhere");
     });
@@ -24,4 +25,8 @@ describe("Gig abstract class", () => {
       expect(gig.getEndTime().dateTime).toEqual(end)
     });
   });
+});
+
+describe("EmailGig", () => {
+
 });
