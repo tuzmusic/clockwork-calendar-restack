@@ -24,6 +24,10 @@ describe("Gig abstract class", () => {
     it("has an start time", () => {
       expect(gig.getEndTime().dateTime).toEqual(end)
     });
+
+    it("has an id based on its start date", () => {
+      expect(gig.getId()).toEqual('2024-12-01')
+    });
   });
 });
 
