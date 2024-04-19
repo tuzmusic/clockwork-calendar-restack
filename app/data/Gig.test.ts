@@ -1,3 +1,4 @@
+import CalendarGig from "~/data/CalendarGig";
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
 
@@ -35,6 +36,28 @@ describe("Gig abstract class", () => {
 describe("EmailGig", () => {
   describe("EmailGig.make", () => {
     const gig = EmailGig.make("somewhere", start, end);
+
+    it("has a location", () => {
+      expect(gig.getLocation()).toEqual("somewhere");
+    });
+
+    it("has a start time", () => {
+      expect(gig.getStartTime().dateTime).toEqual(start);
+    });
+
+    it("has an start time", () => {
+      expect(gig.getEndTime().dateTime).toEqual(end);
+    });
+
+    it("has an id based on its start date", () => {
+      expect(gig.getId()).toEqual("2024-12-01");
+    });
+  });
+});
+
+describe("CalendarGig", () => {
+  describe("CalendarGig.make", () => {
+    const gig = CalendarGig.make("somewhere", start, end);
 
     it("has a location", () => {
       expect(gig.getLocation()).toEqual("somewhere");
