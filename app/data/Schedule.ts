@@ -10,7 +10,7 @@ export default class Schedule {
       ...acc, [gig.getId()]: gig
     }), {});
 
-    this.calendarGigsTable = emailGigs.reduce((acc, gig) => ({
+    this.calendarGigsTable = calendarGigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
     }), {});
   }
