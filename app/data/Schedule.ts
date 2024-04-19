@@ -23,7 +23,7 @@ export default class Schedule {
   public getEventSets() {
     return Object.keys(this.emailGigsTable).map((id) => {
       const emailGig = this.emailGigsTable[id];
-      const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.make(
+      const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.makeFromEmailGig(
      emailGig,
         { isNew: true }
       );

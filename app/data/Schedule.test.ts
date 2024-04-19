@@ -1,8 +1,9 @@
 import CalendarGig from "~/data/CalendarGig";
 import EmailGig from "~/data/EmailGig";
 import Schedule from "~/data/Schedule";
+
 function to2Digits(num: number) {
-  return num.toString().padStart(2, "0")
+  return num.toString().padStart(2, "0");
 }
 
 function makeStartAndEndStrings(day: number) {
@@ -14,12 +15,10 @@ function makeStartAndEndStrings(day: number) {
 describe("Schedule", () => {
   describe("Schedule.build", () => {
     it("builds an event set when events match", () => {
-      const [start, end] = makeStartAndEndStrings(1)
+      const [start, end] = makeStartAndEndStrings(1);
       const sched = Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
-        calendarGigs: [CalendarGig.make(
-          EmailGig.make("somewhere", start, end)
-        )]
+        calendarGigs: [CalendarGig.make("somewhere", start, end)]
       });
 
       const sets = sched.getEventSets();
@@ -32,7 +31,7 @@ describe("Schedule", () => {
     });
 
     it("creates a new calendar event for a new email event", () => {
-      const [start, end] = makeStartAndEndStrings(2)
+      const [start, end] = makeStartAndEndStrings(2);
       const sched = Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
         calendarGigs: []
@@ -48,6 +47,6 @@ describe("Schedule", () => {
       expect(sets[0].calendarGig.isNew).toBe(true);
     });
 
-    it.todo('orphaned calendar events (nowhere near urgent)')
+    it.todo("orphaned calendar events (nowhere near urgent)");
   });
 });

@@ -12,7 +12,7 @@ export default class CalendarGig extends Gig {
     this._isNew = isNew;
   }
 
-  public static make(
+  public static makeFromEmailGig(
     emailGig: EmailGig,
     { isNew = false }: { isNew: boolean } = { isNew: false }
   ) {
@@ -22,5 +22,14 @@ export default class CalendarGig extends Gig {
       emailGig.getEndTime().dateTime,
       isNew
     );
+  }
+
+  public static make(
+    location: string,
+    startDateTimeStr: string,
+    endDateTimeStr: string,
+    { isNew = false }: { isNew: boolean } = { isNew: false }
+  ) {
+    return new this(location, startDateTimeStr, endDateTimeStr, isNew);
   }
 }
