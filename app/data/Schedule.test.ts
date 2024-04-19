@@ -29,7 +29,7 @@ describe("Schedule", () => {
     });
 
     it("creates a calendar event for a new email event", () => {
-      const [start, end] = makeStartAndEndStrings(1)
+      const [start, end] = makeStartAndEndStrings(2)
       const sched = Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
         calendarGigs: []
@@ -38,10 +38,10 @@ describe("Schedule", () => {
       const sets = sched.getEventSets();
       expect(sets).toHaveLength(1);
       // original email gig
-      expect(sets[0].emailGig.getId()).toEqual("2024-12-01");
+      expect(sets[0].emailGig.getId()).toEqual("2024-12-02");
       expect(sets[0].emailGig).instanceof(EmailGig);
       // new calendar gig
-      expect(sets[0].calendarGig.getId()).toEqual("2024-12-01");
+      expect(sets[0].calendarGig.getId()).toEqual("2024-12-02");
       expect(sets[0].calendarGig).instanceof(CalendarGig);
     });
   });

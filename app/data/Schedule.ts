@@ -17,13 +17,22 @@ export default class Schedule {
 
   public static build(arrays: { emailGigs: EmailGig[]; calendarGigs: CalendarGig[]; }) {
     const schedule = new Schedule(arrays.emailGigs, arrays.calendarGigs);
-    return schedule
+    return schedule;
   }
 
   public getEventSets() {
-    return Object.keys(this.emailGigsTable).map((id) => ({
-      emailGig: this.emailGigsTable[id],
-      calendarGig: this.calendarGigsTable[id]
-    }));
+    return Object.keys(this.emailGigsTable).map((id) => {
+      const emailGig = this.emailGigsTable[id];
+      const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.make(
+        emailGig.getLocation(),
+        emailGig.getStartTime().dateTime,
+        emailGig.getEndTime().dateTime
+      );
+
+      return ({
+        emailGig: emailGig,
+        calendarGig: calendarGig
+      });
+    });
   }
 }
