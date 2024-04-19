@@ -1,10 +1,27 @@
+import Gig from "~/data/Gig";
+
 describe("Gig abstract class", () => {
-  class GigImpl extends Gig {}
+  const start = "2024-12-01T19:00:00-04:00";
+  const end = "2024-12-01T23:00:00-04:00";
+
+  class GigImpl extends Gig {
+    public static make(location: string) {
+      return new this(location, start, end);
+    }
+  }
 
   describe("public data", () => {
-    const gig = new GigImpl()
+    const gig = GigImpl.make("somewhere");
     it("has a location", () => {
-      expect(gig.location).toEqual('somewhere')
+      expect(gig.getLocation()).toEqual("somewhere");
+    });
+
+    it("has a start time", () => {
+      expect(gig.getStartTime().dateTime).toEqual(start)
+    });
+
+    it("has an start time", () => {
+      expect(gig.getEndTime().dateTime).toEqual(end)
     });
   });
 });
