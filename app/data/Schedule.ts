@@ -26,7 +26,8 @@ export default class Schedule {
       const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.make(
         emailGig.getLocation(),
         emailGig.getStartTime().dateTime,
-        emailGig.getEndTime().dateTime
+        emailGig.getEndTime().dateTime,
+        { isNew: true }
       );
 
       return ({
