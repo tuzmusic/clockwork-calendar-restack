@@ -1,5 +1,6 @@
 import CalendarGig from "~/data/CalendarGig";
 import EmailGig from "~/data/EmailGig";
+import Schedule from "~/data/Schedule";
 
 describe("Schedule", () => {
   describe("Schedule.build", () => {
