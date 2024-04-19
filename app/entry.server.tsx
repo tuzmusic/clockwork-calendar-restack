@@ -9,8 +9,16 @@ import { PassThrough } from "node:stream";
 import type { EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+
+dayjs.extend(timezone)
+dayjs.extend(utc)
+dayjs.extend(duration)
 
 const ABORT_DELAY = 5_000;
 
