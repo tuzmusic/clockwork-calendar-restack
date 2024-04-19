@@ -24,15 +24,13 @@ export default class Schedule {
     return Object.keys(this.emailGigsTable).map((id) => {
       const emailGig = this.emailGigsTable[id];
       const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.make(
-        emailGig.getLocation(),
-        emailGig.getStartTime().dateTime,
-        emailGig.getEndTime().dateTime,
+     emailGig,
         { isNew: true }
       );
 
       return ({
-        emailGig: emailGig,
-        calendarGig: calendarGig
+        emailGig,
+        calendarGig
       });
     });
   }

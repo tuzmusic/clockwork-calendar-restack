@@ -17,7 +17,9 @@ describe("Schedule", () => {
       const [start, end] = makeStartAndEndStrings(1)
       const sched = Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
-        calendarGigs: [CalendarGig.make("somewhere", start, end)]
+        calendarGigs: [CalendarGig.make(
+          EmailGig.make("somewhere", start, end)
+        )]
       });
 
       const sets = sched.getEventSets();
@@ -45,5 +47,7 @@ describe("Schedule", () => {
       expect(sets[0].calendarGig.getId()).toEqual("2024-12-02");
       expect(sets[0].calendarGig.isNew).toBe(true);
     });
+
+    it.todo('orphaned calendar events (nowhere near urgent)')
   });
 });

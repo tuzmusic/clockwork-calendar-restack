@@ -1,3 +1,4 @@
+import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
 
 export default class CalendarGig extends Gig {
@@ -12,11 +13,14 @@ export default class CalendarGig extends Gig {
   }
 
   public static make(
-    location: string,
-    startDateTimeStr: string,
-    endDateTimeStr: string,
+    emailGig: EmailGig,
     { isNew = false }: { isNew: boolean } = { isNew: false }
   ) {
-    return new this(location, startDateTimeStr, endDateTimeStr, isNew);
+    return new this(
+      emailGig.getLocation(),
+      emailGig.getStartTime().dateTime,
+      emailGig.getEndTime().dateTime,
+      isNew
+    );
   }
 }
