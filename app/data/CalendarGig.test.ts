@@ -15,16 +15,11 @@ const end = "2024-12-01T23:00:00-04:00";
 
 describe("CalendarGig", () => {
   // make
-  describe.each([true, false])("CalendarGig.make (isNew: %s)", (isNew) => {
-    const gig = CalendarGig.make(
-      "somewhere",
-      start,
-      end,
-      isNew ? { isNew: true } : undefined
-    );
+  describe("CalendarGig.makeFromExisting", () => {
+    const gig = CalendarGig.makeFromExisting(location, start, end);
 
     it("has a location", () => {
-      expect(gig.getLocation()).toEqual("somewhere");
+      expect(gig.getLocation()).toEqual(location);
     });
 
     it("has a start time", () => {
@@ -39,21 +34,13 @@ describe("CalendarGig", () => {
       expect(gig.getId()).toEqual("2024-12-01");
     });
 
-    if (!isNew) {
-      it("sets isNew to false by default", () => {
-        expect(gig.isNew).toBe(false);
-      });
-    } else {
-      it("can set the isNew flag", () => {
-        expect(gig.isNew).toBe(true);
-      });
-    }
+    it("is marked as not new", () => {
+      expect(gig.isNew).toBe(false);
+    });
   });
 
-  describe.todo("CalendarGig.makeFromEmailGig");
-
   // new calendar gig gets distance info
-  describe("Creating a brand new CalendarGig from an EmailGig", () => {
+  describe("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
     const emailGig = EmailGig.make(location, start, end);
 
     it("Gets distance info from the Distance Service", () => {

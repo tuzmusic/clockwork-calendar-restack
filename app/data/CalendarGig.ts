@@ -33,12 +33,11 @@ export default class CalendarGig extends Gig {
     return newCalendarGig;
   }
 
-  public static make(
+  public static makeFromExisting(
     location: string,
     startDateTimeStr: string,
     endDateTimeStr: string,
-    { isNew = false }: { isNew: boolean } = { isNew: false }
   ) {
-    return new this(location, startDateTimeStr, endDateTimeStr, isNew);
+    return new this(location, startDateTimeStr, endDateTimeStr, false);
   }
 }

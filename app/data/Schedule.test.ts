@@ -18,7 +18,7 @@ describe("Schedule", () => {
       const [start, end] = makeStartAndEndStrings(1);
       const sched =  Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
-        calendarGigs: [CalendarGig.make("somewhere", start, end)]
+        calendarGigs: [CalendarGig.makeFromExisting("somewhere", start, end)]
       });
 
       const sets = await sched.getEventSets();
