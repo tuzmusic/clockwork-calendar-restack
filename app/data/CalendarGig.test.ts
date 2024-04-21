@@ -1,5 +1,15 @@
-import CalendarGig from "~/data/CalendarGig";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import { mock } from "vitest-mock-extended";
 
+import CalendarGig from "~/data/CalendarGig";
+import DistanceService from "~/data/DistanceService";
+import EmailGig from "~/data/EmailGig";
+import { DistanceData } from "~/data/types";
+
+dayjs.extend(duration);
+
+const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
@@ -40,10 +50,25 @@ describe("CalendarGig", () => {
     }
   });
 
-  // makeFromEmailGig
-
+  describe.todo("CalendarGig.makeFromEmailGig");
 
   // new calendar gig gets distance info
+  describe("Creating a brand new CalendarGig from an EmailGig", () => {
+    const emailGig = EmailGig.make(location, start, end);
+
+    it("Gets distance info from the Distance Service", () => {
+      const distanceService = mock<DistanceService>();
+      distanceService.getDistanceInfo.mockResolvedValue({
+        distance: 10, duration: dayjs.duration(1, "hour")
+      } satisfies DistanceData);
+
+      expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
+
+      const _newGig = CalendarGig.makeFromEmailGig(emailGig, distanceService);
+
+      expect(distanceService.getDistanceInfo).toHaveBeenCalled();
+    });
+  });
 
   // existing event does NOT fetch info
 

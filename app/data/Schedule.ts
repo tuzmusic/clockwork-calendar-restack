@@ -20,12 +20,11 @@ export default class Schedule {
     return schedule;
   }
 
-  public getEventSets() {
-    return Object.keys(this.emailGigsTable).map((id) => {
+  public async getEventSets() {
+    const promises = Object.keys(this.emailGigsTable).map(async (id) => {
       const emailGig = this.emailGigsTable[id];
-      const calendarGig = this.calendarGigsTable[id] ?? CalendarGig.makeFromEmailGig(
-     emailGig,
-        { isNew: true }
+      const calendarGig = this.calendarGigsTable[id] ?? await CalendarGig.makeFromEmailGig(
+        emailGig
       );
 
       return ({
@@ -33,5 +32,7 @@ export default class Schedule {
         calendarGig
       });
     });
+
+    return await Promise.all(promises);
   }
 }

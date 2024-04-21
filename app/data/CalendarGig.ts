@@ -1,3 +1,4 @@
+import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
 
@@ -12,16 +13,24 @@ export default class CalendarGig extends Gig {
     this._isNew = isNew;
   }
 
-  public static makeFromEmailGig(
+  public static async makeFromEmailGig(
     emailGig: EmailGig,
-    { isNew = false }: { isNew: boolean } = { isNew: false }
+    distanceService = new DistanceService()
   ) {
-    return new this(
-      emailGig.getLocation(),
-      emailGig.getStartTime().dateTime,
-      emailGig.getEndTime().dateTime,
-      isNew
+    const location = emailGig.getLocation();
+    const startTime = emailGig.getStartTime().dateTime;
+    const endTime = emailGig.getEndTime().dateTime;
+
+    const newCalendarGig = new CalendarGig(
+      location,
+      startTime,
+      endTime,
+      true
     );
+
+    const _justPassTheTest = await distanceService.getDistanceInfo(location);
+
+    return newCalendarGig;
   }
 
   public static make(
