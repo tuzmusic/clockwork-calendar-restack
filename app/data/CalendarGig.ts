@@ -17,10 +17,30 @@ export default class CalendarGig extends Gig {
     this._routeInfo = {
       withWaltham: {
         miles: 0, minutes: 120, formattedTime: "2h"
+      },
+      fromHome: {
+        miles: 0,
+        minutes: 90,
+        formattedTime: "1h 30m"
+      },
+      fromWaltham: {
+        miles: 0,
+        minutes: 45,
+        formattedTime: "45m"
+      },
+      walthamDetour: {
+        miles: 0,
+        minutes: 30,
+        formattedTime: "30m"
+      },
+      fromBoston: {
+        miles: 65,
+        minutes: 70,
+        formattedTime: "1h 10m"
       }
-    } satisfies Record<string, DistanceData>;
+    }
 
-    return this._routeInfo
+    return this._routeInfo;
   }
 
   private constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
