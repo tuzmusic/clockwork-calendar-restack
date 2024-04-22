@@ -14,7 +14,6 @@ const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
 describe("CalendarGig", () => {
-  // make
   describe("CalendarGig.makeFromExisting", () => {
     const gig = CalendarGig.makeFromExisting(location, start, end);
 
@@ -37,9 +36,10 @@ describe("CalendarGig", () => {
     it("is marked as not new", () => {
       expect(gig.isNew).toBe(false);
     });
+
+    describe.todo("getting the info from the existing event");
   });
 
-  // new calendar gig gets distance info
   describe("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
     const emailGig = EmailGig.make(location, start, end);
 
@@ -55,11 +55,18 @@ describe("CalendarGig", () => {
 
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
+
+    // storing extended props (for new gig only, right?)
+    it.todo("Get the correct distance info", () => {
+      // mock various returns (like in the old repo)
+
+      // assert that we've stored the distances we care about
+      // (this includes designing the structure of the extended props)
+    });
+
+    describe.todo('Event Parts')
   });
 
-  // existing event does NOT fetch info
-
-  // storing extended props (for new gig only, right?)
 
   // updating from changed email event
 });

@@ -28,7 +28,10 @@ export default class CalendarGig extends Gig {
       true
     );
 
-    const _justPassTheTest = await distanceService.getDistanceInfo(location);
+    const _justPassTheTest = await distanceService.getDistanceInfo({
+      from: location,
+      to: '',
+    });
 
     return newCalendarGig;
   }
