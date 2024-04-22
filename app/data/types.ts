@@ -1,5 +1,3 @@
-import { Duration } from "dayjs/plugin/duration";
-
 import { TIME_ZONE } from "~/data/constants";
 
 export interface TimeObj {
@@ -14,9 +12,8 @@ export const timeObj = (str: string) => (
   } satisfies TimeObj
 );
 
-type DistanceInMiles = number;
-
 export interface DistanceData {
-  duration: Duration
-  distance: DistanceInMiles
+  minutes: number
+  miles: number
+  formattedTime: string
 }

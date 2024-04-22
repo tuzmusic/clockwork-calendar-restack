@@ -4,20 +4,20 @@
  * and should modify this configuration to best suit your team's needs.
  */
 
-/** @type {import('eslint').Linter.Config} */
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
   env: {
     browser: true,
     commonjs: true,
-    es6: true,
+    es6: true
   },
 
   // Base config
@@ -35,24 +35,24 @@ module.exports = {
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
-        "prettier",
+        "prettier"
       ],
       settings: {
         react: {
-          version: "detect",
+          version: "detect"
         },
         formComponents: ["Form"],
         linkComponents: [
           { name: "Link", linkAttribute: "to" },
-          { name: "NavLink", linkAttribute: "to" },
-        ],
+          { name: "NavLink", linkAttribute: "to" }
+        ]
       },
       rules: {
         "react/jsx-no-leaked-render": [
           "warn",
-          { validStrategies: ["ternary"] },
-        ],
-      },
+          { validStrategies: ["ternary"] }
+        ]
+      }
     },
 
     // Typescript
@@ -64,19 +64,19 @@ module.exports = {
         "import/internal-regex": "^~/",
         "import/resolver": {
           node: {
-            extensions: [".ts", ".tsx"],
+            extensions: [".ts", ".tsx"]
           },
           typescript: {
-            alwaysTryTypes: true,
-          },
-        },
+            alwaysTryTypes: true
+          }
+        }
       },
       extends: [
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/stylistic",
         "plugin:import/recommended",
         "plugin:import/typescript",
-        "prettier",
+        "prettier"
       ],
       rules: {
         "import/order": [
@@ -84,21 +84,21 @@ module.exports = {
           {
             alphabetize: { caseInsensitive: true, order: "asc" },
             groups: ["builtin", "external", "internal", "parent", "sibling"],
-            "newlines-between": "always",
-          },
+            "newlines-between": "always"
+          }
         ],
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
-        ],
-      },
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
+        ]
+      }
     },
 
     // Markdown
     {
       files: ["**/*.md"],
       plugins: ["markdown"],
-      extends: ["plugin:markdown/recommended", "prettier"],
+      extends: ["plugin:markdown/recommended", "prettier"]
     },
 
     // Jest/Vitest
@@ -109,34 +109,37 @@ module.exports = {
         "plugin:jest/recommended",
         "plugin:jest-dom/recommended",
         "plugin:testing-library/react",
-        "prettier",
+        "prettier"
       ],
       env: {
-        "jest/globals": true,
+        "jest/globals": true
+      },
+      rules: {
+        "jest/no-standalone-expect": 0
       },
       settings: {
         jest: {
           // we're using vitest which has a very similar API to jest
           // (so the linting plugins work nicely), but it means we have to explicitly
           // set the jest version.
-          version: 28,
-        },
-      },
+          version: 28
+        }
+      }
     },
 
     // Cypress
     {
       files: ["cypress/**/*.ts"],
       plugins: ["cypress"],
-      extends: ["plugin:cypress/recommended", "prettier"],
+      extends: ["plugin:cypress/recommended", "prettier"]
     },
 
     // Node
     {
       files: [".eslintrc.js", "mocks/**/*.js"],
       env: {
-        node: true,
-      },
-    },
-  ],
+        node: true
+      }
+    }
+  ]
 };
