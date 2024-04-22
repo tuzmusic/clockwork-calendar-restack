@@ -87,6 +87,10 @@ module.exports = {
             "newlines-between": "always",
           },
         ],
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+        ],
       },
     },
 
