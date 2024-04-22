@@ -7,7 +7,7 @@ export default abstract class Gig {
 
   private id: string
 
-  protected constructor(private location: string, startDateTimeStr: string, endDateTimeStr: string) {
+  protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
     this.dateTime = {
       start: timeObj(startDateTimeStr),
       end: timeObj(endDateTimeStr)

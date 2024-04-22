@@ -1,3 +1,4 @@
+import { LOCATIONS } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
@@ -12,17 +13,20 @@ export default class CalendarGig extends Gig {
   private _routeInfo!: Record<string, DistanceData>;
 
   public getRouteInfo() {
-    if (this._routeInfo) return this._routeInfo;
+    return this._routeInfo;
+  }
 
+  public async setRouteInfo(distanceService: DistanceService) {
     this._routeInfo = {
-      withWaltham: {
-        miles: 0, minutes: 120, formattedTime: "2h"
-      },
-      fromHome: {
-        miles: 0,
-        minutes: 90,
-        formattedTime: "1h 30m"
-      },
+      withWaltham: await distanceService.getDistanceInfo({
+        from: LOCATIONS.home,
+        to: this.location,
+        through: LOCATIONS.waltham
+      }),
+      fromHome: await distanceService.getDistanceInfo({
+        from: LOCATIONS.home,
+        to: this.location,
+      }),
       fromWaltham: {
         miles: 0,
         minutes: 45,
@@ -38,9 +42,8 @@ export default class CalendarGig extends Gig {
         minutes: 70,
         formattedTime: "1h 10m"
       }
-    }
+    };
 
-    return this._routeInfo;
   }
 
   private constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
@@ -62,6 +65,8 @@ export default class CalendarGig extends Gig {
       endTime,
       true
     );
+
+    await newCalendarGig.setRouteInfo(distanceService);
 
     const _justPassTheTest = await distanceService.getDistanceInfo({
       from: location,

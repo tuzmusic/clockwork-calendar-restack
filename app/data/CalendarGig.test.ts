@@ -3,6 +3,7 @@ import duration from "dayjs/plugin/duration";
 import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
+import { conditions } from "~/data/conditions.testHelpers";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import { DistanceData } from "~/data/types";
@@ -62,10 +63,34 @@ describe("CalendarGig", () => {
 
       const it = test.extend<{ routeInfo: Record<string, DistanceData> }>({
         routeInfo: async ({ task: _ }, use) => {
+          const {
+            timeWithWaltham,
+            timeFromWaltham,
+            timeFromHome,
+            milesFromBoston,
+            timeForWalthamDetour
+          } = conditions(location);
+
           const distanceService = mock<DistanceService>();
-          distanceService.getDistanceInfo.mockResolvedValue({
-            miles: 10, minutes: 60, formattedTime: "1h"
-          } satisfies DistanceData);
+          distanceService.getDistanceInfo.mockImplementation((args) => {
+            const routeInfo = (() => {
+              switch (true) {
+                case timeFromHome(args):
+                  return { minutes: 90, formattedTime: "1h 30m" };
+                case timeWithWaltham(args):
+                  return { minutes: 120, formattedTime: "2h" };
+                case timeFromWaltham(args):
+                  return { minutes: 45, formattedTime: "45m" };
+                default:
+                  return { minutes: -1, formattedTime: "" };
+              }
+            })();
+
+            return Promise.resolve({
+              miles: milesFromBoston(args) ? 70 : 0,
+              ...routeInfo
+            });
+          });
 
           const newGig = await CalendarGig.makeFromEmailGig(emailGig, distanceService);
           return await use(newGig.getRouteInfo());
