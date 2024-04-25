@@ -1,3 +1,5 @@
+import { calendar_v3 } from "googleapis";
+
 import { LOCATIONS } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
@@ -16,7 +18,7 @@ export default class CalendarGig extends Gig {
     return this._routeInfo;
   }
 
-  public async setRouteInfo(distanceService: DistanceService) {
+  private async setRouteInfo(distanceService: DistanceService) {
     this._routeInfo = {
       withWaltham: await distanceService.getDistanceInfo({
         from: LOCATIONS.home,
@@ -25,7 +27,7 @@ export default class CalendarGig extends Gig {
       }),
       fromHome: await distanceService.getDistanceInfo({
         from: LOCATIONS.home,
-        to: this.location,
+        to: this.location
       }),
       fromWaltham: {
         miles: 0,
@@ -77,5 +79,13 @@ export default class CalendarGig extends Gig {
     endDateTimeStr: string
   ) {
     return new this(location, startDateTimeStr, endDateTimeStr, false);
+  }
+
+  public static async makeFromRemoteExisting(googleCalendarObject: calendar_v3.Schema$Event): Promise<CalendarGig> {
+    return  Promise.resolve(CalendarGig.makeFromExisting(
+      "wherever",
+      "2024-12-01T19:00:00-04:00",
+      "2024-12-01T23:00:00-04:00"
+    ));
   }
 }
