@@ -26,23 +26,21 @@ export default class FullCalendarGig extends CalendarGig {
         from: LOCATIONS.home,
         to: this.location
       }),
-      fromWaltham: {
-        miles: 0,
-        minutes: 45,
-        formattedTime: "45m"
-      },
+      fromWaltham: await distanceService.getDistanceInfo({
+        from: LOCATIONS.waltham,
+        to: this.location
+      }),
+      // TODO (needs to deal with actual durations
       walthamDetour: {
         miles: 0,
         minutes: 30,
         formattedTime: "30m"
       },
-      fromBoston: {
-        miles: 65,
-        minutes: 70,
-        formattedTime: "1h 10m"
-      }
+      fromBoston: await distanceService.getDistanceInfo({
+        from: LOCATIONS.boston,
+        to: this.location
+      }),
     };
-
   }
 
   public static async makeFromBasicCalendarGig(
