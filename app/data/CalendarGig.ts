@@ -82,10 +82,10 @@ export default class CalendarGig extends Gig {
   }
 
   public static async makeFromRemoteExisting(googleCalendarObject: calendar_v3.Schema$Event): Promise<CalendarGig> {
-    return  Promise.resolve(CalendarGig.makeFromExisting(
-      "wherever",
-      "2024-12-01T19:00:00-04:00",
-      "2024-12-01T23:00:00-04:00"
+    return Promise.resolve(CalendarGig.makeFromExisting(
+      googleCalendarObject.location!,
+      googleCalendarObject.start!.dateTime!,
+      googleCalendarObject.end!.dateTime!,
     ));
   }
 }

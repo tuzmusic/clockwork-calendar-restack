@@ -17,7 +17,11 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
 
       const it = test.extend<{ gig: CalendarGig }>({
         gig: async ({ task: _ }, use) => {
-          const mockData = mock<calendar_v3.Schema$Event>();
+          const mockData = mock<calendar_v3.Schema$Event>({
+            start: { dateTime: start },
+            end: { dateTime: end },
+            location
+          });
           const calendarGig = await CalendarGig.makeFromRemoteExisting(mockData);
           return await use(calendarGig);
         }
