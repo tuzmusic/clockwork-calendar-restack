@@ -39,7 +39,7 @@ export default class FullCalendarGig extends CalendarGig {
       fromBoston: await distanceService.getDistanceInfo({
         from: LOCATIONS.boston,
         to: this.location
-      }),
+      })
     };
   }
 
@@ -68,7 +68,8 @@ export default class FullCalendarGig extends CalendarGig {
     await calendarService.post({
       location: this.location,
       start: this.getStartTime(),
-      end: this.getEndTime()
+      end: this.getEndTime(),
+      extendedProperties: { private: { distanceInfo: JSON.stringify(this.getRouteInfo()) }}
     });
   }
 }

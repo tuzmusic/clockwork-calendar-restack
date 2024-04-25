@@ -1,4 +1,3 @@
-import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
@@ -17,7 +16,7 @@ describe("FullCalendarGig.make", () => {
   const basicGig = CalendarGig.makeFromValues(location, start, end);
 
   describe("distance info", () => {
-    it("Gets distance info from the Distance Service", async () => {
+    test("It ets distance info from the Distance Service", async () => {
       const distanceService = mock<DistanceService>();
       distanceService.getDistanceInfo.mockResolvedValue({
         miles: 10, minutes: 60, formattedTime: "1h"
@@ -32,7 +31,7 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
-    const testWithGig = test.extend<{ gig: FullCalendarGig }>({
+    const it = test.extend<{ gig: FullCalendarGig }>({
       gig: async ({ task: _ }, use) => {
         const {
           timeWithWaltham,
@@ -52,7 +51,7 @@ describe("FullCalendarGig.make", () => {
               case timeFromWaltham(args):
                 return { minutes: 45, formattedTime: "45m" };
               case milesFromBoston(args):
-                return { minutes: 70, miles: 65, formattedTime: '1h 10m' };
+                return { minutes: 70, miles: 65, formattedTime: "1h 10m" };
 
               default:
                 return { minutes: -1, miles: 0, formattedTime: "" };
@@ -71,7 +70,7 @@ describe("FullCalendarGig.make", () => {
     });
 
     describe("Gets the correct distance info", () => {
-      testWithGig("withWaltham", ({ gig }) => {
+      it("withWaltham", ({ gig }) => {
         expect(gig.getRouteInfo().withWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 120,
@@ -79,7 +78,7 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      testWithGig("fromHome", ({ gig }) => {
+      it("fromHome", ({ gig }) => {
         expect(gig.getRouteInfo().fromHome).toEqual({
           miles: expect.any(Number),
           minutes: 90,
@@ -87,7 +86,7 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      testWithGig("fromWaltham", ({ gig }) => {
+      it("fromWaltham", ({ gig }) => {
         expect(gig.getRouteInfo().fromWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 45,
@@ -95,7 +94,7 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      testWithGig.todo("walthamDetour", ({ gig }) => {
+      it.todo("walthamDetour", ({ gig }) => {
         expect(gig.getRouteInfo().walthamDetour).toEqual({
           miles: expect.any(Number),
           minutes: 30,
@@ -103,7 +102,7 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      testWithGig("fromBoston", ({ gig }) => {
+      it("fromBoston", ({ gig }) => {
         expect(gig.getRouteInfo().fromBoston).toEqual({
           miles: 65,
           minutes: 70,
@@ -118,28 +117,35 @@ describe("FullCalendarGig.make", () => {
       const calendarService = mock<CalendarService>();
       calendarService.post.mockResolvedValue("ok");
 
-      const testCall = async (gig: FullCalendarGig, args: calendar_v3.Schema$Event) => {
+      const testCall = async (gig: FullCalendarGig) => {
+        vi.resetAllMocks();
         await gig.store(calendarService);
-        expect(calendarService.post).toHaveBeenCalledWith(expect.objectContaining(args));
+        return calendarService.post.mock.calls[0]?.[0];
       };
 
-      testWithGig("includes the location in the payload as extendedProperties", ({ gig }) => {
-        testCall(gig, { location });
+      it("includes the location in the payload as extendedProperties", async ({ gig }) => {
+        expect(await testCall(gig)).toMatchObject({ location });
       });
 
-      testWithGig("includes the startTime the payload as extendedProperties", ({ gig }) => {
-        testCall(gig, { start: { dateTime: start, timeZone: TIME_ZONE } });
+      it("includes the startTime the payload as extendedProperties", async ({ gig }) => {
+        expect(await testCall(gig)).toMatchObject({ start: { dateTime: start, timeZone: TIME_ZONE } });
       });
 
-      testWithGig("includes the endTime the payload as extendedProperties", ({ gig }) => {
-        testCall(gig, { end: { dateTime: end, timeZone: TIME_ZONE } });
+      it("includes the endTime the payload as extendedProperties", async ({ gig }) => {
+        expect(await testCall(gig)).toMatchObject({ end: { dateTime: end, timeZone: TIME_ZONE } });
       });
 
-      testWithGig.todo("includes the route info in the payload as extendedProperties", ({ gig }) => {
-        testCall(gig, {
-          extendedProperties: expect.objectContaining({
-            // withWaltham
-            // fromHome
+      it("includes the route info in the payload as extendedProperties", async ({ gig }) => {
+        const call = await testCall(gig);
+        const distanceInfoStr = call.extendedProperties!.private!.distanceInfo!;
+        expect(distanceInfoStr.length).toBeLessThanOrEqual(1024)
+
+        const distanceInfo = JSON.parse(distanceInfoStr);
+        expect(distanceInfo).toMatchObject({
+          withWaltham: expect.objectContaining({
+            miles: expect.any(Number),
+            minutes: expect.any(Number),
+            formattedTime: expect.any(String)
           })
         });
       });
