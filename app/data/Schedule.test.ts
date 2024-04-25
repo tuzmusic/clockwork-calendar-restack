@@ -1,4 +1,4 @@
-import CalendarGig from "~/data/CalendarGig";
+import BasicCalendarGig from "~/data/BasicCalendarGig";
 import EmailGig from "~/data/EmailGig";
 import Schedule from "~/data/Schedule";
 
@@ -18,7 +18,7 @@ describe("Schedule", () => {
       const [start, end] = makeStartAndEndStrings(1);
       const sched =  Schedule.build({
         emailGigs: [EmailGig.make("somewhere", start, end)],
-        calendarGigs: [CalendarGig.makeFromExisting("somewhere", start, end)]
+        calendarGigs: [BasicCalendarGig.makeFromExisting("somewhere", start, end)]
       });
 
       const sets = await sched.getEventSets();

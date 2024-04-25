@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/CalendarGig";
+import BasicCalendarGig from "~/data/BasicCalendarGig";
 import { conditions } from "~/data/conditions.testHelpers";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
@@ -14,9 +14,9 @@ const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
-describe("CalendarGig", () => {
-  describe("CalendarGig.makeFromExisting", () => {
-    const gig = CalendarGig.makeFromExisting(location, start, end);
+describe("BasicCalendarGig", () => {
+  describe("BasicCalendarGig.makeFromExisting", () => {
+    const gig = BasicCalendarGig.makeFromExisting(location, start, end);
 
     it("has a location", () => {
       expect(gig.getLocation()).toEqual(location);
@@ -41,7 +41,7 @@ describe("CalendarGig", () => {
     describe.todo("getting the info from the existing event");
   });
 
-  describe("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
+  describe("Creating a brand new BasicCalendarGig from an EmailGig (.makeFromEmailGig)", () => {
     const emailGig = EmailGig.make(location, start, end);
 
     it("Gets distance info from the Distance Service", () => {
@@ -52,7 +52,7 @@ describe("CalendarGig", () => {
 
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
 
-      const _newGig = CalendarGig.makeFromEmailGig(emailGig, distanceService);
+      const _newGig = BasicCalendarGig.makeFromEmailGig(emailGig, distanceService);
 
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
@@ -91,7 +91,7 @@ describe("CalendarGig", () => {
             });
           });
 
-          const newGig = await CalendarGig.makeFromEmailGig(emailGig, distanceService);
+          const newGig = await BasicCalendarGig.makeFromEmailGig(emailGig, distanceService);
           return await use(newGig.getRouteInfo());
         }
       });

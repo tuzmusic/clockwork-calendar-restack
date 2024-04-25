@@ -1,11 +1,11 @@
-import CalendarGig from "~/data/CalendarGig";
+import BasicCalendarGig from "~/data/BasicCalendarGig";
 import EmailGig from "~/data/EmailGig";
 
 export default class Schedule {
   private emailGigsTable: Record<string, EmailGig>;
-  private calendarGigsTable: Record<string, CalendarGig>;
+  private calendarGigsTable: Record<string, BasicCalendarGig>;
 
-  private constructor(private emailGigs: EmailGig[], private calendarGigs: CalendarGig[]) {
+  private constructor(private emailGigs: EmailGig[], private calendarGigs: BasicCalendarGig[]) {
     this.emailGigsTable = emailGigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
     }), {});
@@ -15,7 +15,7 @@ export default class Schedule {
     }), {});
   }
 
-  public static build(arrays: { emailGigs: EmailGig[]; calendarGigs: CalendarGig[]; }) {
+  public static build(arrays: { emailGigs: EmailGig[]; calendarGigs: BasicCalendarGig[]; }) {
     const schedule = new Schedule(arrays.emailGigs, arrays.calendarGigs);
     return schedule;
   }
@@ -23,7 +23,7 @@ export default class Schedule {
   public async getEventSets() {
     const promises = Object.keys(this.emailGigsTable).map(async (id) => {
       const emailGig = this.emailGigsTable[id];
-      const calendarGig = this.calendarGigsTable[id] ?? await CalendarGig.makeFromEmailGig(
+      const calendarGig = this.calendarGigsTable[id] ?? await BasicCalendarGig.makeFromEmailGig(
         emailGig
       );
 
