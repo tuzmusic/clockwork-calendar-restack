@@ -7,7 +7,7 @@ import Gig from "~/data/Gig";
 import { DistanceData } from "~/data/types";
 
 export default class CalendarGig extends Gig {
-  private readonly _isNew: boolean;
+  protected readonly _isNew: boolean;
   public get isNew() {
     return this._isNew;
   }
@@ -48,7 +48,7 @@ export default class CalendarGig extends Gig {
 
   }
 
-  private constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
+  protected constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
     super(location, startDateTimeStr, endDateTimeStr);
     this._isNew = isNew;
   }
@@ -73,7 +73,7 @@ export default class CalendarGig extends Gig {
     return newCalendarGig;
   }
 
-  public static makeFromExisting(
+  public static makeFromValues(
     location: string,
     startDateTimeStr: string,
     endDateTimeStr: string
@@ -82,7 +82,7 @@ export default class CalendarGig extends Gig {
   }
 
   public static  makeFromRemoteExisting(googleCalendarObject: calendar_v3.Schema$Event): CalendarGig {
-    return CalendarGig.makeFromExisting(
+    return CalendarGig.makeFromValues(
       googleCalendarObject.location!,
       googleCalendarObject.start!.dateTime!,
       googleCalendarObject.end!.dateTime!,

@@ -6,6 +6,7 @@ import CalendarGig from "~/data/CalendarGig";
 import { conditions } from "~/data/conditions.testHelpers";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
+import FullCalendarGig from "~/data/FullCalendarGig";
 import { DistanceData } from "~/data/types";
 
 dayjs.extend(duration);
@@ -16,7 +17,7 @@ const end = "2024-12-01T23:00:00-04:00";
 
 describe("CalendarGig", () => {
   describe("CalendarGig.makeFromExisting", () => {
-    const gig = CalendarGig.makeFromExisting(location, start, end);
+    const gig = CalendarGig.makeFromValues(location, start, end);
 
     it("has a location", () => {
       expect(gig.getLocation()).toEqual(location);
@@ -26,7 +27,7 @@ describe("CalendarGig", () => {
       expect(gig.getStartTime().dateTime).toEqual(start);
     });
 
-    it("has an start time", () => {
+    it("has an end time", () => {
       expect(gig.getEndTime().dateTime).toEqual(end);
     });
 
@@ -39,6 +40,24 @@ describe("CalendarGig", () => {
     });
 
     describe.todo("getting the info from the existing event");
+  });
+
+  describe("FullCalendarGig.make", () => {
+    it("Gets the full route information", async () => {
+      const distanceService = mock<DistanceService>();
+      distanceService.getDistanceInfo.mockResolvedValue({
+        miles: 10, minutes: 60, formattedTime: "1h"
+      } satisfies DistanceData);
+
+      expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
+
+      const basicGig = CalendarGig.makeFromValues(location, start, end);
+      const fullGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService)
+
+      expect(fullGig.getId()).toEqual(basicGig.getId());
+
+      expect(distanceService.getDistanceInfo).toHaveBeenCalled();
+    });
   });
 
   describe("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
@@ -67,7 +86,7 @@ describe("CalendarGig", () => {
             timeWithWaltham,
             timeFromWaltham,
             timeFromHome,
-            milesFromBoston,
+            milesFromBoston
           } = conditions(location);
 
           const distanceService = mock<DistanceService>();
