@@ -3,10 +3,8 @@ import duration from "dayjs/plugin/duration";
 import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
-import { conditions } from "~/data/conditions.testHelpers";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
-import FullCalendarGig from "~/data/FullCalendarGig";
 import { DistanceData } from "~/data/types";
 
 dayjs.extend(duration);
@@ -61,10 +59,6 @@ describe("CalendarGig", () => {
 
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
-
-    // storing extended props (for new gig only, right?)
-
-    describe.todo("Event Parts");
   });
 
 
