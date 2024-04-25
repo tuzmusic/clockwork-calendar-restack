@@ -1,4 +1,5 @@
 import CalendarGig from "~/data/CalendarGig";
+import CalendarService from "~/data/CalendarService";
 import { LOCATIONS } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import { DistanceData } from "~/data/types";
@@ -63,5 +64,9 @@ export default class FullCalendarGig extends CalendarGig {
     await newCalendarGig.setRouteInfo(distanceService);
 
     return newCalendarGig;
+  }
+
+  public async store(calendarService = new CalendarService()) {
+    await calendarService.post({})
   }
 }
