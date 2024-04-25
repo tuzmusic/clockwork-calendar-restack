@@ -67,6 +67,10 @@ export default class FullCalendarGig extends CalendarGig {
   }
 
   public async store(calendarService = new CalendarService()) {
-    await calendarService.post({})
+    await calendarService.post({
+      location: this.location,
+      start: this.getStartTime(),
+      end: this.getEndTime()
+    });
   }
 }

@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
 import CalendarService from "~/data/CalendarService";
 import { conditions } from "~/data/conditions.testHelpers";
+import { TIME_ZONE } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import { DistanceData } from "~/data/types";
@@ -111,14 +112,27 @@ describe("FullCalendarGig.make", () => {
     });
 
     describe("Saving the event", () => {
-      testWithGig("includes the route info in the payload as extendedProperties", async ({ gig }) => {
-        const calendarService = mock<CalendarService>();
-        calendarService.post.mockResolvedValue('ok')
-        await gig.store(calendarService)
-        expect(calendarService.post).toHaveBeenCalledWith({
-          // todo
-          extendedProperties: 'routeInfo'
-        })
+      const calendarService = mock<CalendarService>();
+      calendarService.post.mockResolvedValue("ok");
+
+      const testCall = async (gig: FullCalendarGig, args: calendar_v3.Schema$Event) => {
+        await gig.store(calendarService);
+        expect(calendarService.post).toHaveBeenCalledWith(expect.objectContaining(args));
+      };
+
+      testWithGig("includes the location in the payload as extendedProperties", ({ gig }) => {
+        testCall(gig, { location });
+      });
+
+      testWithGig("includes the startTime the payload as extendedProperties", ({ gig }) => {
+        testCall(gig, { start: { dateTime: start, timeZone: TIME_ZONE } });
+      });
+
+      testWithGig("includes the endTime the payload as extendedProperties", ({ gig }) => {
+        testCall(gig, { end: { dateTime: end, timeZone: TIME_ZONE } });
+      });
+
+      testWithGig.todo("includes the route info in the payload as extendedProperties", ({ gig }) => {
       });
     });
   });
