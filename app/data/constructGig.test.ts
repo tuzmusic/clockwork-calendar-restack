@@ -27,10 +27,25 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
         }
       });
 
-      it("is not new (already existing!)", ({ gig }) => expect(gig.isNew).toEqual(false));
-      it("has the correct location", ({ gig }) => expect(gig.getLocation()).toEqual(location));
-      it("has the correct start time", ({ gig }) => expect(gig.getStartTime().dateTime).toEqual(start));
-      it("has the correct end time", ({ gig }) => expect(gig.getEndTime().dateTime).toEqual(end));
+      it("is not new (already existing!)", ({ gig }) => {
+        expect(gig.isNew).toEqual(false);
+      });
+
+      it("has the correct location", ({ gig }) => {
+        expect(gig.getLocation()).toEqual(location);
+      });
+
+      it("has the correct start time", ({ gig }) => {
+        expect(gig.getStartTime().dateTime).toEqual(start);
+      });
+
+      it("has the correct end time", ({ gig }) => {
+        expect(gig.getEndTime().dateTime).toEqual(end);
+      });
+
+      it("has an id based on its start date", ({ gig }) => {
+        expect(gig.getId()).toEqual("2024-12-01");
+      });
 
       /**
        * - make a Gig from google
