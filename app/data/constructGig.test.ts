@@ -22,12 +22,12 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
             end: { dateTime: end },
             location
           });
-          const calendarGig = await CalendarGig.makeFromRemoteExisting(mockData);
+          const calendarGig = CalendarGig.makeFromRemoteExisting(mockData);
           return await use(calendarGig);
         }
       });
 
-      it("is not new", ({ gig }) => expect(gig.isNew).toEqual(false));
+      it("is not new (already existing!)", ({ gig }) => expect(gig.isNew).toEqual(false));
       it("has the correct location", ({ gig }) => expect(gig.getLocation()).toEqual(location));
       it("has the correct start time", ({ gig }) => expect(gig.getStartTime().dateTime).toEqual(start));
       it("has the correct end time", ({ gig }) => expect(gig.getEndTime().dateTime).toEqual(end));
