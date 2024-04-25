@@ -68,7 +68,6 @@ describe("CalendarGig", () => {
             timeFromWaltham,
             timeFromHome,
             milesFromBoston,
-            timeForWalthamDetour
           } = conditions(location);
 
           const distanceService = mock<DistanceService>();

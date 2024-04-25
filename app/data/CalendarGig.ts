@@ -68,11 +68,6 @@ export default class CalendarGig extends Gig {
 
     await newCalendarGig.setRouteInfo(distanceService);
 
-    const _justPassTheTest = await distanceService.getDistanceInfo({
-      from: location,
-      to: ""
-    });
-
     return newCalendarGig;
   }
 
