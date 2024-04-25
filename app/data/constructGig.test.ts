@@ -3,7 +3,7 @@ import duration from "dayjs/plugin/duration";
 import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
-import BasicCalendarGig from "~/data/BasicCalendarGig";
+import CalendarGig from "~/data/CalendarGig";
 
 
 dayjs.extend(duration);
@@ -15,14 +15,14 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
   describe("An email gig with a matching calendar gig", () => {
     describe("Existing calendar gig is incomplete", () => {
 
-      const it = test.extend<{ gig: BasicCalendarGig }>({
+      const it = test.extend<{ gig: CalendarGig }>({
         gig: async ({ task: _ }, use) => {
           const mockData = mock<calendar_v3.Schema$Event>({
             start: { dateTime: start },
             end: { dateTime: end },
             location
           });
-          const calendarGig = BasicCalendarGig.makeFromRemoteExisting(mockData);
+          const calendarGig = CalendarGig.makeFromRemoteExisting(mockData);
           return await use(calendarGig);
         }
       });
