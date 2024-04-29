@@ -45,9 +45,9 @@ describe("FullCalendarGig.make", () => {
           const routeInfo = (() => {
             switch (true) {
               case timeFromHome(args):
-                return { minutes: 90, formattedTime: "1h 30m" };
+                return { minutes: 90, formattedTime: "1h 30m", miles: 100 };
               case timeWithWaltham(args):
-                return { minutes: 120, formattedTime: "2h" };
+                return { minutes: 120, formattedTime: "2h", miles: 110 };
               case timeFromWaltham(args):
                 return { minutes: 45, formattedTime: "45m" };
               case milesFromBoston(args):
@@ -94,9 +94,9 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      it.todo("walthamDetour", ({ gig }) => {
+      it("walthamDetour", ({ gig }) => {
         expect(gig.getRouteInfo().walthamDetour).toEqual({
-          miles: expect.any(Number),
+          miles: 10,
           minutes: 30,
           formattedTime: "30m"
         });

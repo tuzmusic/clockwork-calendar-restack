@@ -1,8 +1,14 @@
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
 import CalendarGig from "~/data/CalendarGig";
 import CalendarService from "~/data/CalendarService";
 import { LOCATIONS } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import { DistanceData } from "~/data/types";
+import { formatDuration } from "~/data/utilityFunctions";
+
+dayjs.extend(duration);
 
 export default class FullCalendarGig extends CalendarGig {
   protected constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
@@ -16,26 +22,33 @@ export default class FullCalendarGig extends CalendarGig {
   }
 
   private async setRouteInfo(distanceService: DistanceService) {
+    const fromHome = await distanceService.getDistanceInfo({
+      from: LOCATIONS.home,
+      to: this.location
+    });
+
+    const withWaltham = await distanceService.getDistanceInfo({
+      from: LOCATIONS.home,
+      to: this.location,
+      through: LOCATIONS.waltham
+    });
+
+    const walthamDetour = {
+      miles: withWaltham.miles - fromHome.miles,
+      minutes: withWaltham.minutes - fromHome.minutes,
+      formattedTime: formatDuration(
+        dayjs.duration(withWaltham.minutes - fromHome.minutes, "minutes")
+      )
+    };
+
     this._routeInfo = {
-      withWaltham: await distanceService.getDistanceInfo({
-        from: LOCATIONS.home,
-        to: this.location,
-        through: LOCATIONS.waltham
-      }),
-      fromHome: await distanceService.getDistanceInfo({
-        from: LOCATIONS.home,
-        to: this.location
-      }),
+      fromHome,
+      withWaltham,
+      walthamDetour,
       fromWaltham: await distanceService.getDistanceInfo({
         from: LOCATIONS.waltham,
         to: this.location
       }),
-      // TODO (needs to deal with actual durations
-      walthamDetour: {
-        miles: 0,
-        minutes: 30,
-        formattedTime: "30m"
-      },
       fromBoston: await distanceService.getDistanceInfo({
         from: LOCATIONS.boston,
         to: this.location
@@ -69,7 +82,11 @@ export default class FullCalendarGig extends CalendarGig {
       location: this.location,
       start: this.getStartTime(),
       end: this.getEndTime(),
-      extendedProperties: { private: { distanceInfo: JSON.stringify(this.getRouteInfo()) }}
+      extendedProperties: {
+        private: {
+          distanceInfo: JSON.stringify(this.getRouteInfo())
+        }
+      }
     });
   }
 }
