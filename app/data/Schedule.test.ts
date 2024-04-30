@@ -14,6 +14,12 @@ function makeStartAndEndStrings(day: number) {
 
 describe("Schedule", () => {
   describe("Schedule.build", () => {
+    describe.todo("Email event with no matching remote calendar event (aka NEW EVENT)");
+    describe.todo("Email event whose matching remote calendar event is BASIC");
+    describe.todo("Email event whose matching remote calendar event has FULL INFORMATION");
+    describe.todo("Remote calendar event with BASIC info, with no matching email event");
+    describe.todo("Remote calendar event with FULL info, with no matching email event");
+
     it("builds an event set when events match", async () => {
       const [start, end] = makeStartAndEndStrings(1);
       const sched =  Schedule.build({

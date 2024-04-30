@@ -109,8 +109,6 @@ describe("FullCalendarGig.make", () => {
           formattedTime: "1h 10m"
         });
       });
-      // assert that we've stored the distances we care about
-      // (this includes designing the structure of the extended props)
     });
 
     describe("Saving the event", () => {
