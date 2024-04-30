@@ -31,7 +31,7 @@ export default class Schedule {
     const promises = Object.keys(this.emailGigsTable).map(async (id) => {
       const emailGig = this.emailGigsTable[id];
       const remoteGig = this.remoteGigsTable[id]
-      const calendarGig = await CalendarGig.makeFromEmailGig(
+      const calendarGig = await EmailGig.makeFullCalendarGig(
         emailGig
       );
 

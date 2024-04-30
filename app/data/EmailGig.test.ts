@@ -1,18 +1,11 @@
 import EmailGig from "~/data/EmailGig";
-import Gig from "~/data/Gig";
 
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
-describe("Gig abstract class", () => {
-  class GigImpl extends Gig {
-    public static make(location: string, startDateTimeStr: string, endDateTimeStr: string) {
-      return new this(location, startDateTimeStr, endDateTimeStr);
-    }
-  }
-
-  describe("public data", () => {
-    const gig = GigImpl.make("somewhere", start, end);
+describe("EmailGig", () => {
+  describe("EmailGig.make", () => {
+    const gig = EmailGig.make("somewhere", start, end);
 
     it("has a location", () => {
       expect(gig.getLocation()).toEqual("somewhere");
@@ -31,4 +24,3 @@ describe("Gig abstract class", () => {
     });
   });
 });
-
