@@ -1,7 +1,11 @@
+import { mock, mockDeep } from "vitest-mock-extended";
+
 import CalendarGig from "~/data/CalendarGig";
+import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import Schedule from "~/data/Schedule";
+import { DistanceData } from "~/data/types";
 
 function to2Digits(num: number) {
   return num.toString().padStart(2, "0");
@@ -19,10 +23,14 @@ describe("Schedule", () => {
       // todo: test.extend
       async function getEventSet() {
         const [start, end] = makeStartAndEndDateTimes({ dayNumber: 2 });
+        const distanceService = mock<DistanceService>();
+        distanceService.getDistanceInfo.mockResolvedValue({
+          miles: 10, minutes: 60, formattedTime: "1h"
+        } satisfies DistanceData);
         const sched = Schedule.build({
           emailGigs: [EmailGig.make("somewhere", start, end)],
           remoteGigs: []
-        });
+        }, distanceService);
 
         const [set, ...sets] = await sched.getEventSets();
         expect(sets).toHaveLength(0);

@@ -1,4 +1,5 @@
 import CalendarGig from "~/data/CalendarGig";
+import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
 
@@ -12,7 +13,11 @@ export default class Schedule {
   private emailGigsTable: Record<string, EmailGig>;
   private remoteGigsTable: Record<string, CalendarGig>;
 
-  private constructor(private emailGigs: EmailGig[], private remoteGigs: CalendarGig[]) {
+  private constructor(
+    private emailGigs: EmailGig[],
+    private remoteGigs: CalendarGig[],
+    private distanceService: DistanceService
+  ) {
     this.emailGigsTable = emailGigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
     }), {});
@@ -22,17 +27,17 @@ export default class Schedule {
     }), {});
   }
 
-  public static build(arrays: { emailGigs: EmailGig[]; remoteGigs: CalendarGig[]; }) {
-    const schedule = new Schedule(arrays.emailGigs, arrays.remoteGigs);
+  public static build(arrays: { emailGigs: EmailGig[]; remoteGigs: CalendarGig[]; }, distanceService: DistanceService) {
+    const schedule = new Schedule(arrays.emailGigs, arrays.remoteGigs, distanceService);
     return schedule;
   }
 
   public async getEventSets() {
     const promises = Object.keys(this.emailGigsTable).map(async (id) => {
       const emailGig = this.emailGigsTable[id];
-      const remoteGig = this.remoteGigsTable[id]
+      const remoteGig = this.remoteGigsTable[id];
       const calendarGig = await EmailGig.makeFullCalendarGig(
-        emailGig
+        emailGig, this.distanceService
       );
 
       return {

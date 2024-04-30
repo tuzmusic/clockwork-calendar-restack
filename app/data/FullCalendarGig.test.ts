@@ -16,7 +16,7 @@ describe("FullCalendarGig.make", () => {
   const basicGig = CalendarGig.makeFromValues(location, start, end);
 
   describe("distance info", () => {
-    test("It ets distance info from the Distance Service", async () => {
+    test("It gets distance info from the Distance Service", async () => {
       const distanceService = mock<DistanceService>();
       distanceService.getDistanceInfo.mockResolvedValue({
         miles: 10, minutes: 60, formattedTime: "1h"
