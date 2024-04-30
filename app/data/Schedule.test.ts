@@ -34,8 +34,8 @@ describe("Schedule", () => {
         it("creates a new calendar event for a new email event with basic id info)", async () => {
           const set = await getEventSet();
           expect(set.emailGig.getId()).toEqual("2024-12-02");
-          expect(set.remoteGig.getId()).toEqual("2024-12-02");
-          expect(set.remoteGig.isNew).toBe(true);
+          expect(set.calendarGig.getId()).toEqual("2024-12-02");
+          expect(set.calendarGig.isNew).toBe(true);
         });
       });
 

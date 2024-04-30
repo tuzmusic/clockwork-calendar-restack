@@ -1,5 +1,12 @@
 import CalendarGig from "~/data/CalendarGig";
 import EmailGig from "~/data/EmailGig";
+import FullCalendarGig from "~/data/FullCalendarGig";
+
+interface EventSet {
+  emailGig: EmailGig,
+  remoteGig: CalendarGig,
+  calendarGig: FullCalendarGig
+}
 
 export default class Schedule {
   private emailGigsTable: Record<string, EmailGig>;
@@ -23,14 +30,16 @@ export default class Schedule {
   public async getEventSets() {
     const promises = Object.keys(this.emailGigsTable).map(async (id) => {
       const emailGig = this.emailGigsTable[id];
-      const remoteGig = this.remoteGigsTable[id] ?? await CalendarGig.makeFromEmailGig(
+      const remoteGig = this.remoteGigsTable[id]
+      const calendarGig = await CalendarGig.makeFromEmailGig(
         emailGig
       );
 
-      return ({
+      return {
         emailGig,
-        remoteGig
-      });
+        remoteGig,
+        calendarGig
+      } satisfies EventSet;
     });
 
     return await Promise.all(promises);
