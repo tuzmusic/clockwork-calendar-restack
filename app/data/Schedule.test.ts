@@ -5,6 +5,7 @@ import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import Schedule from "~/data/Schedule";
+import { getDistanceServiceWithMocks } from "~/data/testUtils";
 import { DistanceData } from "~/data/types";
 
 function to2Digits(num: number) {
@@ -50,7 +51,7 @@ describe("Schedule", () => {
       describe("full gig info", () => {
         it("is a FullCalendarGig", async () => {
           const set = await getEventSet();
-          expect(set.remoteGig).instanceof(FullCalendarGig)
+          expect(set.remoteGig).instanceof(FullCalendarGig);
         });
         it.todo("has route info");
       });
@@ -63,10 +64,14 @@ describe("Schedule", () => {
 
     it("builds an event set when events match", async () => {
       const [start, end] = makeStartAndEndDateTimes({ dayNumber: 1 });
+      const location = "somewhere";
+      const distanceService = getDistanceServiceWithMocks(location);
       const sched = Schedule.build({
-        emailGigs: [EmailGig.make("somewhere", start, end)],
-        remoteGigs: [CalendarGig.makeFromValues("somewhere", start, end)]
-      });
+          emailGigs: [EmailGig.make(location, start, end)],
+          remoteGigs: [CalendarGig.makeFromValues(location, start, end)]
+        },
+        distanceService
+      );
 
       const [set, ...sets] = await sched.getEventSets();
       expect(sets).toHaveLength(0);

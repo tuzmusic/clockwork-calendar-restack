@@ -17,7 +17,6 @@ export default class CalendarGig extends Gig {
 
   public static async makeFromEmailGig(
     emailGig: EmailGig,
-    distanceService = new DistanceService()
   ) {
     const location = emailGig.getLocation();
     const startTime = emailGig.getStartTime().dateTime;

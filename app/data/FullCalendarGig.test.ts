@@ -2,10 +2,10 @@ import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
 import CalendarService from "~/data/CalendarService";
-import { conditions } from "~/data/conditions.testHelpers";
 import { TIME_ZONE } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import FullCalendarGig from "~/data/FullCalendarGig";
+import { getDistanceServiceWithMocks } from "~/data/testUtils";
 import { DistanceData } from "~/data/types";
 
 const location = "wherever";
@@ -33,36 +33,7 @@ describe("FullCalendarGig.make", () => {
 
     const it = test.extend<{ gig: FullCalendarGig }>({
       gig: async ({ task: _ }, use) => {
-        const {
-          timeWithWaltham,
-          timeFromWaltham,
-          timeFromHome,
-          milesFromBoston
-        } = conditions(location);
-
-        const distanceService = mock<DistanceService>();
-        distanceService.getDistanceInfo.mockImplementation((args) => {
-          const routeInfo = (() => {
-            switch (true) {
-              case timeFromHome(args):
-                return { minutes: 90, formattedTime: "1h 30m", miles: 100 };
-              case timeWithWaltham(args):
-                return { minutes: 120, formattedTime: "2h", miles: 110 };
-              case timeFromWaltham(args):
-                return { minutes: 45, formattedTime: "45m" };
-              case milesFromBoston(args):
-                return { minutes: 70, miles: 65, formattedTime: "1h 10m" };
-
-              default:
-                return { minutes: -1, miles: 0, formattedTime: "" };
-            }
-          })();
-
-          return Promise.resolve({
-            ...routeInfo,
-            miles: routeInfo.miles ?? 0
-          });
-        });
+        const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
         return await use(newGig);

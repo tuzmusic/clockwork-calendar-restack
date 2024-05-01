@@ -55,7 +55,7 @@ describe("CalendarGig", () => {
 
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
 
-      const _newGig = CalendarGig.makeFromEmailGig(emailGig, distanceService);
+      const _newGig = CalendarGig.makeFromEmailGig(emailGig);
 
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
