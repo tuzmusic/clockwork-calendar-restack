@@ -22,7 +22,7 @@ describe("Schedule", () => {
   describe("Schedule.build", () => {
     describe("Email event with no matching remote calendar event (aka NEW EVENT)", () => {
       // todo: test.extend
-      async function getEventSet() {
+      async function getTestEventSet() {
         const [start, end] = makeStartAndEndDateTimes({ dayNumber: 2 });
         const distanceService = mock<DistanceService>();
         distanceService.getDistanceInfo.mockResolvedValue({
@@ -41,7 +41,7 @@ describe("Schedule", () => {
       describe("basic gig info", () => {
 
         it("creates a new calendar event for a new email event with basic id info)", async () => {
-          const set = await getEventSet();
+          const set = await getTestEventSet();
           expect(set.emailGig.getId()).toEqual("2024-12-02");
           expect(set.calendarGig.getId()).toEqual("2024-12-02");
           expect(set.calendarGig.isNew).toBe(true);
@@ -50,7 +50,7 @@ describe("Schedule", () => {
 
       describe("full gig info", () => {
         it("is a FullCalendarGig", async () => {
-          const set = await getEventSet();
+          const set = await getTestEventSet();
           expect(set.remoteGig).instanceof(FullCalendarGig);
         });
         it.todo("has route info");
@@ -68,7 +68,7 @@ describe("Schedule", () => {
       const distanceService = getDistanceServiceWithMocks(location);
       const sched = Schedule.build({
           emailGigs: [EmailGig.make(location, start, end)],
-          remoteGigs: [CalendarGig.makeFromValues(location, start, end)]
+          remoteGigs: [CalendarGig.makeFromValues(location, start, end, false)]
         },
         distanceService
       );

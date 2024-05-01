@@ -9,9 +9,11 @@ export default class EmailGig extends Gig {
   }
 
    static async makeFullCalendarGig(emailGig: EmailGig, distanceService: DistanceService = new DistanceService()) {
-    const basicCalendarGig = CalendarGig.makeFromValues(emailGig.getLocation(),
+    const basicCalendarGig = CalendarGig.makeFromValues(
+      emailGig.getLocation(),
       emailGig.getStartTime().dateTime,
-      emailGig.getEndTime().dateTime
+      emailGig.getEndTime().dateTime,
+      true
     );
 
     const fullCalendarGig = FullCalendarGig.makeFromBasicCalendarGig(basicCalendarGig, distanceService)

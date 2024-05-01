@@ -33,9 +33,10 @@ export default class CalendarGig extends Gig {
   public static makeFromValues(
     location: string,
     startDateTimeStr: string,
-    endDateTimeStr: string
+    endDateTimeStr: string,
+    isNew: boolean
   ) {
-    return new this(location, startDateTimeStr, endDateTimeStr, false);
+    return new this(location, startDateTimeStr, endDateTimeStr, isNew);
   }
 
   public static makeFromRemoteExisting(googleCalendarObject: calendar_v3.Schema$Event): CalendarGig {
@@ -45,6 +46,7 @@ export default class CalendarGig extends Gig {
       googleCalendarObject.location!,
       googleCalendarObject.start!.dateTime!,
       googleCalendarObject.end!.dateTime!,
+      false
     )
   }
 }
