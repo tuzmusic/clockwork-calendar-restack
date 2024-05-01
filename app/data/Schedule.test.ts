@@ -51,9 +51,13 @@ describe("Schedule", () => {
       describe("full gig info", () => {
         it("is a FullCalendarGig", async () => {
           const set = await getTestEventSet();
-          expect(set.remoteGig).instanceof(FullCalendarGig);
+          expect(set.calendarGig).instanceof(FullCalendarGig);
         });
-        it.todo("has route info");
+
+        // this should be covered in more unit-level tests for
+        //  FullCalendarGig.makeFromBasicCalendarGig
+        //  and EmailGig.makeFullCalendarGig
+        it.fails("has route info");
       });
     });
 

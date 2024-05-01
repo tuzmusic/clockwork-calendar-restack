@@ -16,7 +16,9 @@ export default class EmailGig extends Gig {
       true
     );
 
-    const fullCalendarGig = FullCalendarGig.makeFromBasicCalendarGig(basicCalendarGig, distanceService)
-    return Promise.resolve(fullCalendarGig);
+    const fullCalendarGig = await FullCalendarGig.makeFromBasicCalendarGig(
+      basicCalendarGig, distanceService
+    )
+    return fullCalendarGig;
   }
 }
