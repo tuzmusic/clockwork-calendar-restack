@@ -5,10 +5,12 @@ import EmailGig from "~/data/EmailGig";
 import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
+import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
 
 const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
+const distanceService = getDistanceServiceWithMocks(location);
 
 describe("EventRow", () => {
   describe("EventRow.buildRow", () => {
@@ -23,7 +25,8 @@ describe("EventRow", () => {
             });
             const emailGig = EmailGig.make(location, start, end);
             const simpleCalendarGig = GoogleGig.make(mockData);
-            const row = EventRow.buildRow(emailGig, simpleCalendarGig);
+
+            const row = EventRow.buildRow(emailGig, simpleCalendarGig, distanceService);
             expect(row).instanceof(EventRow);
             return await use(row);
           }
