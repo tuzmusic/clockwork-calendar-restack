@@ -11,13 +11,17 @@ import { formatDuration } from "~/data/utilityFunctions";
 dayjs.extend(duration);
 
 export default class FullCalendarGig extends CalendarGig {
-  protected constructor({ location, startDateTimeStr, endDateTimeStr, isNew }: {
+  private distanceService: DistanceService;
+
+  protected constructor({ location, startDateTimeStr, endDateTimeStr, isNew, distanceService }: {
     location: string,
     startDateTimeStr: string,
     endDateTimeStr: string,
-    isNew: boolean
+    isNew: boolean,
+    distanceService: DistanceService
   }) {
     super(location, startDateTimeStr, endDateTimeStr, isNew);
+    this.distanceService = distanceService;
   }
 
   private _routeInfo!: Record<string, DistanceData>;
@@ -26,7 +30,8 @@ export default class FullCalendarGig extends CalendarGig {
     return this._routeInfo;
   }
 
-  private async setRouteInfo(distanceService: DistanceService) {
+  private async setRouteInfo() {
+    const { distanceService } = this;
     const fromHome = await distanceService.getDistanceInfo({
       from: LOCATIONS.home,
       to: this.location
@@ -71,10 +76,10 @@ export default class FullCalendarGig extends CalendarGig {
     const isNew = basicGig.isNew;
 
     const newCalendarGig = new FullCalendarGig(
-      { location: location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew: isNew }
+      { location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew, distanceService }
     );
 
-    await newCalendarGig.setRouteInfo(distanceService);
+    await newCalendarGig.setRouteInfo();
 
     return newCalendarGig;
   }
