@@ -11,7 +11,12 @@ import { formatDuration } from "~/data/utilityFunctions";
 dayjs.extend(duration);
 
 export default class FullCalendarGig extends CalendarGig {
-  protected constructor(location: string, startDateTimeStr: string, endDateTimeStr: string, isNew: boolean) {
+  protected constructor({ location, startDateTimeStr, endDateTimeStr, isNew }: {
+    location: string,
+    startDateTimeStr: string,
+    endDateTimeStr: string,
+    isNew: boolean
+  }) {
     super(location, startDateTimeStr, endDateTimeStr, isNew);
   }
 
@@ -66,10 +71,7 @@ export default class FullCalendarGig extends CalendarGig {
     const isNew = basicGig.isNew;
 
     const newCalendarGig = new FullCalendarGig(
-      location,
-      startTime,
-      endTime,
-      isNew
+      { location: location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew: isNew }
     );
 
     await newCalendarGig.setRouteInfo(distanceService);
