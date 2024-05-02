@@ -24,9 +24,11 @@ export default class EventRow {
       distanceService
     );
 
-    const routeInfo = googleGig.getRouteInfo();
-    if (routeInfo) {
-      row.appGig.setRouteInfo(routeInfo)
+    if (emailGig.getLocation() === googleGig.getLocation()) {
+      const routeInfo = googleGig.getRouteInfo();
+      if (routeInfo) {
+        row.appGig.setRouteInfo(routeInfo);
+      }
     }
 
     return row;
