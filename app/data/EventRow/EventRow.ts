@@ -20,7 +20,8 @@ export default class EventRow {
       emailGig.getLocation(),
       emailGig.getStartTime().dateTime,
       emailGig.getEndTime().dateTime,
-      false
+      false,
+      distanceService
     );
 
     return row;
