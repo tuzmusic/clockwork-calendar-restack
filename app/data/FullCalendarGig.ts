@@ -13,6 +13,23 @@ dayjs.extend(duration);
 export default class FullCalendarGig extends CalendarGig {
   private distanceService: DistanceService;
 
+  public static makeFromValues(
+    location: string,
+    startDateTimeStr: string,
+    endDateTimeStr: string,
+    isNew: boolean,
+    distanceService = new DistanceService()
+  ) {
+    return new FullCalendarGig({
+      location,
+      startDateTimeStr,
+      endDateTimeStr,
+      isNew,
+      distanceService
+    });
+  }
+
+
   protected constructor({ location, startDateTimeStr, endDateTimeStr, isNew, distanceService }: {
     location: string,
     startDateTimeStr: string,
@@ -24,7 +41,7 @@ export default class FullCalendarGig extends CalendarGig {
     this.distanceService = distanceService;
   }
 
-  private _routeInfo!: Record<string, DistanceData>;
+  private _routeInfo: Record<string, DistanceData> | null = null;
 
   public getRouteInfo() {
     return this._routeInfo;
