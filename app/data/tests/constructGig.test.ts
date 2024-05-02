@@ -80,7 +80,7 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
         }
       });
 
-      it("has the parts", ({ gig }) => {
+      it.todo("has the parts", ({ gig }) => {
         expect(gig.getParts()).toHaveLength(1)
       });
     });

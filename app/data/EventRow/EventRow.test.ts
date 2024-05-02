@@ -2,6 +2,7 @@ import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
 import EmailGig from "~/data/EmailGig";
+import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
 
 const location = "wherever";
@@ -23,6 +24,8 @@ describe("EventRow", () => {
         );
 
         const row = EventRow.buildRow(emailGig, simpleCalendarGig)
+
+        expect(row.appGig).instanceof(EventRow)
       });
     });
   });

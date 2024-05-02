@@ -1,4 +1,4 @@
-import { mock, mockDeep } from "vitest-mock-extended";
+import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
 import DistanceService from "~/data/DistanceService";
@@ -57,7 +57,7 @@ describe("Schedule", () => {
         // this should be covered in more unit-level tests for
         //  FullCalendarGig.makeFromBasicCalendarGig
         //  and EmailGig.makeFullCalendarGig
-        it.fails("has route info");
+        it.todo("has route info");
       });
     });
 
