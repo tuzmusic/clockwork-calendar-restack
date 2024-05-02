@@ -22,12 +22,12 @@ describe("FullCalendarGig.make", () => {
         miles: 10, minutes: 60, formattedTime: "1h"
       } satisfies DistanceData);
 
-      expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-
       const fullGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
 
+      expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
       expect(fullGig.getId()).toEqual(basicGig.getId());
 
+      await fullGig.setRouteInfo();
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
@@ -36,6 +36,7 @@ describe("FullCalendarGig.make", () => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
+        await newGig.setRouteInfo();
         return await use(newGig);
       }
     });
@@ -107,7 +108,7 @@ describe("FullCalendarGig.make", () => {
       it("includes the route info in the payload as extendedProperties", async ({ gig }) => {
         const call = await testCall(gig);
         const distanceInfoStr = call.extendedProperties!.private!.distanceInfo!;
-        expect(distanceInfoStr.length).toBeLessThanOrEqual(1024)
+        expect(distanceInfoStr.length).toBeLessThanOrEqual(1024);
 
         const distanceInfo = JSON.parse(distanceInfoStr);
         expect(distanceInfo).toMatchObject({

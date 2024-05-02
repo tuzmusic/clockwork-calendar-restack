@@ -30,7 +30,7 @@ export default class FullCalendarGig extends CalendarGig {
     return this._routeInfo;
   }
 
-  private async setRouteInfo() {
+  public async setRouteInfo() {
     const { distanceService } = this;
     const fromHome = await distanceService.getDistanceInfo({
       from: LOCATIONS.home,
@@ -79,7 +79,7 @@ export default class FullCalendarGig extends CalendarGig {
       { location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew, distanceService }
     );
 
-    await newCalendarGig.setRouteInfo();
+    // await newCalendarGig.setRouteInfo();
 
     return newCalendarGig;
   }
