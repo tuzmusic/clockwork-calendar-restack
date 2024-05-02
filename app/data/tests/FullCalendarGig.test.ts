@@ -27,7 +27,7 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
       expect(fullGig.getId()).toEqual(basicGig.getId());
 
-      await fullGig.setRouteInfo();
+      await fullGig.fetchRouteInfo();
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
@@ -36,7 +36,7 @@ describe("FullCalendarGig.make", () => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
-        await newGig.setRouteInfo();
+        await newGig.fetchRouteInfo();
         return await use(newGig);
       }
     });

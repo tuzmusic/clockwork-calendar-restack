@@ -47,7 +47,13 @@ export default class FullCalendarGig extends CalendarGig {
     return this._routeInfo;
   }
 
-  public async setRouteInfo() {
+  public setRouteInfo(routeInfo: Record<string, DistanceData>) {
+    this._routeInfo = routeInfo
+  }
+
+  public async fetchRouteInfo() {
+    if (this._routeInfo) return this._routeInfo
+
     const { distanceService } = this;
     const fromHome = await distanceService.getDistanceInfo({
       from: LOCATIONS.home,
