@@ -17,3 +17,12 @@ export interface DistanceData {
   miles: number
   formattedTime: string
 }
+
+export interface EventPart {
+  type: 'reception' | 'cocktail hour' | 'ceremony'
+  start: TimeObj
+  end: TimeObj
+  actualStart?: TimeObj
+  actualEnd?: TimeObj
+}
+

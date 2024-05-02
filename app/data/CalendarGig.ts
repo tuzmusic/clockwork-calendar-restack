@@ -1,6 +1,5 @@
 import { calendar_v3 } from "googleapis";
 
-import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
 

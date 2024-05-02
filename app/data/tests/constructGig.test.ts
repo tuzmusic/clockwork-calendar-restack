@@ -4,6 +4,7 @@ import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
 import CalendarGig from "~/data/CalendarGig";
+import { DistanceData, EventPart, timeObj } from "~/data/types";
 
 
 dayjs.extend(duration);
@@ -46,17 +47,42 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
       it("has an id based on its start date", ({ gig }) => {
         expect(gig.getId()).toEqual("2024-12-01");
       });
-
-      /**
-       * - make a Gig from google
-       *   - START WITH ONE PROP (timeFromHome)
-       *   - In a SEPARATE function that DOESN'T KNOW ABOUT GOOGLE,
-       *     - make a new Gig (or do it with this gig) and set the missing info
-       */
     });
 
-    describe.todo("Existing calendar gig is already complete", () => {
+    describe("Existing calendar gig is already complete", () => {
+      const it = test.extend<{ gig: CalendarGig }>({
+        gig: async ({ task: _ }, use) => {
+          const mockData = mock<calendar_v3.Schema$Event>({
+            start: timeObj(start),
+            end: timeObj(end),
+            location,
+            extendedProperties: {
+              private: {
+                distanceInfo: JSON.stringify({
+                  fromHome: mock<DistanceData>(),
+                  withWaltham: mock<DistanceData>(),
+                  walthamDetour: mock<DistanceData>(),
+                  fromWaltham: mock<DistanceData>(),
+                  fromBoston: mock<DistanceData>()
+                } satisfies Record<string, DistanceData>),
+                parts: JSON.stringify([
+                  {
+                    type: "reception",
+                    start: timeObj(start),
+                    end: timeObj(end)
+                  }
+                ] satisfies EventPart[])
+              }
+            }
+          });
+          const calendarGig = CalendarGig.makeFromRemoteExisting(mockData);
+          return await use(calendarGig);
+        }
+      });
 
+      it("has the parts", ({ gig }) => {
+        expect(gig.getParts()).toHaveLength(1)
+      });
     });
   });
 });

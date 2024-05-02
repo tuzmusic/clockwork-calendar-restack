@@ -14,19 +14,15 @@ const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
 describe("CalendarGig", () => {
-  describe.todo("CalendarGig.makeFromRemoteExisting", () => {
-
-    describe.todo("getting the info from the existing event");
-  });
-
-  describe("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
+  // todo: these tests can probably be deleted in favor of EmailGig.makeFullCalendarGig
+  describe.todo("Creating a brand new CalendarGig from an EmailGig (.makeFromEmailGig)", () => {
     const emailGig = EmailGig.make(location, start, end);
 
     // making from email gig should return a FullCalendarGig
     // so this is vaguely relevant. best would probably be
     // to check the gig's type with instanceOf.
     // leaving for now
-    it.todo("Gets distance info from the Distance Service", () => {
+    it("Gets distance info from the Distance Service", () => {
       const distanceService = mock<DistanceService>();
       distanceService.getDistanceInfo.mockResolvedValue({
         miles: 10, minutes: 60, formattedTime: "1h"

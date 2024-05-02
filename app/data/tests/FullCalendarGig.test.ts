@@ -13,7 +13,7 @@ const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
 describe("FullCalendarGig.make", () => {
-  const basicGig = CalendarGig.makeFromValues(location, start, end);
+  const basicGig = CalendarGig.makeFromValues(location, start, end, false);
 
   describe("distance info", () => {
     test("It gets distance info from the Distance Service", async () => {
