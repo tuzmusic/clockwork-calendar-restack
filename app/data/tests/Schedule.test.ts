@@ -5,7 +5,7 @@ import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import Schedule from "~/data/Schedule";
-import { getDistanceServiceWithMocks } from "~/data/testUtils";
+import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
 import { DistanceData } from "~/data/types";
 
 function to2Digits(num: number) {

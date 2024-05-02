@@ -1,6 +1,6 @@
 import EmailGig from "~/data/EmailGig";
 import FullCalendarGig from "~/data/FullCalendarGig";
-import { getDistanceServiceWithMocks, testBasicGigInfo } from "~/data/testUtils";
+import { getDistanceServiceWithMocks, testBasicGigInfo } from "~/data/tests/testUtils";
 
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
@@ -14,6 +14,7 @@ describe("EmailGig", () => {
     );
   });
 
+  // todo: this probably should be an instance method?
   describe("EmailGig.makeFullCalendarGig", () => {
     const distanceService = getDistanceServiceWithMocks(location);
 

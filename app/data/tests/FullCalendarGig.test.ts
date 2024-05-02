@@ -5,7 +5,7 @@ import CalendarService from "~/data/CalendarService";
 import { TIME_ZONE } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
 import FullCalendarGig from "~/data/FullCalendarGig";
-import { getDistanceServiceWithMocks } from "~/data/testUtils";
+import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
 import { DistanceData } from "~/data/types";
 
 const location = "wherever";
