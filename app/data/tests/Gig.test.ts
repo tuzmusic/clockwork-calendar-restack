@@ -1,3 +1,4 @@
+import { mockParts } from "~/data/EventRow/testConstants";
 import Gig from "~/data/Gig";
 import { EventPart } from "~/data/types";
 
@@ -10,13 +11,8 @@ describe("Gig abstract class", () => {
       return new this(location, startDateTimeStr, endDateTimeStr);
     }
 
-    static makeWithParts({ location, parts }: {
-      parts: EventPart[];
-      location: string
-    }) {
-      const gig = new this(location, parts[0].start.dateTime, parts[0].end.dateTime);
-      gig.parts = parts;
-      return gig;
+    public setParts(parts: EventPart[]) {
+      this.parts = parts;
     }
   }
 
@@ -27,7 +23,11 @@ describe("Gig abstract class", () => {
       expect(gig.getLocation()).toEqual("somewhere");
     });
 
-    it("has a start time", () => {
+    it("has parts", () => {
+      gig.setParts(mockParts)
+    });
+
+    it("has a start time that is the start time of its first part", () => {
       expect(gig.getStartTime().dateTime).toEqual(start);
     });
 

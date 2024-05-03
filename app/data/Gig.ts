@@ -32,7 +32,9 @@ export default abstract class Gig {
   // CalendarGig will override this to use the parts
   // Or will EmailGig do parts as well?
   public getStartTime() {
-    return this.dateTime.start;
+    // todo: parts shouldn't be nullable...
+    const parts = this.parts!
+    return parts[0].actualStart ?? parts[0].start
   }
 
   public getEndTime() {
