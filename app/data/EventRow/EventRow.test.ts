@@ -66,7 +66,7 @@ describe("EventRow", () => {
               extendedProperties: {
                 private: {
                   distanceInfo: JSON.stringify(mockDistanceData),
-                  parts: JSON.stringify([mockParts])
+                  parts: JSON.stringify(mockParts)
                 }
               }
             };
@@ -87,6 +87,8 @@ describe("EventRow", () => {
         });
 
         it("has parts that match the calendar gig", ({ row: { appGig } }) => {
+          // (they match the email gig too but they'll be "lifted" directly
+          //  from the calendar, right?)
           expect(appGig.getParts()).toEqual(mockParts);
         });
 

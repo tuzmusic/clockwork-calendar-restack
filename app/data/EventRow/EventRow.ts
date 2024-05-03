@@ -31,6 +31,11 @@ export default class EventRow {
       }
     }
 
+    const parts = googleGig.getParts();
+    if (parts) {
+      row.appGig.setParts(parts);
+    }
+
     return row;
   }
 }
