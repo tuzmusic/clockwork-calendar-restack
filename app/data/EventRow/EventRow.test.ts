@@ -28,7 +28,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.make(location, start, end);
+            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -70,7 +70,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make(location, start, end);
+            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -116,7 +116,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.make(updatedLocation, start, end);
+            const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -156,7 +156,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make(updatedLocation, start, end);
+            const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -207,12 +207,12 @@ describe("EventRow", () => {
                 }
               };
 
-            const calendarGig = GoogleGig.make(mockDataWithParts)
+            const calendarGig = GoogleGig.make(mockDataWithParts);
 
             const emailGig = EmailGig.makeWithParts({
               location,
               parts: mockParts
-            })
+            });
           });
         });
       });

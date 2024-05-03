@@ -3,6 +3,7 @@ import { mock } from "vitest-mock-extended";
 import CalendarGig from "~/data/CalendarGig";
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
+import { mockParts } from "~/data/EventRow/testConstants";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import Schedule from "~/data/Schedule";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
@@ -23,13 +24,12 @@ describe("Schedule", () => {
     describe("Email event with no matching remote calendar event (aka NEW EVENT)", () => {
       // todo: test.extend
       async function getTestEventSet() {
-        const [start, end] = makeStartAndEndDateTimes({ dayNumber: 2 });
         const distanceService = mock<DistanceService>();
         distanceService.getDistanceInfo.mockResolvedValue({
           miles: 10, minutes: 60, formattedTime: "1h"
         } satisfies DistanceData);
         const sched = Schedule.build({
-          emailGigs: [EmailGig.make("somewhere", start, end)],
+          emailGigs: [EmailGig.makeWithParts({ location: "somewhere", parts: mockParts })],
           remoteGigs: []
         }, distanceService);
 
@@ -42,8 +42,8 @@ describe("Schedule", () => {
 
         it("creates a new calendar event for a new email event with basic id info)", async () => {
           const set = await getTestEventSet();
-          expect(set.emailGig.getId()).toEqual("2024-12-02");
-          expect(set.calendarGig.getId()).toEqual("2024-12-02");
+          expect(set.emailGig.getId()).toEqual("2024-12-01");
+          expect(set.calendarGig.getId()).toEqual("2024-12-01");
           expect(set.calendarGig.isNew).toBe(true);
         });
       });
@@ -71,7 +71,7 @@ describe("Schedule", () => {
       const location = "somewhere";
       const distanceService = getDistanceServiceWithMocks(location);
       const sched = Schedule.build({
-          emailGigs: [EmailGig.make(location, start, end)],
+          emailGigs: [EmailGig.makeWithParts({ location, parts: mockParts })],
           remoteGigs: [CalendarGig.makeFromValues({
             location: location,
             startDateTimeStr: start,

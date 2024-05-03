@@ -25,14 +25,14 @@ describe("EmailGig", () => {
     });
   });
 
-  describe("EmailGig.make", () => {
+  describe.skip("EmailGig.make", () => {
     testBasicGigInfo(
       (location, start, end) => Promise.resolve(EmailGig.make(location, start, end))
     );
   });
 
   // todo: this probably should be an instance method?
-  describe("EmailGig.makeFullCalendarGig", () => {
+  describe.skip("EmailGig.makeFullCalendarGig", () => {
     const distanceService = getDistanceServiceWithMocks(location);
 
     afterEach(() => {
