@@ -5,7 +5,7 @@ import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
-import { end, location, mockDistanceData, mockPart, start } from "~/data/EventRow/testConstants";
+import { end, location, mockDistanceData, mockParts, start } from "~/data/EventRow/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
 
 let distanceService: MockProxy<DistanceService>;
@@ -66,7 +66,7 @@ describe("EventRow", () => {
               extendedProperties: {
                 private: {
                   distanceInfo: JSON.stringify(mockDistanceData),
-                  parts: JSON.stringify([mockPart])
+                  parts: JSON.stringify([mockParts])
                 }
               }
             };
@@ -87,7 +87,7 @@ describe("EventRow", () => {
         });
 
         it("has parts that match the calendar gig", ({ row: { appGig } }) => {
-          expect(appGig.getParts()).toEqual([mockPart]);
+          expect(appGig.getParts()).toEqual(mockParts);
         });
 
         it("populates the route info from the stored gig", ({ row: { appGig } }) => {
@@ -191,7 +191,27 @@ describe("EventRow", () => {
            * We use those outer marks as start/end in JSON, to show the "gig times" in the UI
            * and to write the event to google.
            * */
-          it.fails('uses the times and parts from the email gig')
+          it("uses the times and parts from the email gig", () => {
+            const mockDataWithParts: calendar_v3.Schema$Event =
+              {
+                start: { dateTime: start },
+                end: { dateTime: end },
+                location,
+                extendedProperties: {
+                  private: {
+                    // reception matching start & end
+                    parts: JSON.stringify([mockParts])
+                  }
+                }
+              };
+
+            const calendarGig = GoogleGig.make(mockDataWithParts)
+
+            const emailGig = EmailGig.makeWithParts({
+              location,
+              parts: mockParts
+            })
+          });
         });
       });
     });

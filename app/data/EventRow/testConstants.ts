@@ -14,10 +14,10 @@ export const mockDistanceData = {
   fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
 } satisfies Record<string, DistanceData>;
 
-export const mockPart = [
+export const mockParts: EventPart[] = [
   {
     type: "reception",
     start: timeObj(start),
     end: timeObj(end)
   }
-] satisfies EventPart[];
+]

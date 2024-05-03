@@ -1,4 +1,5 @@
 import EmailGig from "~/data/EmailGig";
+import { mockParts } from "~/data/EventRow/testConstants";
 import FullCalendarGig from "~/data/FullCalendarGig";
 import { getDistanceServiceWithMocks, testBasicGigInfo } from "~/data/tests/testUtils";
 
@@ -8,6 +9,22 @@ const location = "somewhere";
 
 
 describe("EmailGig", () => {
+  describe("EmailGig.makeWithParts", () => {
+    it("can be constructed with parts", () => {
+      const gig = EmailGig.makeWithParts({
+        location,
+        parts: mockParts
+      });
+
+      const parts = gig.getParts();
+      const [part] = parts
+      expect(parts).toHaveLength(1);
+      expect(part.type).toEqual('reception');
+      expect(part.start.dateTime).toEqual(start);
+      expect(part.end.dateTime).toEqual(end);
+    });
+  });
+
   describe("EmailGig.make", () => {
     testBasicGigInfo(
       (location, start, end) => Promise.resolve(EmailGig.make(location, start, end))

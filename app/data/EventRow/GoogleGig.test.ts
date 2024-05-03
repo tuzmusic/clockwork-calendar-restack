@@ -1,7 +1,7 @@
 import { calendar_v3 } from "googleapis";
 
 import GoogleGig from "~/data/EventRow/GoogleGig";
-import { end, location, mockDistanceData, mockPart, start } from "~/data/EventRow/testConstants";
+import { end, location, mockDistanceData, mockParts, start } from "~/data/EventRow/testConstants";
 
 describe("GoogleGig.make", () => {
   describe("with no extendedProperties", () => {
@@ -53,13 +53,13 @@ describe("GoogleGig.make", () => {
         location,
         extendedProperties: {
           private: {
-            parts: JSON.stringify([mockPart])
+            parts: JSON.stringify([mockParts])
           }
         }
       };
 
       const gig = GoogleGig.make(mockData);
-      expect(gig.getParts()).toEqual([mockPart]);
+      expect(gig.getParts()).toEqual([mockParts]);
     });
   });
 });

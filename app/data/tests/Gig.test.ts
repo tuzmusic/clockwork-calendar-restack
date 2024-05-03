@@ -1,5 +1,5 @@
-import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
+import { EventPart } from "~/data/types";
 
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
@@ -8,6 +8,15 @@ describe("Gig abstract class", () => {
   class GigImpl extends Gig {
     public static make(location: string, startDateTimeStr: string, endDateTimeStr: string) {
       return new this(location, startDateTimeStr, endDateTimeStr);
+    }
+
+    static makeWithParts({ location, parts }: {
+      parts: EventPart[];
+      location: string
+    }) {
+      const gig = new this(location, parts[0].start.dateTime, parts[0].end.dateTime);
+      gig.parts = parts;
+      return gig;
     }
   }
 
