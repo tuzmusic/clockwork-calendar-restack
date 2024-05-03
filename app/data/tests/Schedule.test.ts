@@ -72,7 +72,12 @@ describe("Schedule", () => {
       const distanceService = getDistanceServiceWithMocks(location);
       const sched = Schedule.build({
           emailGigs: [EmailGig.make(location, start, end)],
-          remoteGigs: [CalendarGig.makeFromValues(location, start, end, false)]
+          remoteGigs: [CalendarGig.makeFromValues({
+            location: location,
+            startDateTimeStr: start,
+            endDateTimeStr: end,
+            isNew: false
+          })]
         },
         distanceService
       );

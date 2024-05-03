@@ -6,7 +6,7 @@ export default abstract class Gig {
   };
 
   private readonly id: string;
-  protected parts: EventPart[] = [];
+  protected parts: EventPart[] | null = [];
 
   protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
     this.dateTime = {
@@ -15,11 +15,6 @@ export default abstract class Gig {
     };
 
     this.id = startDateTimeStr.split("T")[0];
-  }
-
-  // todo: this should probably be moved to the static make function
-  public setParts(parts: EventPart[]) {
-    this.parts = parts
   }
 
   public getParts() {

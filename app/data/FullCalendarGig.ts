@@ -5,7 +5,7 @@ import CalendarGig from "~/data/CalendarGig";
 import CalendarService from "~/data/CalendarService";
 import { LOCATIONS } from "~/data/constants";
 import DistanceService from "~/data/DistanceService";
-import { DistanceData } from "~/data/types";
+import { DistanceData, EventPart } from "~/data/types";
 import { formatDuration } from "~/data/utilityFunctions";
 
 dayjs.extend(duration);
@@ -14,30 +14,36 @@ export default class FullCalendarGig extends CalendarGig {
   private distanceService: DistanceService;
 
   public static makeFromValues(
-    location: string,
-    startDateTimeStr: string,
-    endDateTimeStr: string,
-    isNew: boolean,
-    distanceService = new DistanceService()
+    { location, startDateTimeStr, endDateTimeStr, parts, isNew, distanceService = new DistanceService() }: {
+      location: string,
+      startDateTimeStr: string,
+      endDateTimeStr: string,
+      isNew: boolean,
+      parts?: EventPart[] | null,
+      distanceService?: DistanceService
+    }
   ) {
     return new FullCalendarGig({
       location,
       startDateTimeStr,
       endDateTimeStr,
       isNew,
+      parts,
       distanceService
     });
   }
 
 
-  protected constructor({ location, startDateTimeStr, endDateTimeStr, isNew, distanceService }: {
+  protected constructor({ location, startDateTimeStr, endDateTimeStr, parts, isNew, distanceService }: {
     location: string,
     startDateTimeStr: string,
     endDateTimeStr: string,
+    parts?: EventPart[] | null,
     isNew: boolean,
     distanceService: DistanceService
   }) {
     super(location, startDateTimeStr, endDateTimeStr, isNew);
+    this.parts = parts ?? null;
     this.distanceService = distanceService;
   }
 
@@ -48,11 +54,11 @@ export default class FullCalendarGig extends CalendarGig {
   }
 
   public setRouteInfo(routeInfo: Record<string, DistanceData>) {
-    this._routeInfo = routeInfo
+    this._routeInfo = routeInfo;
   }
 
   public async fetchRouteInfo() {
-    if (this._routeInfo) return this._routeInfo
+    if (this._routeInfo) return this._routeInfo;
 
     const { distanceService } = this;
     const fromHome = await distanceService.getDistanceInfo({
@@ -98,13 +104,9 @@ export default class FullCalendarGig extends CalendarGig {
     const endTime = basicGig.getEndTime().dateTime;
     const isNew = basicGig.isNew;
 
-    const newCalendarGig = new FullCalendarGig(
+    return new FullCalendarGig(
       { location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew, distanceService }
     );
-
-    // await newCalendarGig.setRouteInfo();
-
-    return newCalendarGig;
   }
 
   public async store(calendarService = new CalendarService()) {

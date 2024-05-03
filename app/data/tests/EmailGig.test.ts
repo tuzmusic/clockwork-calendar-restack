@@ -17,7 +17,7 @@ describe("EmailGig", () => {
       });
 
       const parts = gig.getParts();
-      const [part] = parts
+      const [part] = parts ?? []
       expect(parts).toHaveLength(1);
       expect(part.type).toEqual('reception');
       expect(part.start.dateTime).toEqual(start);

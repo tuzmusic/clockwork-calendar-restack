@@ -2,6 +2,7 @@ import { calendar_v3 } from "googleapis";
 
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
+import { EventPart } from "~/data/types";
 
 export default class CalendarGig extends Gig {
   protected readonly _isNew: boolean;
@@ -30,22 +31,29 @@ export default class CalendarGig extends Gig {
   }
 
   public static makeFromValues(
-    location: string,
-    startDateTimeStr: string,
-    endDateTimeStr: string,
-    isNew: boolean
+    { location, startDateTimeStr, endDateTimeStr, parts, isNew }: {
+      location: string,
+      startDateTimeStr: string,
+      endDateTimeStr: string,
+      parts?: EventPart[],
+      isNew: boolean
+    }
   ) {
-    return new this(location, startDateTimeStr, endDateTimeStr, isNew);
+    const calendarGig = new this(location, startDateTimeStr, endDateTimeStr, isNew);
+    calendarGig.parts = parts ?? null
+    return calendarGig;
   }
 
   public static makeFromRemoteExisting(googleCalendarObject: calendar_v3.Schema$Event): CalendarGig {
     // todo: test that all-day events throw an error (or are ignored or whatever)
 
     return CalendarGig.makeFromValues(
-      googleCalendarObject.location!,
-      googleCalendarObject.start!.dateTime!,
-      googleCalendarObject.end!.dateTime!,
-      false
+      {
+        location: googleCalendarObject.location!,
+        startDateTimeStr: googleCalendarObject.start!.dateTime!,
+        endDateTimeStr: googleCalendarObject.end!.dateTime!,
+        isNew: false
+      }
     )
   }
 }
