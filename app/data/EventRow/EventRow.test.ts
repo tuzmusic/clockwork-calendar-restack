@@ -6,7 +6,7 @@ import EmailGig from "~/data/EmailGig";
 import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
-import { DistanceData } from "~/data/types";
+import { DistanceData, EventPart, timeObj } from "~/data/types";
 
 const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
@@ -19,6 +19,14 @@ const mockDistanceData = {
   fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
   fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
 } satisfies Record<string, DistanceData>;
+
+const mockPart = [
+  {
+    type: "reception",
+    start: timeObj(start),
+    end: timeObj(end)
+  }
+] satisfies EventPart[];
 
 let distanceService: MockProxy<DistanceService>;
 
@@ -77,7 +85,8 @@ describe("EventRow", () => {
               location,
               extendedProperties: {
                 private: {
-                  distanceInfo: JSON.stringify(mockDistanceData)
+                  distanceInfo: JSON.stringify(mockDistanceData),
+                  parts: JSON.stringify(mockPart)
                 }
               }
             });
@@ -97,6 +106,10 @@ describe("EventRow", () => {
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
+        it("has parts that match the calendar gig", ({ row: { appGig } }) => {
+          expect(appGig.getParts()).toEqual([mockPart]);
+        });
+
         it("populates the route info from the stored gig", ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
           expect(appGig.getRouteInfo()).toEqual(mockDistanceData);
@@ -113,7 +126,7 @@ describe("EventRow", () => {
       });
 
       describe("Email gig + Basic Calendar Gig; Location differs", () => {
-        const updatedLocation = 'somewhere else'
+        const updatedLocation = "somewhere else";
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
             const mockData = mock<calendar_v3.Schema$Event>({
@@ -147,7 +160,7 @@ describe("EventRow", () => {
       });
 
       describe("Email gig + Full Calendar Gig; Location differs", () => {
-        const updatedLocation = 'somewher else'
+        const updatedLocation = "somewher else";
 
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
@@ -179,14 +192,13 @@ describe("EventRow", () => {
 
         it("keeps the distance info empty (because it's out of date) but can fill it in info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).toBeNull()
+          expect(appGig.getRouteInfo()).toBeNull();
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
           await appGig.fetchRouteInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
           expect(appGig.getRouteInfo()).not.toBeNull();
         });
       });
-
     });
   });
 });
