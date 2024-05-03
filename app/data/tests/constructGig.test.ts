@@ -18,11 +18,11 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
 
       const it = test.extend<{ gig: CalendarGig }>({
         gig: async ({ task: _ }, use) => {
-          const mockData = mock<calendar_v3.Schema$Event>({
+          const mockData: calendar_v3.Schema$Event = {
             start: { dateTime: start },
             end: { dateTime: end },
             location
-          });
+          };
           const calendarGig = CalendarGig.makeFromRemoteExisting(mockData);
           return await use(calendarGig);
         }
@@ -52,7 +52,7 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
     describe("Existing calendar gig is already complete", () => {
       const it = test.extend<{ gig: CalendarGig }>({
         gig: async ({ task: _ }, use) => {
-          const mockData = mock<calendar_v3.Schema$Event>({
+          const mockData: calendar_v3.Schema$Event = {
             start: timeObj(start),
             end: timeObj(end),
             location,
@@ -74,14 +74,14 @@ describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
                 ] satisfies EventPart[])
               }
             }
-          });
+          };
           const calendarGig = CalendarGig.makeFromRemoteExisting(mockData);
           return await use(calendarGig);
         }
       });
 
       it.todo("has the parts", ({ gig }) => {
-        expect(gig.getParts()).toHaveLength(1)
+        expect(gig.getParts()).toHaveLength(1);
       });
     });
   });

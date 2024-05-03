@@ -1,5 +1,5 @@
 import { calendar_v3 } from "googleapis";
-import { mock, MockProxy } from "vitest-mock-extended";
+import { MockProxy } from "vitest-mock-extended";
 
 import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
@@ -23,11 +23,11 @@ describe("EventRow", () => {
       describe("Email gig + Basic Calendar Gig; Basic info matches", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockData = mock<calendar_v3.Schema$Event>({
+            const mockData: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location
-            });
+            };
             const emailGig = EmailGig.make(location, start, end);
             const calendarGig = GoogleGig.make(mockData);
 
@@ -59,7 +59,7 @@ describe("EventRow", () => {
       describe("Email gig + Full Calendar Gig; Basic info matches", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockDataWithRouteInfo = mock<calendar_v3.Schema$Event>({
+            const mockDataWithRouteInfo: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location,
@@ -69,7 +69,7 @@ describe("EventRow", () => {
                   parts: JSON.stringify([mockPart])
                 }
               }
-            });
+            };
             const emailGig = EmailGig.make(location, start, end);
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
@@ -109,11 +109,11 @@ describe("EventRow", () => {
         const updatedLocation = "somewhere else";
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockData = mock<calendar_v3.Schema$Event>({
+            const mockData: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location
-            });
+            };
             const emailGig = EmailGig.make(updatedLocation, start, end);
             const calendarGig = GoogleGig.make(mockData);
 
@@ -144,7 +144,7 @@ describe("EventRow", () => {
 
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockDataWithRouteInfo = mock<calendar_v3.Schema$Event>({
+            const mockDataWithRouteInfo: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location,
@@ -153,7 +153,7 @@ describe("EventRow", () => {
                   distanceInfo: JSON.stringify(mockDistanceData)
                 }
               }
-            });
+            };
             const emailGig = EmailGig.make(updatedLocation, start, end);
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 

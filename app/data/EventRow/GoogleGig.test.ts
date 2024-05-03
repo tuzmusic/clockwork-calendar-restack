@@ -5,11 +5,11 @@ import { end, location, mockDistanceData, mockPart, start } from "~/data/EventRo
 
 describe("GoogleGig.make", () => {
   describe("with no extendedProperties", () => {
-    const mockData = {
+    const mockData: calendar_v3.Schema$Event = {
       start: { dateTime: start },
       end: { dateTime: end },
       location
-    } satisfies calendar_v3.Schema$Event;
+    };
 
     const gig = GoogleGig.make(mockData);
 
@@ -29,7 +29,7 @@ describe("GoogleGig.make", () => {
 
   describe("with route info", () => {
     it("populates the route info from the stored gig", () => {
-      const mockData = {
+      const mockData: calendar_v3.Schema$Event = {
         start: { dateTime: start },
         end: { dateTime: end },
         location,
@@ -38,7 +38,7 @@ describe("GoogleGig.make", () => {
             distanceInfo: JSON.stringify(mockDistanceData)
           }
         }
-      } satisfies calendar_v3.Schema$Event;
+      };
 
       const gig = GoogleGig.make(mockData);
 
@@ -48,7 +48,7 @@ describe("GoogleGig.make", () => {
 
   describe("with parts", () => {
     it("populates the parts from the stored gig", () => {
-      const mockData = {
+      const mockData: calendar_v3.Schema$Event = {
         start: { dateTime: start },
         end: { dateTime: end },
         location,
@@ -57,7 +57,7 @@ describe("GoogleGig.make", () => {
             parts: JSON.stringify([mockPart])
           }
         }
-      } satisfies calendar_v3.Schema$Event;
+      };
 
       const gig = GoogleGig.make(mockData);
       expect(gig.getParts()).toEqual([mockData]);
