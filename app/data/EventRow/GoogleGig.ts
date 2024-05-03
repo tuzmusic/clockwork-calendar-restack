@@ -1,7 +1,7 @@
 import { calendar_v3 } from "googleapis";
 
 import Gig from "~/data/Gig";
-import { DistanceData } from "~/data/types";
+import { DistanceData, TimeObj } from "~/data/types";
 
 export default class GoogleGig extends Gig {
   private routeInfo: Record<string, DistanceData> | null = null;
@@ -12,6 +12,10 @@ export default class GoogleGig extends Gig {
 
   public getEventParts() {
     return null;
+  }
+
+  public getStartTime(): TimeObj {
+    return this.dateTime.start;
   }
 
   static make(json: calendar_v3.Schema$Event) {

@@ -2,7 +2,7 @@ import { calendar_v3 } from "googleapis";
 
 import EmailGig from "~/data/EmailGig";
 import Gig from "~/data/Gig";
-import { EventPart } from "~/data/types";
+import { EventPart, TimeObj } from "~/data/types";
 
 export default class CalendarGig extends Gig {
   protected readonly _isNew: boolean;
@@ -28,6 +28,10 @@ export default class CalendarGig extends Gig {
       endTime,
       true
     );
+  }
+
+  public getStartTime(): TimeObj {
+    return this.dateTime.start;
   }
 
   public static makeFromValues(

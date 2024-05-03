@@ -1,7 +1,7 @@
 import { EventPart, timeObj, TimeObj } from "~/data/types";
 
 export default abstract class Gig {
-  private dateTime: {
+  protected dateTime: {
     start: TimeObj, end: TimeObj
   };
 
