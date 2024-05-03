@@ -6,7 +6,7 @@ export default abstract class Gig {
   };
 
   private readonly id: string;
-  private parts: EventPart[] = [];
+  protected parts: EventPart[] = [];
 
   protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
     this.dateTime = {

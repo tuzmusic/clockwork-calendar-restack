@@ -13,7 +13,6 @@ describe("GoogleGig.make", () => {
 
     const gig = GoogleGig.make(mockData);
 
-
     it("returns a simple gig", () => {
       expect(gig.getLocation()).toEqual(location);
       expect(gig.getStartTime().dateTime).toEqual(start);
@@ -60,7 +59,7 @@ describe("GoogleGig.make", () => {
       };
 
       const gig = GoogleGig.make(mockData);
-      expect(gig.getParts()).toEqual([mockData]);
+      expect(gig.getParts()).toEqual([mockPart]);
     });
   });
 });
