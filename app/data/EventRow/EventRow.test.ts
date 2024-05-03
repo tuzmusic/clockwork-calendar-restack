@@ -5,7 +5,6 @@ import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
-import FullCalendarGig from "~/data/FullCalendarGig";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
 import { DistanceData } from "~/data/types";
 
@@ -39,10 +38,6 @@ describe("EventRow", () => {
             expect(row).instanceof(EventRow);
             return await use(row);
           }
-        });
-
-        it("is a FullCalendarGig", ({ row: { appGig } }) => {
-          expect(appGig).instanceof(FullCalendarGig);
         });
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
@@ -94,10 +89,6 @@ describe("EventRow", () => {
           }
         });
 
-        it("is a FullCalendarGig", ({ row: { appGig } }) => {
-          expect(appGig).instanceof(FullCalendarGig);
-        });
-
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(location);
           expect(appGig.getStartTime().dateTime).toEqual(start);
@@ -136,10 +127,6 @@ describe("EventRow", () => {
             expect(row).instanceof(EventRow);
             return await use(row);
           }
-        });
-
-        it("is a FullCalendarGig", ({ row: { appGig } }) => {
-          expect(appGig).instanceof(FullCalendarGig);
         });
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
@@ -191,10 +178,6 @@ describe("EventRow", () => {
             expect(row).instanceof(EventRow);
             return await use(row);
           }
-        });
-
-        it("is a FullCalendarGig", ({ row: { appGig } }) => {
-          expect(appGig).instanceof(FullCalendarGig);
         });
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
