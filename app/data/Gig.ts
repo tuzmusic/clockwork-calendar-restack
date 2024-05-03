@@ -1,23 +1,28 @@
-import { timeObj, TimeObj } from "~/data/types";
+import { EventPart, timeObj, TimeObj } from "~/data/types";
 
 export default abstract class Gig {
   private dateTime: {
     start: TimeObj, end: TimeObj
   };
 
-  private id: string
+  private readonly id: string;
+  private parts: EventPart[] = [];
 
   protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
     this.dateTime = {
       start: timeObj(startDateTimeStr),
       end: timeObj(endDateTimeStr)
-    }
+    };
 
-    this.id = startDateTimeStr.split('T')[0]
+    this.id = startDateTimeStr.split("T")[0];
+  }
+
+  public getParts() {
+    return this.parts;
   }
 
   public getId() {
-    return this.id
+    return this.id;
   }
 
   public getLocation() {

@@ -5,28 +5,8 @@ import DistanceService from "~/data/DistanceService";
 import EmailGig from "~/data/EmailGig";
 import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
+import { end, location, mockDistanceData, mockPart, start } from "~/data/EventRow/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
-import { DistanceData, EventPart, timeObj } from "~/data/types";
-
-const location = "wherever";
-const start = "2024-12-01T19:00:00-04:00";
-const end = "2024-12-01T23:00:00-04:00";
-
-const mockDistanceData = {
-  fromHome: { miles: 1, minutes: 10, formattedTime: "10m" },
-  withWaltham: { miles: 2, minutes: 20, formattedTime: "20m" },
-  walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
-  fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
-  fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
-} satisfies Record<string, DistanceData>;
-
-const mockPart = [
-  {
-    type: "reception",
-    start: timeObj(start),
-    end: timeObj(end)
-  }
-] satisfies EventPart[];
 
 let distanceService: MockProxy<DistanceService>;
 
@@ -86,7 +66,7 @@ describe("EventRow", () => {
               extendedProperties: {
                 private: {
                   distanceInfo: JSON.stringify(mockDistanceData),
-                  parts: JSON.stringify(mockPart)
+                  parts: JSON.stringify([mockPart])
                 }
               }
             });
