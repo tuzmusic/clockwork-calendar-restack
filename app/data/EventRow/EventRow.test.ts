@@ -11,6 +11,15 @@ import { DistanceData } from "~/data/types";
 const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
+
+const mockDistanceData = {
+  fromHome: { miles: 1, minutes: 10, formattedTime: "10m" },
+  withWaltham: { miles: 2, minutes: 20, formattedTime: "20m" },
+  walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
+  fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
+  fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
+} satisfies Record<string, DistanceData>;
+
 let distanceService: MockProxy<DistanceService>;
 
 describe("EventRow", () => {
@@ -23,7 +32,7 @@ describe("EventRow", () => {
 
   describe("EventRow.buildRow", () => {
     describe("appGig", () => {
-      describe("Email gig + Basic Calendar Gig; Basic info matches between the email and calendar gig", () => {
+      describe("Email gig + Basic Calendar Gig; Basic info matches", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
             const mockData = mock<calendar_v3.Schema$Event>({
@@ -59,15 +68,7 @@ describe("EventRow", () => {
         });
       });
 
-      describe("Email gig + Full Calendar Gig; Basic info matches between the email and calendar gig", () => {
-        const mockDistanceData = {
-          fromHome: { miles: 1, minutes: 10, formattedTime: "10m" },
-          withWaltham: { miles: 2, minutes: 20, formattedTime: "20m" },
-          walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
-          fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
-          fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
-        } satisfies Record<string, DistanceData>;
-
+      describe("Email gig + Full Calendar Gig; Basic info matches", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
             const mockDataWithRouteInfo = mock<calendar_v3.Schema$Event>({
@@ -111,7 +112,7 @@ describe("EventRow", () => {
         });
       });
 
-      describe("Email gig + Basic Calendar Gig; Basic info differs between the email and calendar gig", () => {
+      describe("Email gig + Basic Calendar Gig; Location differs", () => {
         const updatedLocation = 'somewhere else'
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
@@ -136,11 +137,8 @@ describe("EventRow", () => {
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
-        it("starts with no route info", ({ row: { appGig } }) => {
+        it("starts with no route info and can fill it in on demand", async ({ row: { appGig } }) => {
           expect(appGig.getRouteInfo()).toBeNull();
-        });
-
-        it("can fill out the route info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
           await appGig.fetchRouteInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
@@ -148,16 +146,8 @@ describe("EventRow", () => {
         });
       });
 
-      describe("Email gig + Full Calendar Gig; Location differs between the email and calendar gig", () => {
+      describe("Email gig + Full Calendar Gig; Location differs", () => {
         const updatedLocation = 'somewher else'
-
-        const mockDistanceData = {
-          fromHome: { miles: 1, minutes: 10, formattedTime: "10m" },
-          withWaltham: { miles: 2, minutes: 20, formattedTime: "20m" },
-          walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
-          fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
-          fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
-        } satisfies Record<string, DistanceData>;
 
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
@@ -187,12 +177,9 @@ describe("EventRow", () => {
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
-        it("keeps the distance info empty, because it's out of date", ({ row: { appGig } }) => {
+        it("keeps the distance info empty (because it's out of date) but can fill it in info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
           expect(appGig.getRouteInfo()).toBeNull()
-        });
-
-        it("can fill out the route info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
           await appGig.fetchRouteInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
