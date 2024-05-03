@@ -179,6 +179,21 @@ describe("EventRow", () => {
           expect(appGig.getRouteInfo()).not.toBeNull();
         });
       });
+
+      describe("Email gig + Full Calendar Gig; parts differ", () => {
+        describe("Reception only (event time === part time)", () => {
+          // TODO: event time is actually determined by the outer parts time!
+          /** Some other thoughts
+           * EmailGig needs to be able to build in pieces, since the html is parsed in steps.
+           * Its members may be protected but it can expose methods for setting them piece by piece.
+           *
+           * Although gig start and end time is actually determined by the outer parts,
+           * We use those outer marks as start/end in JSON, to show the "gig times" in the UI
+           * and to write the event to google.
+           * */
+          it.fails('uses the times and parts from the email gig')
+        });
+      });
     });
   });
 });
