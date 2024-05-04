@@ -21,7 +21,7 @@ export default class EventRow {
       startDateTimeStr: emailGig.getStartTime().dateTime,
       endDateTimeStr: emailGig.getEndTime().dateTime,
       isNew: false,
-      parts: googleGig.getParts(),
+      parts: emailGig.getParts(),
       distanceService
     });
 

@@ -86,7 +86,7 @@ describe("EventRow", () => {
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
-        it("has parts that match the calendar gig", ({ row: { appGig } }) => {
+        it("has parts that match the email gig", ({ row: { appGig } }) => {
           // (they match the email gig too but they'll be "lifted" directly
           //  from the calendar, right?)
           expect(appGig.getParts()).toEqual(mockParts);
@@ -202,7 +202,7 @@ describe("EventRow", () => {
                 extendedProperties: {
                   private: {
                     // reception matching start & end
-                    parts: JSON.stringify([mockParts])
+                    parts: JSON.stringify(mockParts)
                   }
                 }
               };
