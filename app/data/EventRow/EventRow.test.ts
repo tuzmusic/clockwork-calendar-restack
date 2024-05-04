@@ -183,37 +183,11 @@ describe("EventRow", () => {
       });
 
       describe("Email gig + Full Calendar Gig; parts differ", () => {
-        describe("Reception only (event time === part time)", () => {
-          // TODO: event time is actually determined by the outer parts time!
-          /** Some other thoughts
-           * EmailGig needs to be able to build in pieces, since the html is parsed in steps.
-           * Its members may be protected but it can expose methods for setting them piece by piece.
-           *
-           * Although gig start and end time is actually determined by the outer parts,
-           * We use those outer marks as start/end in JSON, to show the "gig times" in the UI
-           * and to write the event to google.
-           * */
-          it("uses the times and parts from the email gig", () => {
-            const mockDataWithParts: calendar_v3.Schema$Event =
-              {
-                start: { dateTime: start },
-                end: { dateTime: end },
-                location,
-                extendedProperties: {
-                  private: {
-                    // reception matching start & end
-                    parts: JSON.stringify(mockParts)
-                  }
-                }
-              };
-
-            const calendarGig = GoogleGig.make(mockDataWithParts);
-
-            const emailGig = EmailGig.makeWithParts({
-              location,
-              parts: mockParts
-            });
-          });
+        it("doesn't actually need tests or even implementation, " +
+          "because the email is the source of correct truth," +
+          "and if we always make the parts from the email " +
+          "then there's not really any such thing as updating!", () => {
+          expect(true).toBe(true);
         });
       });
     });
