@@ -13,6 +13,17 @@ export default class EventRow {
 
   public appGig!: FullCalendarGig;
 
+  // todo: make normal accessor
+  public get hasChanged() {
+    return !this.eventsAreIdentical;
+  }
+
+  private get eventsAreIdentical() {
+    const { emailGig, googleGig } = this;
+    return emailGig.getLocation() === googleGig.getLocation()
+      && JSON.stringify(emailGig.getParts()) === JSON.stringify(googleGig.getParts());
+  }
+
   public static buildRow(emailGig: EmailGig, googleGig: GoogleGig, distanceService: DistanceService) {
     const row = new EventRow(emailGig, googleGig, distanceService);
 

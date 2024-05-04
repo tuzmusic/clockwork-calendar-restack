@@ -7,6 +7,7 @@ import EventRow from "~/data/EventRow/EventRow";
 import GoogleGig from "~/data/EventRow/GoogleGig";
 import { end, location, mockDistanceData, mockParts, start } from "~/data/EventRow/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
+import { EventPart } from "~/data/types";
 
 let distanceService: MockProxy<DistanceService>;
 
@@ -190,6 +191,45 @@ describe("EventRow", () => {
           expect(true).toBe(true);
         });
       });
+    });
+
+    // todo: maybe/probably rename "hasChanged"
+    describe("hasChanged", () => {
+      const updatedLocation = "somewhere else";
+      const it = test.extend<{ row: EventRow }>({
+        row: async ({ task: _ }, use) => {
+          const mockData: calendar_v3.Schema$Event = {
+            start: { dateTime: start },
+            end: { dateTime: end },
+            location
+          };
+          const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
+          const calendarGig = GoogleGig.make(mockData);
+
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row).instanceof(EventRow);
+          return await use(row);
+        }
+      });
+
+      it("is true if the two gigs have different locations", () => {
+        const mockData: calendar_v3.Schema$Event = {
+          start: { dateTime: start },
+          end: { dateTime: end },
+          location
+        };
+        const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
+        const calendarGig = GoogleGig.make(mockData);
+
+        const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+        expect(row.hasChanged).toBe(true);
+      })
+
+      it.todo.each<[string, EventPart[], EventPart[]] >([
+        ['single part has changed'],
+        ['part has been added'],
+        ['part has been removed']
+      ])("is true if any parts have changed")
     });
   });
 });
