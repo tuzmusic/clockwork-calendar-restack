@@ -5,8 +5,8 @@ import FullCalendarGig from "~/data/FullCalendarGig";
 
 export default class EventRow {
   private constructor(
-    private emailGig: EmailGig,
-    private googleGig: GoogleGig,
+    private emailGig: EmailGig | undefined,
+    private googleGig: GoogleGig | undefined,
     private distanceService: DistanceService
   ) {
   }
@@ -44,7 +44,14 @@ export default class EventRow {
     return this.locationsMatch && this.partsMatch;
   }
 
-  public static buildRow(emailGig: EmailGig, googleGig: GoogleGig, distanceService: DistanceService) {
+  public static buildRow(emailGig: EmailGig, googleGig: GoogleGig, distanceService: DistanceService): EventRow
+  public static buildRow(emailGig: EmailGig, googleGig: undefined, distanceService: DistanceService): EventRow
+  public static buildRow(emailGig: undefined, googleGig: GoogleGig, distanceService: DistanceService): EventRow
+  public static buildRow(emailGig: EmailGig | undefined, googleGig: GoogleGig | undefined, distanceService: DistanceService): EventRow {
+    if (!emailGig && !googleGig) {
+      throw new Error('buildRow was called but neither event is defined.')
+    }
+
     const row = new EventRow(emailGig, googleGig, distanceService);
 
     row.appGig = FullCalendarGig.makeFromValues({

@@ -191,9 +191,27 @@ describe("EventRow", () => {
           expect(true).toBe(true);
         });
       });
+
+      describe("Email gig only", () => {
+        const it = test.extend<{ row: EventRow }>({
+          row: async ({ task: _ }, use) => {
+            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
+            const row = EventRow.buildRow(emailGig, undefined, distanceService);
+            expect(row).instanceof(EventRow);
+            return await use(row);
+          }
+        });
+
+        it("returns with a row where calendarGig is undefined", ({ row: { appGig } }) => {
+
+        });
+
+        it("returns a row with an appGig matching the emailGig", ({ row: { appGig } }) => {
+
+        });
+      });
     });
 
-    // todo: maybe/probably rename "hasChanged"
     describe("hasChanged", () => {
       const updatedLocation = "somewhere else";
 
