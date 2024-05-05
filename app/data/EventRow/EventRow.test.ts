@@ -202,12 +202,14 @@ describe("EventRow", () => {
           }
         });
 
-        it("returns with a row where calendarGig is undefined", ({ row: { appGig } }) => {
-
+        it("returns with a row where calendarGig is undefined", ({ row }) => {
+          expect(row.getCalendarGig()).toBeUndefined()
         });
 
         it("returns a row with an appGig matching the emailGig", ({ row: { appGig } }) => {
-
+          expect(appGig.getLocation()).toEqual(location);
+          expect(appGig.getParts()).toEqual(mockParts);
+          expect(appGig.isNew).toBe(true);
         });
       });
     });
