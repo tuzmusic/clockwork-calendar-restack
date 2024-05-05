@@ -36,7 +36,7 @@ describe("Schedule", () => {
         mock<DistanceService>()
       );
 
-      const rows = schedule.getEventSets()
+      const rows = schedule.eventSets
 
       expect(rows).toHaveLength(1)
     });
@@ -51,7 +51,7 @@ describe("Schedule", () => {
         mock<DistanceService>()
       );
 
-      const rows = schedule.getEventSets()
+      const rows = schedule.eventSets
 
       expect(rows).toHaveLength(1)
       expect(rows[0].getCalendarGig()).toBeUndefined()
