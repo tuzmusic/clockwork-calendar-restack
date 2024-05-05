@@ -1,5 +1,7 @@
 import { LOCATIONS } from "~/data/models/constants";
+import DistanceService from "~/data/services/DistanceService";
 
+type GetDistanceInfoArgs = Parameters<InstanceType<typeof DistanceService>["getDistanceInfo"]>[0];
 export const conditions = (location: string) => ( {
   timeFromHome: (p) => {
     return p.from.includes(LOCATIONS.home)
@@ -23,9 +25,5 @@ export const conditions = (location: string) => ( {
   }
 } satisfies Record<
   string,
-  ({ to, from, through }: {
-    from: string
-    to: string
-    through?: string
-  }) => boolean
+  (args: GetDistanceInfoArgs) => boolean
 >);
