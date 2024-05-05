@@ -27,14 +27,17 @@ export default class EventRow {
     return JSON.stringify(emailParts) === JSON.stringify(googleParts);
   }
 
-
   public get partsHaveChanged() {
     return !this.partsMatch;
   }
 
-  // todo: make normal accessor
+  private _hasChanged!: boolean
+
   public get hasChanged() {
-    return !this.eventsAreIdentical;
+    if (this._hasChanged === undefined) {
+      this._hasChanged = !this.eventsAreIdentical
+    }
+    return this._hasChanged
   }
 
   private get eventsAreIdentical() {

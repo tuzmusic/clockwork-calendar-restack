@@ -143,7 +143,7 @@ describe("EventRow", () => {
       });
 
       describe("Email gig + Full Calendar Gig; Location differs", () => {
-        const updatedLocation = "somewher else";
+        const updatedLocation = "somewhere else";
 
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
