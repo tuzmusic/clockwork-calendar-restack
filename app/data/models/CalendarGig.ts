@@ -1,8 +1,8 @@
 import { calendar_v3 } from "googleapis";
 
-import EmailGig from "~/data/EmailGig";
-import Gig from "~/data/Gig";
-import { EventPart, TimeObj } from "~/data/types";
+import EmailGig from "~/data/models/EmailGig";
+import Gig from "~/data/models/Gig";
+import { EventPart, TimeObj } from "~/data/models/types";
 
 export default class CalendarGig extends Gig {
   protected readonly _isNew: boolean;

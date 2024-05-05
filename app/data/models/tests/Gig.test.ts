@@ -1,6 +1,6 @@
-import { mockParts } from "~/data/EventRow/testConstants";
-import Gig from "~/data/Gig";
-import { EventPart } from "~/data/types";
+import Gig from "~/data/models/Gig";
+import { mockParts } from "~/data/models/tests/testConstants";
+import { EventPart } from "~/data/models/types";
 
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";

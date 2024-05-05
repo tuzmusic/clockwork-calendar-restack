@@ -1,13 +1,13 @@
 import { calendar_v3 } from "googleapis";
 import { MockProxy } from "vitest-mock-extended";
 
-import DistanceService from "~/data/DistanceService";
-import EmailGig from "~/data/EmailGig";
-import EventRow from "~/data/EventRow/EventRow";
-import GoogleGig from "~/data/EventRow/GoogleGig";
-import { end, location, mockDistanceData, mockParts, start } from "~/data/EventRow/testConstants";
-import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
-import { EventPart, timeObj } from "~/data/types";
+import EmailGig from "~/data/models/EmailGig";
+import EventRow from "~/data/models/EventRow";
+import GoogleGig from "~/data/models/GoogleGig";
+import { end, location, mockDistanceData, mockParts, start } from "~/data/models/tests/testConstants";
+import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
+import { EventPart, timeObj } from "~/data/models/types";
+import DistanceService from "~/data/services/DistanceService";
 
 let distanceService: MockProxy<DistanceService>;
 

@@ -1,7 +1,7 @@
-import DistanceService from "~/data/DistanceService";
-import EmailGig from "~/data/EmailGig";
-import GoogleGig from "~/data/EventRow/GoogleGig";
-import FullCalendarGig from "~/data/FullCalendarGig";
+import EmailGig from "~/data/models/EmailGig";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import GoogleGig from "~/data/models/GoogleGig";
+import DistanceService from "~/data/services/DistanceService";
 
 export default class EventRow {
   private constructor(

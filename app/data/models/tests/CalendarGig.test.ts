@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/CalendarGig";
-import DistanceService from "~/data/DistanceService";
-import EmailGig from "~/data/EmailGig";
-import { DistanceData } from "~/data/types";
+import CalendarGig from "~/data/models/CalendarGig";
+import EmailGig from "~/data/models/EmailGig";
+import { DistanceData } from "~/data/models/types";
+import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 

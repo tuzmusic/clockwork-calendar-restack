@@ -1,8 +1,8 @@
 import { mock } from "vitest-mock-extended";
 
-import { conditions } from "~/data/conditions.testHelpers";
-import DistanceService from "~/data/DistanceService";
-import Gig from "~/data/Gig";
+import Gig from "~/data/models/Gig";
+import { conditions } from "~/data/models/tests/conditions.testHelpers";
+import DistanceService from "~/data/services/DistanceService";
 
 export function getDistanceServiceWithMocks(location: string) {
   const {

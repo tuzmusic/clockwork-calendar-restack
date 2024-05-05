@@ -1,4 +1,4 @@
-import { LOCATIONS } from "~/data/constants";
+import { LOCATIONS } from "~/data/models/constants";
 
 export const conditions = (location: string) => ( {
   timeFromHome: (p) => {
@@ -15,7 +15,7 @@ export const conditions = (location: string) => ( {
     return p.from.includes(LOCATIONS.waltham)
       && p.to === location;
   },
-  timeForWalthamDetour: (p) => {
+  timeForWalthamDetour: () => {
     return true;
   },
   milesFromBoston: (p) => {

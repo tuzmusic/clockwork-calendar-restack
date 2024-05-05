@@ -1,4 +1,4 @@
-import { DistanceData } from "~/data/types";
+import { DistanceData } from "~/data/models/types";
 
 export default class DistanceService {
   public async getDistanceInfo(_args: {

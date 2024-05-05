@@ -1,7 +1,7 @@
 import { calendar_v3 } from "googleapis";
 
-import Gig from "~/data/Gig";
-import { DistanceData, TimeObj } from "~/data/types";
+import Gig from "~/data/models/Gig";
+import { DistanceData, TimeObj } from "~/data/models/types";
 
 export default class GoogleGig extends Gig {
   private routeInfo: Record<string, DistanceData> | null = null;

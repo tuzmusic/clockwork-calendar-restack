@@ -1,4 +1,4 @@
-import { TIME_ZONE } from "~/data/constants";
+import { TIME_ZONE } from "~/data/models/constants";
 
 export interface TimeObj {
   dateTime: string;

@@ -1,12 +1,12 @@
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/CalendarGig";
-import CalendarService from "~/data/CalendarService";
-import { TIME_ZONE } from "~/data/constants";
-import DistanceService from "~/data/DistanceService";
-import FullCalendarGig from "~/data/FullCalendarGig";
-import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
-import { DistanceData } from "~/data/types";
+import CalendarGig from "~/data/models/CalendarGig";
+import { TIME_ZONE } from "~/data/models/constants";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
+import { DistanceData } from "~/data/models/types";
+import CalendarService from "~/data/services/CalendarService";
+import DistanceService from "~/data/services/DistanceService";
 
 const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";

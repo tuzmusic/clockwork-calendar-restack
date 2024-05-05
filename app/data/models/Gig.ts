@@ -1,4 +1,4 @@
-import { EventPart, timeObj, TimeObj } from "~/data/types";
+import { EventPart, timeObj, TimeObj } from "~/data/models/types";
 
 export default abstract class Gig {
   protected dateTime: {

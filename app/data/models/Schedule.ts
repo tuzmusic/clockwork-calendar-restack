@@ -1,7 +1,7 @@
-import CalendarGig from "~/data/CalendarGig";
-import DistanceService from "~/data/DistanceService";
-import EmailGig from "~/data/EmailGig";
-import FullCalendarGig from "~/data/FullCalendarGig";
+import CalendarGig from "~/data/models/CalendarGig";
+import EmailGig from "~/data/models/EmailGig";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import DistanceService from "~/data/services/DistanceService";
 
 interface EventSet {
   emailGig: EmailGig,
@@ -10,8 +10,8 @@ interface EventSet {
 }
 
 export default class Schedule {
-  private emailGigsTable: Record<string, EmailGig>;
-  private remoteGigsTable: Record<string, CalendarGig>;
+  private readonly emailGigsTable: Record<string, EmailGig>;
+  private readonly remoteGigsTable: Record<string, CalendarGig>;
 
   private constructor(
     private emailGigs: EmailGig[],

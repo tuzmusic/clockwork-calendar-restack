@@ -1,4 +1,4 @@
-import { DistanceData, EventPart, timeObj } from "~/data/types";
+import { DistanceData, EventPart, timeObj } from "~/data/models/types";
 
 export const location = "wherever";
 

@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
-import CalendarGig from "~/data/CalendarGig";
-import CalendarService from "~/data/CalendarService";
-import { LOCATIONS } from "~/data/constants";
-import DistanceService from "~/data/DistanceService";
-import { DistanceData, EventPart } from "~/data/types";
-import { formatDuration } from "~/data/utilityFunctions";
+import CalendarGig from "~/data/models/CalendarGig";
+import { LOCATIONS } from "~/data/models/constants";
+import { DistanceData, EventPart } from "~/data/models/types";
+import { formatDuration } from "~/data/models/utilityFunctions";
+import CalendarService from "~/data/services/CalendarService";
+import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 

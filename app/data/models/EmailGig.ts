@@ -1,8 +1,8 @@
-import CalendarGig from "~/data/CalendarGig";
-import DistanceService from "~/data/DistanceService";
-import FullCalendarGig from "~/data/FullCalendarGig";
-import Gig from "~/data/Gig";
-import { EventPart } from "~/data/types";
+import CalendarGig from "~/data/models/CalendarGig";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import Gig from "~/data/models/Gig";
+import { EventPart } from "~/data/models/types";
+import DistanceService from "~/data/services/DistanceService";
 
 export default class EmailGig extends Gig {
   static makeWithParts({ location, parts }: {

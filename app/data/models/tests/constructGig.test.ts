@@ -3,8 +3,8 @@ import duration from "dayjs/plugin/duration";
 import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/CalendarGig";
-import { DistanceData, EventPart, timeObj } from "~/data/types";
+import CalendarGig from "~/data/models/CalendarGig";
+import { DistanceData, EventPart, timeObj } from "~/data/models/types";
 
 
 dayjs.extend(duration);

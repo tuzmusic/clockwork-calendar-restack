@@ -1,13 +1,13 @@
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/CalendarGig";
-import DistanceService from "~/data/DistanceService";
-import EmailGig from "~/data/EmailGig";
-import { mockParts } from "~/data/EventRow/testConstants";
-import FullCalendarGig from "~/data/FullCalendarGig";
-import Schedule from "~/data/Schedule";
-import { getDistanceServiceWithMocks } from "~/data/tests/testUtils";
-import { DistanceData } from "~/data/types";
+import CalendarGig from "~/data/models/CalendarGig";
+import EmailGig from "~/data/models/EmailGig";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import Schedule from "~/data/models/Schedule";
+import { mockParts } from "~/data/models/tests/testConstants";
+import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
+import { DistanceData } from "~/data/models/types";
+import DistanceService from "~/data/services/DistanceService";
 
 function to2Digits(num: number) {
   return num.toString().padStart(2, "0");

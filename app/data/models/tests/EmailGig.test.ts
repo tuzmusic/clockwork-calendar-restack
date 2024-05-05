@@ -1,7 +1,7 @@
-import EmailGig from "~/data/EmailGig";
-import { mockParts } from "~/data/EventRow/testConstants";
-import FullCalendarGig from "~/data/FullCalendarGig";
-import { getDistanceServiceWithMocks, testBasicGigInfo } from "~/data/tests/testUtils";
+import EmailGig from "~/data/models/EmailGig";
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import { mockParts } from "~/data/models/tests/testConstants";
+import { getDistanceServiceWithMocks, testBasicGigInfo } from "~/data/models/tests/testUtils";
 
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
