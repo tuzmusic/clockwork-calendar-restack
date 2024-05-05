@@ -4,7 +4,9 @@
  * and should modify this configuration to best suit your team's needs.
  */
 
-/** @type {import("eslint").Linter.Config} */
+/**
+ * @type {import("@types/eslint").Linter.BaseConfig}
+ */
 module.exports = {
   root: true,
   parserOptions: {
@@ -23,7 +25,9 @@ module.exports = {
   // Base config
   extends: ["eslint:recommended"],
   rules: {
-    "object-curly-spacing": "error"
+    "object-curly-spacing": "error",
+    "object-property-newline": "error",
+    "function-paren-newline": "error",
   },
   overrides: [
     // React
