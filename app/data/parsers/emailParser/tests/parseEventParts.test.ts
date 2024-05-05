@@ -1,5 +1,5 @@
 import { EventPart } from "~/data/models/types";
-import { ScheduleParser } from "~/ScheduleParser";
+import EmailParser from "~/data/parsers/emailParser/EmailParser";
 
 import { buildEvent, buildHtml, buildMonthHeader, buildOtherPart } from "./htmlBuilders";
 
@@ -16,7 +16,7 @@ describe('Parsing event parts', () => {
           location,
         })
       )
-      const event = new ScheduleParser(html).parse().shift()!
+      const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(1)
       const [reception] = event.getParts()
@@ -37,7 +37,7 @@ describe('Parsing event parts', () => {
           location,
         })
       )
-      const event = new ScheduleParser(html).parse().shift()!
+      const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(1)
       const [reception] = event.getParts()
@@ -58,7 +58,7 @@ describe('Parsing event parts', () => {
           location,
         })
       )
-      const event = new ScheduleParser(html).parse().shift()!
+      const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(1)
       const [reception] = event.getParts()
@@ -83,7 +83,7 @@ describe('Parsing event parts', () => {
         buildOtherPart({ timeStr: '5:00-6:00', part: 'Cocktail Hour' })
       )
 
-      const event = new ScheduleParser(html).parse().shift()!
+      const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(2)
       const [cocktails, reception] = event.getParts() // implicitly tests ordering
@@ -114,7 +114,7 @@ describe('Parsing event parts', () => {
         buildOtherPart({ timeStr: '5:00-6:00', part: 'Cocktail Hour' })
       )
 
-      const event = new ScheduleParser(html).parse().shift()!
+      const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(3)
       const [ceremony, cocktails, reception] = event.getParts() // implicitly tests ordering
