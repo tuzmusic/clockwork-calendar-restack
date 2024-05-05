@@ -220,10 +220,18 @@ describe("EventRow", () => {
         }
       });
 
-      it("is true if the two gigs have different locations", () => {
-        const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
+      it("is false if there are no changes in parts or locations", () => {
+        const emailGig = EmailGig.makeWithParts({ location, parts });
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
-        expect(row.locationHasChanged).toBe(true)
+        expect(row.locationHasChanged).toBe(false);
+        expect(row.partsHaveChanged).toBe(false);
+        expect(row.hasChanged).toBe(false);
+      });
+
+      it("is true if the two gigs have different locations", () => {
+        const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts });
+        const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+        expect(row.locationHasChanged).toBe(true);
         expect(row.hasChanged).toBe(true);
       });
 
