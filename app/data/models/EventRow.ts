@@ -11,6 +11,10 @@ export default class EventRow {
   ) {
   }
 
+  public getEmailGig() {
+    return this.emailGig
+  }
+
   public getCalendarGig() {
     return this.googleGig
   }

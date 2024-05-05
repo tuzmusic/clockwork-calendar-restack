@@ -1,21 +1,15 @@
-import CalendarGig from "~/data/models/CalendarGig";
 import EmailGig from "~/data/models/EmailGig";
-import FullCalendarGig from "~/data/models/FullCalendarGig";
+import EventRow from "~/data/models/EventRow";
+import GoogleGig from "~/data/models/GoogleGig";
 import DistanceService from "~/data/services/DistanceService";
-
-interface EventSet {
-  emailGig: EmailGig,
-  remoteGig: CalendarGig,
-  calendarGig: FullCalendarGig
-}
 
 export default class Schedule {
   private readonly emailGigsTable: Record<string, EmailGig>;
-  private readonly remoteGigsTable: Record<string, CalendarGig>;
+  private readonly remoteGigsTable: Record<string, GoogleGig>;
 
   private constructor(
     private emailGigs: EmailGig[],
-    private remoteGigs: CalendarGig[],
+    private remoteGigs: GoogleGig[],
     private distanceService: DistanceService
   ) {
     this.emailGigsTable = emailGigs.reduce((acc, gig) => ({
@@ -27,26 +21,20 @@ export default class Schedule {
     }), {});
   }
 
-  public static build(arrays: { emailGigs: EmailGig[]; remoteGigs: CalendarGig[]; }, distanceService: DistanceService) {
+  public static build(arrays: { emailGigs: EmailGig[]; remoteGigs: GoogleGig[]; }, distanceService: DistanceService) {
     const schedule = new Schedule(arrays.emailGigs, arrays.remoteGigs, distanceService);
     return schedule;
   }
 
-  public async getEventSets() {
-    const promises = Object.keys(this.emailGigsTable).map(async (id) => {
+  public getEventSets() {
+    const rowsFromEmailGigs = Object.keys(this.emailGigsTable).map(id => {
       const emailGig = this.emailGigsTable[id];
       const remoteGig = this.remoteGigsTable[id];
-      const calendarGig = await EmailGig.makeFullCalendarGig(
-        emailGig, this.distanceService
-      );
+      return EventRow.buildRow(emailGig, remoteGig, this.distanceService)
+    })
 
-      return {
-        emailGig,
-        remoteGig,
-        calendarGig
-      } satisfies EventSet;
-    });
+    // todo: find orphaned calendar gigs
 
-    return await Promise.all(promises);
+    return rowsFromEmailGigs
   }
 }

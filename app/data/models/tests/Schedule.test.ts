@@ -1,12 +1,9 @@
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/models/CalendarGig";
 import EmailGig from "~/data/models/EmailGig";
-import FullCalendarGig from "~/data/models/FullCalendarGig";
+import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
-import { mockParts } from "~/data/models/tests/testConstants";
-import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
-import { DistanceData } from "~/data/models/types";
+import { end, location, mockParts, start } from "~/data/models/tests/testConstants";
 import DistanceService from "~/data/services/DistanceService";
 
 function to2Digits(num: number) {
@@ -21,75 +18,44 @@ function makeStartAndEndDateTimes({ dayNumber }: { dayNumber: number }) {
 
 describe("Schedule", () => {
   describe("Schedule.build", () => {
-    describe("Email event with no matching remote calendar event (aka NEW EVENT)", () => {
-      // todo: test.extend
-      async function getTestEventSet() {
-        const distanceService = mock<DistanceService>();
-        distanceService.getDistanceInfo.mockResolvedValue({
-          miles: 10, minutes: 60, formattedTime: "1h"
-        } satisfies DistanceData);
-        const sched = Schedule.build({
-          emailGigs: [EmailGig.makeWithParts({ location: "somewhere", parts: mockParts })],
-          remoteGigs: []
-        }, distanceService);
-
-        const [set, ...sets] = await sched.getEventSets();
-        expect(sets).toHaveLength(0);
-        return set;
-      }
-
-      describe("basic gig info", () => {
-
-        it("creates a new calendar event for a new email event with basic id info)", async () => {
-          const set = await getTestEventSet();
-          expect(set.emailGig.getId()).toEqual("2024-12-01");
-          expect(set.calendarGig.getId()).toEqual("2024-12-01");
-          expect(set.calendarGig.isNew).toBe(true);
-        });
+    it("matches an email event with a google event", () => {
+      const emailGig = EmailGig.makeWithParts({ location: "somewhere", parts: mockParts });
+      const remoteGig = GoogleGig.make({
+        start: { dateTime: start },
+        end: { dateTime: end },
+        location
       });
 
-      describe("full gig info", () => {
-        it("is a FullCalendarGig", async () => {
-          const set = await getTestEventSet();
-          expect(set.calendarGig).instanceof(FullCalendarGig);
-        });
+      // sanity check
+      expect(emailGig.getId()).toEqual(remoteGig.getId());
 
-        // this should be covered in more unit-level tests for
-        //  FullCalendarGig.makeFromBasicCalendarGig
-        //  and EmailGig.makeFullCalendarGig
-        it.todo("has route info");
-      });
-    });
-
-    describe.todo("Email event whose matching remote calendar event is BASIC");
-    describe.todo("Email event whose matching remote calendar event has FULL INFORMATION");
-    describe.todo("Remote calendar event with BASIC info, with no matching email event");
-    describe.todo("Remote calendar event with FULL info, with no matching email event");
-
-    it("builds an event set when events match", async () => {
-      const [start, end] = makeStartAndEndDateTimes({ dayNumber: 1 });
-      const location = "somewhere";
-      const distanceService = getDistanceServiceWithMocks(location);
-      const sched = Schedule.build({
-          emailGigs: [EmailGig.makeWithParts({ location, parts: mockParts })],
-          remoteGigs: [CalendarGig.makeFromValues({
-            location: location,
-            startDateTimeStr: start,
-            endDateTimeStr: end,
-            isNew: false
-          })]
+      const schedule = Schedule.build({
+          emailGigs: [emailGig],
+          remoteGigs: [remoteGig]
         },
-        distanceService
+        mock<DistanceService>()
       );
 
-      const [set, ...sets] = await sched.getEventSets();
-      expect(sets).toHaveLength(0);
+      const rows = schedule.getEventSets()
 
-      expect(set.emailGig.getId()).toEqual("2024-12-01");
-      expect(set.remoteGig.getId()).toEqual("2024-12-01");
-      expect(set.remoteGig.isNew).toBe(false);
+      expect(rows).toHaveLength(1)
     });
 
+    it("handles a new email event (with no matching google event", () => {
+      const emailGig = EmailGig.makeWithParts({ location: "somewhere", parts: mockParts });
+
+      const schedule = Schedule.build({
+          emailGigs: [emailGig],
+          remoteGigs: []
+        },
+        mock<DistanceService>()
+      );
+
+      const rows = schedule.getEventSets()
+
+      expect(rows).toHaveLength(1)
+      expect(rows[0].getCalendarGig()).toBeUndefined()
+    });
 
     it.todo("orphaned calendar events (nowhere near urgent)");
   });
