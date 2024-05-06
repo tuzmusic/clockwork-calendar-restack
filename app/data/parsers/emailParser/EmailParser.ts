@@ -13,6 +13,14 @@ import {
 } from "~/data/parsers/emailParser/helpers-and-constants";
 import { isMonth, Month } from "~/data/parsers/emailParser/Month";
 
+interface InProcessGigData {
+  dateParts?: {
+    date: number, month: Month, year: number
+  } | undefined,
+  location?: string | undefined,
+  parts: EventPart[]
+}
+
 export default class EmailParser {
 
   private gigs: EmailGig[] = [];
@@ -40,7 +48,7 @@ export default class EmailParser {
     });
     // add the last event (since the loop adds at the start)
     if (this.currentGigData) {
-      this.addGigToList()
+      this.addGigToList();
     }
   }
 
@@ -49,13 +57,7 @@ export default class EmailParser {
     year: number
   };
 
-  private currentGigData: {
-    dateParts?: {
-      date: number, month: Month, year: number
-    } | undefined,
-    location?: string | undefined,
-    parts: EventPart[]
-  } | null = null;
+  public currentGigData: InProcessGigData | null = null;
 
   private parseRow(param: { atIndex: number; el: Element }) {
     const { atIndex: rowIndex, el } = param;
@@ -82,7 +84,7 @@ export default class EmailParser {
   }
 
   private isRowMonthDivider(row: Cheerio<Element>) {
-    return row.text().includes('___________');
+    return row.text().includes("___________");
   }
 
   /**
@@ -113,7 +115,7 @@ export default class EmailParser {
     *   We *probably* want to do this here, but it feels like it belongs elsewhere,
     *   So hold off for now
     * */
-   if (this.currentGigData) this.addGigToList();
+    if (this.currentGigData) this.addGigToList();
     this.resetGig();
 
     const [DATE, TIME, LOCATION] = [1, 3, 4]; // td indices
@@ -208,7 +210,14 @@ export default class EmailParser {
       start: this.makeDate(startTimeStr),
       end: this.makeDate(endTimeStr)
     };
-    this.currentGigData?.parts?.push(ceremony);
+    this.addPartAndSort(ceremony);
+  }
+
+  private addPartAndSort(part: EventPart) {
+    this.currentGigData?.parts?.push(part);
+    this.currentGigData?.parts?.sort((a, b) =>
+      (a.start.dateTime > b.start.dateTime ? 1 : -1)
+    );
   }
 
   private parseCocktailHour(text: string) {
@@ -222,14 +231,13 @@ export default class EmailParser {
       end: this.makeDate(endTimeStr)
     };
 
-    this.currentGigData!.parts.push(cocktailHourPart);
+    this.addPartAndSort(cocktailHourPart);
   }
 
-  private checkEvent(source: string) {
+  private checkEvent(source: string): asserts this is this & { currentGigData: InProcessGigData } {
     if (this.currentGigData === null) {
       throw EmailParser.errors.noEventStarted(source);
     }
-    return true;
   }
 
   static errors = {
