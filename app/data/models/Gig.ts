@@ -6,7 +6,7 @@ export default abstract class Gig {
   };
 
   private readonly id: string;
-  protected parts: EventPart[] | null = [];
+  protected parts: EventPart[] = [];
 
   protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
     this.dateTime = {
@@ -29,8 +29,6 @@ export default abstract class Gig {
     return this.location;
   }
 
-  // CalendarGig will override this to use the parts
-  // Or will EmailGig do parts as well?
   public getStartTime() {
     // todo: parts shouldn't be nullable...
     const parts = this.parts!
