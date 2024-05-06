@@ -26,3 +26,4 @@ export interface EventPart {
   actualEnd?: TimeObj
 }
 
+export type GigPartType = "reception" | "cocktail hour" | "ceremony"
