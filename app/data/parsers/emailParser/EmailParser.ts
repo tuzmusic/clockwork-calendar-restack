@@ -34,11 +34,14 @@ export default class EmailParser {
   }
 
   private parse() {
-    this.resetGig()
     const allScheduleRows = this.getRowsFromEmailBody();
     allScheduleRows.each((rowIndex, el) => {
       this.parseRow({ el, atIndex: rowIndex });
     });
+    // add the last event (since the loop adds at the start)
+    if (this.currentGigData) {
+      this.addGigToList()
+    }
   }
 
   private currentDateMarker!: {
@@ -61,21 +64,13 @@ export default class EmailParser {
 
     if (this.isRowMonthDivider(row)) return;
     if (this.parseMonthHeader(row)) return;
+
+    // we can't add the gig after parseAdd'lParts because if there are
+    // no add'l parts we'll miss adding the gig.
+    // and then it's cludgy to add from parseGig if we don't know
+    // whether there are add'l parts
     if (this.parseGig(row)) return;
     if (this.parseAdditionalParts(row)) return;
-
-    // Todo: THIS is where we should push the gig to the array?
-    //  Every matching in the row in the email should be one of the
-    //  above, so if we've not returned from any of those then we
-    //  should be at the end of the gig. RIGHT?!?!?!
-    // Note that rowsFromFetchedEmailBody gets the first table in the body,
-    //  and in july-august-only fixture (in other repo) it looks like the
-    //  actual data rows are inside a row inside this first table.
-    //  But it's possible that this is from Gmail UI and I already
-    //  updated the function to work with an API response.
-    this.addGigToList();
-
-    this.resetGig()
   }
 
   private addGigToList() {
@@ -118,7 +113,7 @@ export default class EmailParser {
     *   We *probably* want to do this here, but it feels like it belongs elsewhere,
     *   So hold off for now
     * */
-
+   if (this.currentGigData) this.addGigToList();
     this.resetGig();
 
     const [DATE, TIME, LOCATION] = [1, 3, 4]; // td indices
