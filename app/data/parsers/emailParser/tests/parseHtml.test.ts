@@ -2,8 +2,9 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import { describe, expect, it } from "vitest";
 
-import { ScheduleParser } from "~/ScheduleParser";
-import { buildEvent, buildHtml, buildMonthHeader } from "~/tests/htmlBuilders";
+import { ScheduleParser } from "~/data/parsers/emailParser/ScheduleParser";
+import { buildEvent, buildHtml, buildMonthHeader } from "~/data/parsers/emailParser/tests/htmlBuilders";
+
 
 dayjs.extend(timezone)
 

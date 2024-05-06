@@ -1,16 +1,17 @@
 import type { Cheerio, Element } from "cheerio";
 import * as cheerio from "cheerio";
+import dayjs from "dayjs";
 
 import EmailGig from "~/data/models/EmailGig";
-import { EventPart } from "~/data/models/types";
-import { EVENT_CELLS_COUNT, FIRST_MONTH_ROW_INDEX } from "~/data/parsers/emailParser/helpers-and-constants";
+import { EventPart, timeObj } from "~/data/models/types";
+import DateTime from "~/data/parsers/emailParser/DateTime";
+import {
+  EVENT_CELLS_COUNT,
+  FIRST_MONTH_ROW_INDEX,
+  getTimesFromOtherPartText,
+  userFirstName
+} from "~/data/parsers/emailParser/helpers-and-constants";
 import { isMonth, Month } from "~/data/parsers/emailParser/Month";
-
-
-interface EventPartData {
-  type: EventPart["type"];
-  rawTimeStr: string;
-}
 
 export default class EmailParser {
 
@@ -44,22 +45,48 @@ export default class EmailParser {
     year: number
   };
 
-  private currentGigData: Partial<{
-    dateParts: {
+  private currentGigData: {
+    dateParts?: {
       date: number, month: Month, year: number
-    },
-    parts: EventPartData[],
-    location: string,
-  }> | null = null;
+    } | undefined,
+    location?: string | undefined,
+    parts: EventPart[]
+  } | null = null;
 
   private parseRow(param: { atIndex: number; el: Element }) {
     const { atIndex: rowIndex, el } = param;
-    if (rowIndex < FIRST_MONTH_ROW_INDEX) return true;
+    if (rowIndex < FIRST_MONTH_ROW_INDEX) return;
     const row = this.$(el);
 
+    if (this.isRowMonthDivider(row)) return;
     if (this.parseMonthHeader(row)) return;
     if (this.parseGig(row)) return;
+    if (this.parseAdditionalParts(row)) return;
 
+    // Todo: THIS is where we should push the gig to the array?
+    //  Every matching in the row in the email should be one of the
+    //  above, so if we've not returned from any of those then we
+    //  should be at the end of the gig. RIGHT?!?!?!
+    // Note that rowsFromFetchedEmailBody gets the first table in the body,
+    //  and in july-august-only fixture (in other repo) it looks like the
+    //  actual data rows are inside a row inside this first table.
+    //  But it's possible that this is from Gmail UI and I already
+    //  updated the function to work with an API response.
+    this.addGigToList();
+
+    this.resetGig()
+  }
+
+  private addGigToList() {
+    // todo: I don't like these exclamation points.
+    this.gigs.push(EmailGig.makeWithParts({
+      parts: this.currentGigData!.parts!,
+      location: this.currentGigData!.location!
+    }));
+  }
+
+  private isRowMonthDivider(row: Cheerio<Element>) {
+    return row.text().includes('___________');
   }
 
   /**
@@ -92,6 +119,8 @@ export default class EmailParser {
     *   So hold off for now
     * */
 
+    this.resetGig();
+
     const [DATE, TIME, LOCATION] = [1, 3, 4]; // td indices
     tds.each((tdIndex, el) => {
       const text = cheerio.load(el)("td").text().trim();
@@ -107,10 +136,12 @@ export default class EmailParser {
           return this.parseLocation(text);
       }
     });
+
+    return true;
   }
 
   private parseDate(text: string) {
-    this.checkEvent("parseDate")
+    this.checkEvent("parseDate");
 
     const date = Number(text);
     if (!date) throw EmailParser.errors.couldntFindDate;
@@ -121,32 +152,82 @@ export default class EmailParser {
     };
   }
 
-  private getDateTimeStr(time: string) {
-    if (!this.currentGigData?.dateParts) {
-      throw EmailParser.errors.datePartsNotSet('getDateTimeStr')
-    }
-
-    const { date, month, year } = this.currentGigData.dateParts
-
-    // assuming events will never end past 12:59am
-    const am = time.split(':').shift()?.startsWith('12')
-    const dateStr = `${month} ${date + (am ? 1 : 0)} ${year} ${time} ${
-      am ? 'AM' : 'PM'
-    }`
-
-    // TODO before moving on:
-    //  get a UTC string and convert it to timezone?
-    //  or confidently make a correct date str?
-    //  and/or write the formatted date as a string???
-  }
-
   private parseReceptionTime(text: string) {
-    this.checkEvent("parseReceptionTime")
-    const [startTimeStr, endTimeStr] = text.split('-')
+    this.checkEvent("parseReceptionTime");
+    const [startTimeStr, endTimeStr] = text.split("-");
     if (!endTimeStr) throw "TODO error"; // todo
 
+    this.currentGigData!.parts = [{
+      type: "reception",
+      start: this.makeDate(startTimeStr),
+      end: this.makeDate(endTimeStr)
+    }];
+  }
 
+  private makeDate(s: string) {
+    this.checkEvent("makeDate");
+    if (!this.currentGigData!.dateParts) {
+      throw EmailParser.errors.datePartsNotSet("makeDate");
+    }
 
+    return DateTime.makeGoogleDateFromTime(s, this.currentGigData!.dateParts!);
+  }
+
+  private parseLocation(text: string) {
+    this.checkEvent("parseLocation");
+
+    this.currentGigData!.location =
+      text
+        .split(/\s\s+/) // split by large blocks of space (remove "CEC" leader)
+        .filter(Boolean) // remove in-between spaces
+        .pop()
+        ?.trim() ?? "COULD NOT PARSE LOCATION";
+  }
+
+  private parseAdditionalParts(row: Cheerio<Element>) {
+    this.checkEvent("parseAdditionalParts");
+
+    const rowText = row.text().trim();
+    if (rowText.startsWith("Ceremony")) {
+      this.parseCeremony(rowText);
+      return true;
+    } else if (rowText.startsWith("Cocktail")) {
+      this.parseCocktailHour(rowText);
+      return true;
+    }
+    return false;
+  }
+
+  private parseCeremony(text: string) {
+    if (!text.includes(userFirstName)) return;
+    this.checkEvent("parseCeremony");
+
+    const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
+    const { dateTime, timeZone } = this.makeDate(startTimeStr);
+    const writtenStartDay = dayjs(dateTime).tz(timeZone);
+    const actualStartDay = writtenStartDay.subtract(30, "minutes");
+
+    const ceremony: EventPart = {
+      type: "ceremony",
+      actualStart: timeObj(actualStartDay.format()),
+      start: this.makeDate(startTimeStr),
+      end: this.makeDate(endTimeStr)
+    };
+    this.currentGigData?.parts?.push(ceremony);
+  }
+
+  private parseCocktailHour(text: string) {
+    if (!text.includes(userFirstName)) return;
+    this.checkEvent("parseCocktailHour");
+
+    const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
+    const cocktailHourPart: EventPart = {
+      type: "cocktail hour",
+      start: this.makeDate(startTimeStr),
+      end: this.makeDate(endTimeStr)
+    };
+
+    this.currentGigData!.parts.push(cocktailHourPart);
   }
 
   private checkEvent(source: string) {
@@ -162,4 +243,10 @@ export default class EmailParser {
     noEventStarted: (source: string) => `Event is null (${source})`,
     datePartsNotSet: (source: string) => new Error(`Date Parts not set (${source})`)
   } as const;
+
+  private resetGig() {
+    this.currentGigData = {
+      parts: []
+    };
+  }
 }

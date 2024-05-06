@@ -1,5 +1,6 @@
 export const buildHtml = (...parts: string[]) => `
       <body><table>
+      <!-- needs a tbody? -->
       <tr></tr>
       <tr></tr>
       <tr></tr>
