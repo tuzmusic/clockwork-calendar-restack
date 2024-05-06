@@ -34,6 +34,7 @@ export default class EmailParser {
   }
 
   private parse() {
+    this.resetGig()
     const allScheduleRows = this.getRowsFromEmailBody();
     allScheduleRows.each((rowIndex, el) => {
       this.parseRow({ el, atIndex: rowIndex });
@@ -105,8 +106,7 @@ export default class EmailParser {
     const year = Number(yearStr);
     if (!year) return false;
 
-    this.currentDateMarker.month = month;
-    this.currentDateMarker.year = year;
+    this.currentDateMarker = { month, year };
     return true;
   }
 

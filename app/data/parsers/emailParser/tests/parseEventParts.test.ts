@@ -16,7 +16,8 @@ describe('Parsing event parts', () => {
           location,
         })
       )
-      const event = EmailParser.parseEmail(html).shift()!
+      const gigs = EmailParser.parseEmail(html);
+      const event = gigs.shift()!
 
       expect(event.getParts()).toHaveLength(1)
       const [reception] = event.getParts()
