@@ -43,4 +43,13 @@ describe("GigPart", () => {
     test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
     test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
   });
+
+  describe("Ceremony", () => {
+    const part = new Ceremony("2024-12-01T19:00:00-04:00", end);
+    test("type", () => expect(part.type).toEqual("ceremony"));
+    test("start", () => expect(part.startDateTime).toEqual(start));
+    test("end", () => expect(part.endDateTime).toEqual(end));
+    test("actualStart is 30 minutes before the start", () => expect(part.actualStart).toEqual("2024-12-01T18:30:00-04:00"));
+    test("actualEnd is the same as the end", () => expect(part.actualEnd).toEqual(end));
+  });
 });
