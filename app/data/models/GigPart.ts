@@ -9,7 +9,7 @@ export abstract class GigPart {
     public readonly startDateTime: string,
     public readonly endDateTime: string
   ) {
-    this.actualStart = null;
-    this.actualEnd = null;
+    this.actualStart = startDateTime;
+    this.actualEnd = endDateTime;
   }
 }

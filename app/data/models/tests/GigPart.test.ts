@@ -1,3 +1,5 @@
+import { TIME_ZONE } from "~/data/models/constants";
+import DayJsTz from "~/data/models/DayJsTz";
 import { GigPart } from "~/data/models/GigPart";
 import { end, start } from "~/data/models/tests/testConstants";
 
@@ -9,11 +11,23 @@ class Reception extends GigPart {
     super("reception", startDateTime, endDateTime);
   }
 }
+
 class CocktailHour extends GigPart {
   constructor(startDateTime: string, endDateTime: string) {
     super("cocktail hour", startDateTime, endDateTime);
   }
 }
+
+class Ceremony extends GigPart {
+  constructor(startDateTime: string, endDateTime: string) {
+    super("ceremony", startDateTime, endDateTime);
+    const writtenStartDay = DayJsTz(startDateTime).tz(TIME_ZONE)
+    const actualStartDay = writtenStartDay.subtract(30, 'minutes')
+    this.actualStart = actualStartDay.format()
+  }
+}
+
+
 
 describe("GigPart", () => {
   describe("base class", () => {
