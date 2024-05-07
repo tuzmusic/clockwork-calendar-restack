@@ -21,8 +21,9 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("reception"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is null by default", () => expect(part.actualStart).toBeNull());
-    test("actualEnd is null by default", () => expect(part.actualEnd).toBeNull());
+    // todo: actualStart should actually be equal to start
+    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
   });
 
   describe("Reception", () => {
@@ -30,8 +31,8 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("reception"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is null", () => expect(part.actualStart).toBeNull());
-    test("actualEnd is null", () => expect(part.actualEnd).toBeNull());
+    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
   });
 
   describe("Cocktail Hour", () => {
@@ -39,7 +40,7 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("cocktail hour"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is null", () => expect(part.actualStart).toBeNull());
-    test("actualEnd is null", () => expect(part.actualEnd).toBeNull());
+    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
   });
 });
