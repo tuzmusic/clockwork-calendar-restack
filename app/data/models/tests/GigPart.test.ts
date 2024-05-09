@@ -1,7 +1,7 @@
 import { Ceremony } from "~/data/models/GigParts/Ceremony";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart } from "~/data/models/GigParts/GigPart";
-import { Reception } from "~/data/models/Reception";
+import { Reception } from "~/data/models/GigParts/Reception";
 import { end, start } from "~/data/models/tests/testConstants";
 
 class GigPartImpl extends GigPart {
@@ -13,8 +13,8 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("reception"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
-    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
+    test("actualStart is equal to the start", () => expect(part.actualStartDateTime).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEndDateTime).toEqual(end));
   });
 
   describe("Reception", () => {
@@ -22,8 +22,8 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("reception"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
-    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
+    test("actualStart is equal to the start", () => expect(part.actualStartDateTime).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEndDateTime).toEqual(end));
   });
 
   describe("Cocktail Hour", () => {
@@ -31,8 +31,8 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("cocktail hour"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
-    test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
+    test("actualStart is equal to the start", () => expect(part.actualStartDateTime).toEqual(start));
+    test("actualEnd is equal to the end", () => expect(part.actualEndDateTime).toEqual(end));
   });
 
   describe("Ceremony", () => {
@@ -40,10 +40,10 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("ceremony"));
     test("start", () => expect(part.startDateTime).toEqual("2024-06-01T23:00:00Z"));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualEnd is the same as the end", () => expect(part.actualEnd).toEqual(end));
+    test("actualEnd is the same as the end", () => expect(part.actualEndDateTime).toEqual(end));
 
     test("actualStart is 30 minutes before the start", () => {
-      expect(part.actualStart).toEqual("2024-06-01T18:30:00-04:00")
+      expect(part.actualStartDateTime).toEqual("2024-06-01T18:30:00-04:00")
     });
   });
 });

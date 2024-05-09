@@ -8,6 +8,6 @@ export class Ceremony extends GigPart {
 
     const writtenStartDay = DayJsTz(startDateTime);
     const actualStartDay = writtenStartDay.subtract(30, "minutes");
-    this.actualStart = actualStartDay.tz(TIME_ZONE).format();
+    this.actualStartDateTime = actualStartDay.tz(TIME_ZONE).format();
   }
 }

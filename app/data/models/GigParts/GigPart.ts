@@ -1,15 +1,15 @@
 import { GigPartType } from "~/data/models/types";
 
 export abstract class GigPart {
-  public actualStart: string | null;
-  public actualEnd: string | null;
+  public actualStartDateTime: string | null;
+  public actualEndDateTime: string | null;
 
   public constructor(
     public readonly type: GigPartType,
     public readonly startDateTime: string,
     public readonly endDateTime: string
   ) {
-    this.actualStart = startDateTime;
-    this.actualEnd = endDateTime;
+    this.actualStartDateTime = startDateTime;
+    this.actualEndDateTime = endDateTime;
   }
 }
