@@ -6,6 +6,7 @@ export class GigTimeline {
   }
 
   private constructor(private parts: GigPart[]) {
+
   }
 
   public addPart(part: GigPart) {
@@ -31,7 +32,12 @@ export class GigTimeline {
     return this.parts.slice(-1).pop()?.endDateTime;
   }
 
-  static make(initialPart?: GigPart): GigTimeline {
-    return new GigTimeline(initialPart ? [initialPart] : []);
+  static make(initialParts: GigPart[] = []): GigTimeline {
+    if (!initialParts.length) return new GigTimeline([])
+
+    const [firstPart, ...parts] = initialParts
+    const timeline = new GigTimeline([firstPart])
+    parts.forEach(p => timeline.addPart(p))
+    return timeline
   }
 }
