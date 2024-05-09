@@ -27,8 +27,6 @@ class Ceremony extends GigPart {
   }
 }
 
-
-
 describe("GigPart", () => {
   describe("base class", () => {
     const part = new GigPartImpl("reception", start, end);

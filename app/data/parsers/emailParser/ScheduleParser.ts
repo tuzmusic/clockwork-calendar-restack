@@ -13,8 +13,8 @@ import {
   setStartTimeFromOtherPartTimeString,
   userFirstName
 } from "~/data/parsers/emailParser/helpers-and-constants";
+import { isMonth, Month } from "~/data/parsers/emailParser/Month";
 
-import { isMonth, Month } from ",/Month";
 
 dayjs.extend(timezone)
 dayjs.extend(utc)
