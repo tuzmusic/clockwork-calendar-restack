@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-
-import CalendarGig from "~/data/models/CalendarGig";
 import { LOCATIONS } from "~/data/models/constants";
+import Gig from "~/data/models/Gig";
 import { DistanceData, EventPart } from "~/data/models/types";
 import { formatDuration } from "~/data/models/utilityFunctions";
 import CalendarService from "~/data/services/CalendarService";
@@ -10,7 +9,7 @@ import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 
-export default class FullCalendarGig extends CalendarGig {
+export default class FullCalendarGig extends Gig {
   private distanceService: DistanceService;
 
   public static makeFromValues(
@@ -96,7 +95,7 @@ export default class FullCalendarGig extends CalendarGig {
   }
 
   public static async makeFromBasicCalendarGig(
-    basicGig: CalendarGig,
+    basicGig: Gig,
     distanceService = new DistanceService()
   ) {
     const location = basicGig.getLocation();

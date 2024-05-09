@@ -29,7 +29,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
+            const emailGig = EmailGig.make({ location, parts: mockParts });
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -71,7 +71,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
+            const emailGig = EmailGig.make({ location, parts: mockParts });
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -117,7 +117,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
+            const emailGig = EmailGig.make({ location: updatedLocation, parts: mockParts });
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -157,7 +157,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts: mockParts });
+            const emailGig = EmailGig.make({ location: updatedLocation, parts: mockParts });
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -195,7 +195,7 @@ describe("EventRow", () => {
       describe("Email gig only", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const emailGig = EmailGig.makeWithParts({ location, parts: mockParts });
+            const emailGig = EmailGig.make({ location, parts: mockParts });
             const row = EventRow.buildRow(emailGig, undefined, distanceService);
             expect(row).instanceof(EventRow);
             return await use(row);
@@ -241,7 +241,7 @@ describe("EventRow", () => {
       });
 
       it("is false if there are no changes in parts or locations", () => {
-        const emailGig = EmailGig.makeWithParts({ location, parts });
+        const emailGig = EmailGig.make({ location, parts });
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.locationHasChanged).toBe(false);
         expect(row.partsHaveChanged).toBe(false);
@@ -249,7 +249,7 @@ describe("EventRow", () => {
       });
 
       it("is true if the two gigs have different locations", () => {
-        const emailGig = EmailGig.makeWithParts({ location: updatedLocation, parts });
+        const emailGig = EmailGig.make({ location: updatedLocation, parts });
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.locationHasChanged).toBe(true);
         expect(row.hasChanged).toBe(true);
@@ -270,7 +270,7 @@ describe("EventRow", () => {
           ...parts
         ]]
       ])("is true if %s", (_, emailParts) => {
-        const emailGig = EmailGig.makeWithParts({ location, parts: emailParts });
+        const emailGig = EmailGig.make({ location, parts: emailParts });
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.partsHaveChanged).toBe(true);
         expect(row.hasChanged).toBe(true);

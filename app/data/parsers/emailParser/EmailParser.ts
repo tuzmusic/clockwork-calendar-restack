@@ -77,7 +77,7 @@ export default class EmailParser {
 
   private addGigToList() {
     // todo: I don't like these exclamation points.
-    this.gigs.push(EmailGig.makeWithParts({
+    this.gigs.push(EmailGig.make({
       parts: this.currentGigData!.parts!,
       location: this.currentGigData!.location!
     }));

@@ -19,7 +19,7 @@ function makeStartAndEndDateTimes({ dayNumber }: { dayNumber: number }) {
 describe("Schedule", () => {
   describe("Schedule.build", () => {
     it("matches an email event with a google event", () => {
-      const emailGig = EmailGig.makeWithParts({ location: "somewhere", parts: mockParts });
+      const emailGig = EmailGig.make({ location: "somewhere", parts: mockParts });
       const remoteGig = GoogleGig.make({
         start: { dateTime: start },
         end: { dateTime: end },
@@ -42,7 +42,7 @@ describe("Schedule", () => {
     });
 
     it("handles a new email event (with no matching google event", () => {
-      const emailGig = EmailGig.makeWithParts({ location: "somewhere", parts: mockParts });
+      const emailGig = EmailGig.make({ location: "somewhere", parts: mockParts });
 
       const schedule = Schedule.build({
           emailGigs: [emailGig],
