@@ -1,7 +1,7 @@
 import type { Cheerio, Element } from "cheerio";
 import * as cheerio from "cheerio";
-import dayjs from "dayjs";
 
+import DayJsTz from "~/data/models/DayJsTz";
 import EmailGig from "~/data/models/EmailGig";
 import { EventPart, timeObj } from "~/data/models/types";
 import DateTime from "~/data/parsers/emailParser/DateTime";
@@ -200,8 +200,8 @@ export default class EmailParser {
     this.checkEvent("parseCeremony");
 
     const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
-    const { dateTime, timeZone } = this.makeDate(startTimeStr);
-    const writtenStartDay = dayjs(dateTime).tz(timeZone);
+    const { dateTime } = this.makeDate(startTimeStr);
+    const writtenStartDay = DayJsTz(dateTime)
     const actualStartDay = writtenStartDay.subtract(30, "minutes");
 
     const ceremony: EventPart = {

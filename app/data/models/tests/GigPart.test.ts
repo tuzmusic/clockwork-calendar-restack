@@ -1,30 +1,10 @@
-import { TIME_ZONE } from "~/data/models/constants";
-import DayJsTz from "~/data/models/DayJsTz";
-import { GigPart } from "~/data/models/GigPart";
+import { Ceremony } from "~/data/models/GigParts/Ceremony";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { GigPart } from "~/data/models/GigParts/GigPart";
+import { Reception } from "~/data/models/Reception";
 import { end, start } from "~/data/models/tests/testConstants";
 
 class GigPartImpl extends GigPart {
-}
-
-class Reception extends GigPart {
-  constructor(startDateTime: string, endDateTime: string) {
-    super("reception", startDateTime, endDateTime);
-  }
-}
-
-class CocktailHour extends GigPart {
-  constructor(startDateTime: string, endDateTime: string) {
-    super("cocktail hour", startDateTime, endDateTime);
-  }
-}
-
-class Ceremony extends GigPart {
-  constructor(startDateTime: string, endDateTime: string) {
-    super("ceremony", startDateTime, endDateTime);
-    const writtenStartDay = DayJsTz(startDateTime).tz(TIME_ZONE)
-    const actualStartDay = writtenStartDay.subtract(30, 'minutes')
-    this.actualStart = actualStartDay.tz(TIME_ZONE).format()
-  }
 }
 
 describe("GigPart", () => {
