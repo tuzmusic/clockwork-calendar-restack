@@ -23,7 +23,7 @@ class Ceremony extends GigPart {
     super("ceremony", startDateTime, endDateTime);
     const writtenStartDay = DayJsTz(startDateTime).tz(TIME_ZONE)
     const actualStartDay = writtenStartDay.subtract(30, 'minutes')
-    this.actualStart = actualStartDay.format()
+    this.actualStart = actualStartDay.tz(TIME_ZONE).format()
   }
 }
 
@@ -35,7 +35,6 @@ describe("GigPart", () => {
     test("type", () => expect(part.type).toEqual("reception"));
     test("start", () => expect(part.startDateTime).toEqual(start));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    // todo: actualStart should actually be equal to start
     test("actualStart is equal to the start", () => expect(part.actualStart).toEqual(start));
     test("actualEnd is equal to the end", () => expect(part.actualEnd).toEqual(end));
   });
@@ -59,11 +58,14 @@ describe("GigPart", () => {
   });
 
   describe("Ceremony", () => {
-    const part = new Ceremony("2024-12-01T19:00:00-04:00", end);
+    const part = new Ceremony("2024-06-01T23:00:00Z", end);
     test("type", () => expect(part.type).toEqual("ceremony"));
-    test("start", () => expect(part.startDateTime).toEqual(start));
+    test("start", () => expect(part.startDateTime).toEqual("2024-06-01T23:00:00Z"));
     test("end", () => expect(part.endDateTime).toEqual(end));
-    test("actualStart is 30 minutes before the start", () => expect(part.actualStart).toEqual("2024-12-01T18:30:00-04:00"));
     test("actualEnd is the same as the end", () => expect(part.actualEnd).toEqual(end));
+
+    test("actualStart is 30 minutes before the start", () => {
+      expect(part.actualStart).toEqual("2024-06-01T18:30:00-04:00")
+    });
   });
 });
