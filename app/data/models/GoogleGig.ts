@@ -32,7 +32,7 @@ export default class GoogleGig extends Gig {
         gig.routeInfo = JSON.parse(extendedProps.distanceInfo);
       }
       if (extendedProps.parts) {
-        gig.parts = JSON.parse(extendedProps.parts);
+        gig.timeline = JSON.parse(extendedProps.parts);
       }
     }
 

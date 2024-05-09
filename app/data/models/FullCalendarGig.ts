@@ -43,7 +43,7 @@ export default class FullCalendarGig extends CalendarGig {
     distanceService: DistanceService
   }) {
     super(location, startDateTimeStr, endDateTimeStr, isNew);
-    this.parts = parts ?? [];
+    this.timeline = parts ?? [];
     this.distanceService = distanceService;
   }
 

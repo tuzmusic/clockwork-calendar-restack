@@ -10,7 +10,7 @@ export default class EmailGig extends Gig {
     location: string
   }) {
     const gig = new this(location, parts[0].start.dateTime, parts[0].end.dateTime);
-    gig.parts = parts;
+    gig.timeline = parts;
     return gig;
   }
 

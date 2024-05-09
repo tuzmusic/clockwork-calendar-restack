@@ -1,24 +1,17 @@
-import { EventPart, timeObj, TimeObj } from "~/data/models/types";
+import { GigPart } from "~/data/models/GigParts/GigPart";
+import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 
 export default abstract class Gig {
-  protected dateTime: {
-    start: TimeObj, end: TimeObj
-  };
-
   private readonly id: string;
-  protected parts: EventPart[] = [];
+  protected timeline: GigTimeline;
 
-  protected constructor(protected location: string, startDateTimeStr: string, endDateTimeStr: string) {
-    this.dateTime = {
-      start: timeObj(startDateTimeStr),
-      end: timeObj(endDateTimeStr)
-    };
-
-    this.id = startDateTimeStr.split("T")[0];
+  protected constructor(protected location: string, parts: GigPart[]) {
+    this.timeline = GigTimeline.make(parts);
+    this.id = this.timeline.getStart().split("T")[0];
   }
 
   public getParts() {
-    return this.parts;
+    return this.timeline.getParts();
   }
 
   public getId() {
@@ -30,12 +23,10 @@ export default abstract class Gig {
   }
 
   public getStartTime() {
-    // todo: parts shouldn't be nullable...
-    const parts = this.parts!
-    return parts[0].actualStart ?? parts[0].start
+    return this.timeline.getStart();
   }
 
   public getEndTime() {
-    return this.dateTime.end;
+    return this.timeline.getEnd();
   }
 }

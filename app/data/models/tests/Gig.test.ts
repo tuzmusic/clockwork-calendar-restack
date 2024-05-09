@@ -1,38 +1,39 @@
 import Gig from "~/data/models/Gig";
-import { mockParts } from "~/data/models/tests/testConstants";
-import { EventPart } from "~/data/models/types";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { GigPart } from "~/data/models/GigParts/GigPart";
+import { Reception } from "~/data/models/GigParts/Reception";
 
-const start = "2024-12-01T19:00:00-04:00";
-const end = "2024-12-01T23:00:00-04:00";
+const laterTime = "2024-12-01T19:00:00-04:00";
+const earlierTime = "2024-12-01T18:00:00-04:00";
+const finalTime = "2024-12-01T21:00:00-04:00";
+
+const reception = new Reception(laterTime, finalTime);
+const cocktailHour = new CocktailHour(earlierTime, laterTime);
 
 describe("Gig abstract class", () => {
   class GigImpl extends Gig {
-    public static make(location: string, startDateTimeStr: string, endDateTimeStr: string) {
-      return new this(location, startDateTimeStr, endDateTimeStr);
-    }
-
-    public setParts(parts: EventPart[]) {
-      this.parts = parts;
+    public static make(location: string, parts: GigPart[]) {
+      return new this(location, parts);
     }
   }
 
   describe("public data", () => {
-    const gig = GigImpl.make("somewhere", start, end);
+    const gig = GigImpl.make("somewhere", [cocktailHour, reception]);
 
     it("has a location", () => {
       expect(gig.getLocation()).toEqual("somewhere");
     });
 
     it("has parts", () => {
-      gig.setParts(mockParts)
+      expect(gig.getParts()).toEqual(expect.arrayContaining([cocktailHour, reception]))
     });
 
     it("has a start time that is the start time of its first part", () => {
-      expect(gig.getStartTime().dateTime).toEqual(start);
+      expect(gig.getStartTime()).toEqual(earlierTime);
     });
 
     it("has an start time", () => {
-      expect(gig.getEndTime().dateTime).toEqual(end);
+      expect(gig.getEndTime()).toEqual(finalTime);
     });
 
     it("has an id based on its start date", () => {

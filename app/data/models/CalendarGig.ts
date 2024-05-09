@@ -44,7 +44,7 @@ export default class CalendarGig extends Gig {
     }
   ) {
     const calendarGig = new this(location, startDateTimeStr, endDateTimeStr, isNew);
-    calendarGig.parts = parts ?? null
+    calendarGig.timeline = parts ?? null
     return calendarGig;
   }
 
