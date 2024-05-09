@@ -1,9 +1,17 @@
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 import { TimeObj } from "~/data/models/types";
 
+dayjs.extend(timezone);
+dayjs.extend(utc);
+
 export default class DateTime {
-  public static makeGoogleDateFromTime(timeStr: string, dateParts: { date: number, month: string, year: number }) {
+  public static makeGoogleDateFromTime(
+    timeStr: string,
+    dateParts: { date: number, month: string, year: number }
+  ) {
     const { date, month, year } = dateParts;
 
     // we assume that all events start after 1pm,
