@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+
 import { LOCATIONS } from "~/data/models/constants";
 import Gig from "~/data/models/Gig";
 import { DistanceData, EventPart } from "~/data/models/types";
@@ -92,20 +93,6 @@ export default class FullCalendarGig extends Gig {
         to: this.location
       })
     };
-  }
-
-  public static async makeFromBasicCalendarGig(
-    basicGig: Gig,
-    distanceService = new DistanceService()
-  ) {
-    const location = basicGig.getLocation();
-    const startTime = basicGig.getStartTime().dateTime;
-    const endTime = basicGig.getEndTime().dateTime;
-    const isNew = basicGig.isNew;
-
-    return new FullCalendarGig(
-      { location, startDateTimeStr: startTime, endDateTimeStr: endTime, isNew, distanceService }
-    );
   }
 
   public async store(calendarService = new CalendarService()) {
