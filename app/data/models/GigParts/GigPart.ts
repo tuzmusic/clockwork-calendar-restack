@@ -1,8 +1,16 @@
 import { GigPartType } from "~/data/models/types";
 
+export interface GigPartJSON {
+  type: GigPartType;
+  startDateTime: string;
+  endDateTime: string;
+  actualStartDateTime: string;
+  actualEndDateTime: string;
+}
+
 export abstract class GigPart {
-  public actualStartDateTime: string | null;
-  public actualEndDateTime: string | null;
+  public actualStartDateTime: string;
+  public actualEndDateTime: string;
 
   public constructor(
     public readonly type: GigPartType,
@@ -11,5 +19,16 @@ export abstract class GigPart {
   ) {
     this.actualStartDateTime = startDateTime;
     this.actualEndDateTime = endDateTime;
+  }
+
+  public serialize(): GigPartJSON {
+    const { type, actualEndDateTime, actualStartDateTime, endDateTime, startDateTime } = this;
+    return {
+      type,
+      startDateTime,
+      endDateTime,
+      actualStartDateTime,
+      actualEndDateTime
+    };
   }
 }

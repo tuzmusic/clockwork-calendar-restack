@@ -43,7 +43,21 @@ describe("GigPart", () => {
     test("actualEnd is the same as the end", () => expect(part.actualEndDateTime).toEqual(end));
 
     test("actualStart is 30 minutes before the start", () => {
-      expect(part.actualStartDateTime).toEqual("2024-06-01T18:30:00-04:00")
+      expect(part.actualStartDateTime).toEqual("2024-06-01T18:30:00-04:00");
+    });
+  });
+
+  describe("Serialization", () => {
+    it("serializes with all its props", () => {
+
+      const part = new Reception(start, end);
+      expect(part.serialize()).toEqual({
+        type: "reception",
+        startDateTime: start,
+        endDateTime: end,
+        actualStartDateTime: start,
+        actualEndDateTime: end
+      });
     });
   });
 });
