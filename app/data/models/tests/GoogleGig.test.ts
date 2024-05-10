@@ -20,9 +20,15 @@ describe("GoogleGig.make", () => {
       expect(gig.getId()).toEqual("2024-12-01");
     });
 
-    it("has the extendedProperties as null", () => {
+    it("has the route info as null", () => {
       expect(gig.getRouteInfo()).toBeNull();
-      expect(gig.getEventParts()).toBeNull();
+    });
+
+    it("makes a reception with the start and end times", () => {
+      const [part] = gig.getParts()
+      expect(part.type).toEqual('reception')
+      expect(part.startDateTime).toEqual(start)
+      expect(part.endDateTime).toEqual(end)
     });
   });
 
@@ -53,13 +59,13 @@ describe("GoogleGig.make", () => {
         location,
         extendedProperties: {
           private: {
-            parts: JSON.stringify([mockParts])
+            parts: JSON.stringify(mockParts)
           }
         }
       };
 
       const gig = GoogleGig.make(mockData);
-      expect(gig.getParts()).toEqual([mockParts]);
+      expect(gig.getParts().map(p => p.serialize())).toEqual([mockParts]);
     });
   });
 });
