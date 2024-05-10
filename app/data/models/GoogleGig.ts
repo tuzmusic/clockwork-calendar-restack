@@ -1,7 +1,8 @@
 import { calendar_v3 } from "googleapis";
 
 import Gig from "~/data/models/Gig";
-import { DistanceData, TimeObj } from "~/data/models/types";
+import { Reception } from "~/data/models/GigParts/Reception";
+import { DistanceData } from "~/data/models/types";
 
 export default class GoogleGig extends Gig {
   private routeInfo: Record<string, DistanceData> | null = null;
@@ -14,8 +15,17 @@ export default class GoogleGig extends Gig {
     return null;
   }
 
-  public getStartTime(): TimeObj {
+  public getStartTime(): string {
     return this.dateTime.start;
+  }
+
+  private constructor(location: string, start: string, end: string) {
+    const fakePart = new Reception(start, end);
+    super(location, [fakePart]);
+  }
+
+  private makeParts(json: any) {
+
   }
 
   static make(json: calendar_v3.Schema$Event) {

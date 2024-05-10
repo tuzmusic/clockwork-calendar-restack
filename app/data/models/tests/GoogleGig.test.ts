@@ -15,8 +15,8 @@ describe("GoogleGig.make", () => {
 
     it("returns a simple gig", () => {
       expect(gig.getLocation()).toEqual(location);
-      expect(gig.getStartTime().dateTime).toEqual(start);
-      expect(gig.getEndTime().dateTime).toEqual(end);
+      expect(gig.getStartTime()).toEqual(start);
+      expect(gig.getEndTime()).toEqual(end);
       expect(gig.getId()).toEqual("2024-12-01");
     });
 

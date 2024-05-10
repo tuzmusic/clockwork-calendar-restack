@@ -16,6 +16,12 @@ export const mockDistanceData = {
   fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
 } satisfies Record<string, DistanceData>;
 
+export const laterTime = "2024-12-01T19:00:00-04:00";
+export const earlierTime = "2024-12-01T18:00:00-04:00";
+export const finalTime = "2024-12-01T21:00:00-04:00";
+export const receptionPart = new Reception(laterTime, finalTime);
+export const cocktailHourPart = new CocktailHour(earlierTime, laterTime);
+
 export const mockParts: EventPart[] = [
   {
     type: "reception",
@@ -23,8 +29,3 @@ export const mockParts: EventPart[] = [
     end: timeObj(end)
   }
 ]
-export const laterTime = "2024-12-01T19:00:00-04:00";
-export const earlierTime = "2024-12-01T18:00:00-04:00";
-export const finalTime = "2024-12-01T21:00:00-04:00";
-export const receptionPart = new Reception(laterTime, finalTime);
-export const cocktailHourPart = new CocktailHour(earlierTime, laterTime);
