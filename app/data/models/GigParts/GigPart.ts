@@ -4,8 +4,8 @@ export interface GigPartJSON {
   type: GigPartType;
   startDateTime: string;
   endDateTime: string;
-  actualStartDateTime: string;
-  actualEndDateTime: string;
+  actualStartDateTime?: string;
+  actualEndDateTime?: string;
 }
 
 export abstract class GigPart {
@@ -21,7 +21,7 @@ export abstract class GigPart {
     this.actualEndDateTime = endDateTime;
   }
 
-  public serialize(): GigPartJSON {
+  public serialize() {
     const { type, actualEndDateTime, actualStartDateTime, endDateTime, startDateTime } = this;
     return {
       type,
@@ -29,6 +29,6 @@ export abstract class GigPart {
       endDateTime,
       actualStartDateTime,
       actualEndDateTime
-    };
+    } satisfies GigPartJSON;
   }
 }

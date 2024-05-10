@@ -1,5 +1,6 @@
 import { calendar_v3 } from "googleapis";
 
+import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import GoogleGig from "~/data/models/GoogleGig";
 import { end, location, mockDistanceData, mockParts, start } from "~/data/models/tests/testConstants";
 
@@ -25,10 +26,10 @@ describe("GoogleGig.make", () => {
     });
 
     it("makes a reception with the start and end times", () => {
-      const [part] = gig.getParts()
-      expect(part.type).toEqual('reception')
-      expect(part.startDateTime).toEqual(start)
-      expect(part.endDateTime).toEqual(end)
+      const [part] = gig.getParts();
+      expect(part.type).toEqual("reception");
+      expect(part.startDateTime).toEqual(start);
+      expect(part.endDateTime).toEqual(end);
     });
   });
 
@@ -65,7 +66,15 @@ describe("GoogleGig.make", () => {
       };
 
       const gig = GoogleGig.make(mockData);
-      expect(gig.getParts().map(p => p.serialize())).toEqual([mockParts]);
+
+      const actualJson = gig.getParts().map(p => p.serialize());
+      const mockPartsFullJson = mockParts.map(p => ({
+        ...p,
+        actualStartDateTime: p.startDateTime,
+        actualEndDateTime: p.endDateTime
+      } satisfies GigPartJSON));
+
+      expect(actualJson).toEqual(mockPartsFullJson);
     });
   });
 });

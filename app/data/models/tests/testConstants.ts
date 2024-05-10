@@ -1,6 +1,7 @@
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
-import { DistanceData, EventPart, timeObj } from "~/data/models/types";
+import { DistanceData } from "~/data/models/types";
 
 export const location = "wherever";
 
@@ -22,10 +23,10 @@ export const finalTime = "2024-12-01T21:00:00-04:00";
 export const receptionPart = new Reception(laterTime, finalTime);
 export const cocktailHourPart = new CocktailHour(earlierTime, laterTime);
 
-export const mockParts: EventPart[] = [
+export const mockParts = [
   {
     type: "reception",
-    start: timeObj(start),
-    end: timeObj(end)
+    startDateTime: start,
+    endDateTime: end,
   }
-]
+] satisfies GigPartJSON[]

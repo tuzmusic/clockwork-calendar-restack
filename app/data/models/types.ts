@@ -20,10 +20,10 @@ export interface DistanceData {
 
 export interface EventPart {
   type: 'reception' | 'cocktail hour' | 'ceremony'
-  start: TimeObj
-  end: TimeObj
-  actualStart?: TimeObj
-  actualEnd?: TimeObj
+  start: string
+  end: string
+  actualStart?: string
+  actualEnd?: string
 }
 
 export type GigPartType = "reception" | "cocktail hour" | "ceremony"
