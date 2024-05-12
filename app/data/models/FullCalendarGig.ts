@@ -15,25 +15,29 @@ export default class FullCalendarGig extends Gig {
   private distanceService: DistanceService;
 
   public static makeFromValues(
-    { location, parts, distanceService = new DistanceService() }: {
+    { location, parts, distanceService = new DistanceService(), isNew = false }: {
       location: string,
       parts?: GigPart[] | null,
       distanceService?: DistanceService
+      isNew?: boolean
     }
   ) {
     return new FullCalendarGig({
-      location,
-      parts,
-      distanceService
-    });
+        location,
+        parts,
+        distanceService
+      },
+      isNew
+    );
   }
+
 
 
   protected constructor({ location, parts, distanceService }: {
     location: string,
     parts?: GigPart[] | null,
     distanceService: DistanceService
-  }) {
+  }, public readonly isNew: boolean) {
     super(location, parts ?? []);
     this.distanceService = distanceService;
   }
