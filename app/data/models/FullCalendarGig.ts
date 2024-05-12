@@ -3,7 +3,8 @@ import duration from "dayjs/plugin/duration";
 
 import { LOCATIONS } from "~/data/models/constants";
 import Gig from "~/data/models/Gig";
-import { DistanceData, EventPart } from "~/data/models/types";
+import { GigPart } from "~/data/models/GigParts/GigPart";
+import { DistanceData, timeObj } from "~/data/models/types";
 import { formatDuration } from "~/data/models/utilityFunctions";
 import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
@@ -14,36 +15,26 @@ export default class FullCalendarGig extends Gig {
   private distanceService: DistanceService;
 
   public static makeFromValues(
-    { location, startDateTimeStr, endDateTimeStr, parts, isNew, distanceService = new DistanceService() }: {
+    { location, parts, distanceService = new DistanceService() }: {
       location: string,
-      startDateTimeStr: string,
-      endDateTimeStr: string,
-      isNew: boolean,
-      parts?: EventPart[] | null,
+      parts?: GigPart[] | null,
       distanceService?: DistanceService
     }
   ) {
     return new FullCalendarGig({
       location,
-      startDateTimeStr,
-      endDateTimeStr,
-      isNew,
       parts,
       distanceService
     });
   }
 
 
-  protected constructor({ location, startDateTimeStr, endDateTimeStr, parts, isNew, distanceService }: {
+  protected constructor({ location, parts, distanceService }: {
     location: string,
-    startDateTimeStr: string,
-    endDateTimeStr: string,
-    parts?: EventPart[] | null,
-    isNew: boolean,
+    parts?: GigPart[] | null,
     distanceService: DistanceService
   }) {
-    super(location, startDateTimeStr, endDateTimeStr, isNew);
-    this.timeline = parts ?? [];
+    super(location, parts ?? []);
     this.distanceService = distanceService;
   }
 
@@ -98,11 +89,12 @@ export default class FullCalendarGig extends Gig {
   public async store(calendarService = new CalendarService()) {
     await calendarService.post({
       location: this.location,
-      start: this.getStartTime(),
-      end: this.getEndTime(),
+      start: timeObj(this.getStartTime()),
+      end: timeObj(this.getEndTime()),
       extendedProperties: {
         private: {
           distanceInfo: JSON.stringify(this.getRouteInfo())
+
         }
       }
     });
