@@ -1,9 +1,11 @@
 import type { Cheerio, Element } from "cheerio";
 import * as cheerio from "cheerio";
 
-import DayJsTz from "~/data/models/DayJsTz";
 import EmailGig from "~/data/models/EmailGig";
-import { EventPart, timeObj } from "~/data/models/types";
+import { Ceremony } from "~/data/models/GigParts/Ceremony";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { GigPart } from "~/data/models/GigParts/GigPart";
+import { Reception } from "~/data/models/GigParts/Reception";
 import DateTime from "~/data/parsers/emailParser/DateTime";
 import {
   EVENT_CELLS_COUNT,
@@ -18,7 +20,7 @@ interface InProcessGigData {
     date: number, month: Month, year: number
   } | undefined,
   location?: string | undefined,
-  parts: EventPart[]
+  parts: GigPart[]
 }
 
 export default class EmailParser {
@@ -154,11 +156,12 @@ export default class EmailParser {
     const [startTimeStr, endTimeStr] = text.split("-");
     if (!endTimeStr) throw "TODO error"; // todo
 
-    this.currentGigData!.parts = [{
-      type: "reception",
-      start: this.makeDate(startTimeStr),
-      end: this.makeDate(endTimeStr)
-    }];
+    this.currentGigData!.parts = [
+      new Reception(
+        this.makeDate(startTimeStr).dateTime,
+        this.makeDate(endTimeStr).dateTime
+      )
+    ];
   }
 
   private makeDate(s: string) {
@@ -200,24 +203,15 @@ export default class EmailParser {
     this.checkEvent("parseCeremony");
 
     const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
-    const { dateTime } = this.makeDate(startTimeStr);
-    const writtenStartDay = DayJsTz(dateTime);
-    const actualStartDay = writtenStartDay.subtract(30, "minutes");
 
-    const ceremony: EventPart = {
-      type: "ceremony",
-      actualStart: timeObj(actualStartDay.format()),
-      start: this.makeDate(startTimeStr),
-      end: this.makeDate(endTimeStr)
-    };
-    this.addPartAndSort(ceremony);
+    this.addPart(new Ceremony(
+      this.makeDate(startTimeStr).dateTime,
+      this.makeDate(endTimeStr).dateTime
+    ));
   }
 
-  private addPartAndSort(part: EventPart) {
+  private addPart(part: GigPart) {
     this.currentGigData?.parts?.push(part);
-    this.currentGigData?.parts?.sort((a, b) =>
-      (a.start.dateTime > b.start.dateTime ? 1 : -1)
-    );
   }
 
   private parseCocktailHour(text: string) {
@@ -225,13 +219,11 @@ export default class EmailParser {
     this.checkEvent("parseCocktailHour");
 
     const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
-    const cocktailHourPart: EventPart = {
-      type: "cocktail hour",
-      start: this.makeDate(startTimeStr),
-      end: this.makeDate(endTimeStr)
-    };
 
-    this.addPartAndSort(cocktailHourPart);
+    this.addPart(new CocktailHour(
+      this.makeDate(startTimeStr).dateTime,
+      this.makeDate(endTimeStr).dateTime
+    ));
   }
 
   private checkEvent(source: string): asserts this is this & { currentGigData: InProcessGigData } {
