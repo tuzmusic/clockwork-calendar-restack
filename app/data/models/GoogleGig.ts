@@ -10,13 +10,28 @@ import { DistanceData } from "~/data/models/types";
 
 export default class GoogleGig extends SimpleGig {
   private routeInfo: Record<string, DistanceData> | null = null;
+  private readonly partsJson: GigPartJSON[] | null = null;
 
   public getRouteInfo() {
     return this.routeInfo;
   }
 
-  private constructor(location: string, start: string, end: string) {
-    super(location, start, end);
+  private constructor(private googleJson: calendar_v3.Schema$Event) {
+    super(
+      googleJson.location!,
+      googleJson.start!.dateTime!,
+      googleJson.end!.dateTime!
+    );
+    const extendedProps = googleJson.extendedProperties?.private;
+
+    if (extendedProps) {
+      if (extendedProps.distanceInfo) {
+        this.routeInfo = JSON.parse(extendedProps.distanceInfo);
+      }
+      if (extendedProps.parts) {
+        this.partsJson = JSON.parse(extendedProps.parts) as GigPartJSON[];
+      }
+    }
   }
 
   private makePartsFromJson(partsJson: GigPartJSON[]) {
@@ -31,28 +46,11 @@ export default class GoogleGig extends SimpleGig {
       }
     });
 
-    return GigTimeline.make(parts)
+    return GigTimeline.make(parts);
   }
 
+
   static make(json: calendar_v3.Schema$Event) {
-    const gig = new GoogleGig(
-      json.location!,
-      json.start!.dateTime!,
-      json.end!.dateTime!
-    );
-
-    const extendedProps = json.extendedProperties?.private;
-
-    if (extendedProps) {
-      if (extendedProps.distanceInfo) {
-        gig.routeInfo = JSON.parse(extendedProps.distanceInfo);
-      }
-      if (extendedProps.parts) {
-        const partsJson = JSON.parse(extendedProps.parts) as GigPartJSON[];
-        gig.timeline = gig.makePartsFromJson(partsJson);
-      }
-    }
-
-    return gig;
+    return new GoogleGig(json);
   }
 }
