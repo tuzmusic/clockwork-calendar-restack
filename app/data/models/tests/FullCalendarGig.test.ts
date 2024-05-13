@@ -39,8 +39,8 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
-    const it = test.extend<{ routeInfo: Record<string, DistanceData> }>({
-      routeInfo: async ({ task: _ }, use) => {
+    const it = test.extend<{ gig: FullCalendarGig }>({
+      gig: async ({ task: _ }, use) => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = FullCalendarGig.makeFromValues({
@@ -54,45 +54,45 @@ describe("FullCalendarGig.make", () => {
         if (!routeInfo) {
           throw Error("Fetched route info but it is null");
         }
-        return await use(routeInfo);
+        return await use(newGig);
       }
     });
 
     describe("Gets the correct distance info", () => {
-      it("withWaltham", ({ routeInfo }) => {
-        expect(routeInfo.withWaltham).toEqual({
+      it("withWaltham", ({ gig }) => {
+        expect(gig.getRouteInfo()?.withWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 120,
           formattedTime: "2h"
         });
       });
 
-      it("fromHome", ({ routeInfo }) => {
-        expect(routeInfo.fromHome).toEqual({
+      it("fromHome", ({ gig }) => {
+        expect(gig.getRouteInfo()?.fromHome).toEqual({
           miles: expect.any(Number),
           minutes: 90,
           formattedTime: "1h 30m"
         });
       });
 
-      it("fromWaltham", ({ routeInfo }) => {
-        expect(routeInfo.fromWaltham).toEqual({
+      it("fromWaltham", ({ gig }) => {
+        expect(gig.getRouteInfo()?.fromWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 45,
           formattedTime: "45m"
         });
       });
 
-      it("walthamDetour", ({ routeInfo }) => {
-        expect(routeInfo.walthamDetour).toEqual({
+      it("walthamDetour", ({ gig }) => {
+        expect(gig.getRouteInfo()?.walthamDetour).toEqual({
           miles: 10,
           minutes: 30,
           formattedTime: "30m"
         });
       });
 
-      it("fromBoston", ({ routeInfo }) => {
-        expect(routeInfo.fromBoston).toEqual({
+      it("fromBoston", ({ gig }) => {
+        expect(gig.getRouteInfo()?.fromBoston).toEqual({
           miles: 65,
           minutes: 70,
           formattedTime: "1h 10m"
