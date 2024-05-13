@@ -1,6 +1,4 @@
 import { mock } from "vitest-mock-extended";
-
-import GigWithParts from "~/data/models/GigWithParts";
 import { conditions } from "~/data/models/tests/conditions.testHelpers";
 import DistanceService from "~/data/services/DistanceService";
 
@@ -37,30 +35,4 @@ export function getDistanceServiceWithMocks(location: string) {
   });
 
   return distanceService;
-}
-
-export async function testBasicGigInfo(
-  makeGig: (location: string, start: string, end: string) => Promise<GigWithParts>
-) {
-  const start = "2024-12-01T19:00:00-04:00";
-  const end = "2024-12-01T23:00:00-04:00";
-  const location = "somewhere";
-
-  const gig = await makeGig(location, start, end);
-
-  it("has a location", () => {
-    expect(gig.getLocation()).toEqual(location);
-  });
-
-  it("has a start time", () => {
-    expect(gig.getStartTime().dateTime).toEqual(start);
-  });
-
-  it("has an end time", () => {
-    expect(gig.getEndTime().dateTime).toEqual(end);
-  });
-
-  it("has an id based on its start date", () => {
-    expect(gig.getId()).toEqual("2024-12-01");
-  });
 }
