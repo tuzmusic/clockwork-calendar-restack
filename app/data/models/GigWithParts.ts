@@ -1,32 +1,17 @@
 import { GigPart } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
+import SimpleGig from "~/data/models/SimpleGig";
 
-export default abstract class GigWithParts {
-  private readonly id: string;
+export default abstract class GigWithParts extends SimpleGig {
   protected timeline: GigTimeline;
 
   protected constructor(protected location: string, parts: GigPart[]) {
-    this.timeline = GigTimeline.make(parts);
-    this.id = this.timeline.getStart().split("T")[0];
+    const timeline = GigTimeline.make(parts);
+    super(location,  timeline.getStart(), timeline.getEnd())
+    this.timeline = timeline
   }
 
   public getParts() {
     return this.timeline.getParts();
-  }
-
-  public getId() {
-    return this.id;
-  }
-
-  public getLocation() {
-    return this.location;
-  }
-
-  public getStartTime() {
-    return this.timeline.getStart();
-  }
-
-  public getEndTime() {
-    return this.timeline.getEnd();
   }
 }
