@@ -5,10 +5,10 @@ import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 import { Reception } from "~/data/models/GigParts/Reception";
-import GigWithParts from "~/data/models/GigWithParts";
+import SimpleGig from "~/data/models/SimpleGig";
 import { DistanceData } from "~/data/models/types";
 
-export default class GoogleGig extends GigWithParts {
+export default class GoogleGig extends SimpleGig {
   private routeInfo: Record<string, DistanceData> | null = null;
 
   public getRouteInfo() {
@@ -16,11 +16,7 @@ export default class GoogleGig extends GigWithParts {
   }
 
   private constructor(location: string, start: string, end: string) {
-    const fakePart = new Reception(start, end);
-
-    // If the json has parts, they will overwrite this
-    // todo: this implies that that logic should probably happen in the ctor
-    super(location, [fakePart]);
+    super(location, start, end);
   }
 
   private makePartsFromJson(partsJson: GigPartJSON[]) {
