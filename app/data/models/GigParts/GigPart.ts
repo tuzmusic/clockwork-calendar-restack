@@ -4,8 +4,8 @@ export interface GigPartJSON {
   type: GigPartType;
   startDateTime: string;
   endDateTime: string;
-  actualStartDateTime?: string;
-  actualEndDateTime?: string;
+  actualStartDateTime: string;
+  actualEndDateTime: string;
 }
 
 export abstract class GigPart {

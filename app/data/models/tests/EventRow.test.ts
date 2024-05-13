@@ -237,11 +237,15 @@ describe("EventRow", () => {
         {
           type: "cocktail hour",
           startDateTime: cocktailStart,
-          endDateTime: cocktailEnd
+          endDateTime: cocktailEnd,
+          actualStartDateTime: cocktailStart,
+          actualEndDateTime: cocktailEnd,
         }, {
           type: "reception",
           startDateTime: receptionStart,
-          endDateTime: receptionEnd
+          endDateTime: receptionEnd,
+          actualStartDateTime: receptionStart,
+          actualEndDateTime: receptionEnd,
         }
       ];
 

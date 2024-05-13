@@ -26,6 +26,7 @@ export default class GoogleGig extends SimpleGig {
       googleJson.start!.dateTime!,
       googleJson.end!.dateTime!
     );
+
     const extendedProps = googleJson.extendedProperties?.private;
 
     if (extendedProps) {
@@ -52,7 +53,6 @@ export default class GoogleGig extends SimpleGig {
 
     return GigTimeline.make(parts);
   }
-
 
   static make(json: calendar_v3.Schema$Event) {
     return new GoogleGig(json);
