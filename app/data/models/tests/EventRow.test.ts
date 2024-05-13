@@ -3,10 +3,21 @@ import { MockProxy } from "vitest-mock-extended";
 
 import EmailGig from "~/data/models/EmailGig";
 import EventRow from "~/data/models/EventRow";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
+import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
-import { end, location, mockDistanceData, mockParts, start } from "~/data/models/tests/testConstants";
+import {
+  end,
+  location,
+  mockDistanceData,
+  mockParts,
+  mockReceiptionPart,
+  mockReceptionJSONWithActual,
+  start
+} from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
-import { EventPart, timeObj } from "~/data/models/types";
+import { EventPart } from "~/data/models/types";
 import DistanceService from "~/data/services/DistanceService";
 
 let distanceService: MockProxy<DistanceService>;
@@ -29,9 +40,9 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.make({ location, parts: mockParts });
-            const calendarGig = GoogleGig.make(mockData);
 
+            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
+            const calendarGig = GoogleGig.make(mockData);
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
             expect(row).instanceof(EventRow);
             return await use(row);
@@ -40,8 +51,8 @@ describe("EventRow", () => {
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(location);
-          expect(appGig.getStartTime().dateTime).toEqual(start);
-          expect(appGig.getEndTime().dateTime).toEqual(end);
+          expect(appGig.getStartTime()).toEqual(start);
+          expect(appGig.getEndTime()).toEqual(end);
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
@@ -71,7 +82,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make({ location, parts: mockParts });
+            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -82,15 +93,13 @@ describe("EventRow", () => {
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(location);
-          expect(appGig.getStartTime().dateTime).toEqual(start);
-          expect(appGig.getEndTime().dateTime).toEqual(end);
+          expect(appGig.getStartTime()).toEqual(start);
+          expect(appGig.getEndTime()).toEqual(end);
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
         it("has parts that match the email gig", ({ row: { appGig } }) => {
-          // (they match the email gig too but they'll be "lifted" directly
-          //  from the calendar, right?)
-          expect(appGig.getParts()).toEqual(mockParts);
+          expect(appGig.getParts()).toEqual([mockReceptionJSONWithActual]);
         });
 
         it("populates the route info from the stored gig", ({ row: { appGig } }) => {
@@ -117,7 +126,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.make({ location: updatedLocation, parts: mockParts });
+            const emailGig = EmailGig.make(updatedLocation, [mockReceiptionPart]);
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -128,8 +137,8 @@ describe("EventRow", () => {
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(updatedLocation);
-          expect(appGig.getStartTime().dateTime).toEqual(start);
-          expect(appGig.getEndTime().dateTime).toEqual(end);
+          expect(appGig.getStartTime()).toEqual(start);
+          expect(appGig.getEndTime()).toEqual(end);
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
@@ -157,7 +166,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make({ location: updatedLocation, parts: mockParts });
+            const emailGig = EmailGig.make(updatedLocation, [mockReceiptionPart]);
             const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -168,8 +177,8 @@ describe("EventRow", () => {
 
         it("has basic info that matches the email gig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(updatedLocation);
-          expect(appGig.getStartTime().dateTime).toEqual(start);
-          expect(appGig.getEndTime().dateTime).toEqual(end);
+          expect(appGig.getStartTime()).toEqual(start);
+          expect(appGig.getEndTime()).toEqual(end);
           expect(appGig.getId()).toEqual("2024-12-01");
         });
 
@@ -195,7 +204,7 @@ describe("EventRow", () => {
       describe("Email gig only", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const emailGig = EmailGig.make({ location, parts: mockParts });
+            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
             const row = EventRow.buildRow(emailGig, undefined, distanceService);
             expect(row).instanceof(EventRow);
             return await use(row);
@@ -203,12 +212,12 @@ describe("EventRow", () => {
         });
 
         it("returns with a row where calendarGig is undefined", ({ row }) => {
-          expect(row.getCalendarGig()).toBeUndefined()
+          expect(row.getCalendarGig()).toBeUndefined();
         });
 
         it("returns a row with an appGig matching the emailGig", ({ row: { appGig } }) => {
           expect(appGig.getLocation()).toEqual(location);
-          expect(appGig.getParts()).toEqual(mockParts);
+          expect(appGig.getParts()).toEqual([mockReceptionJSONWithActual]);
           expect(appGig.isNew).toBe(true);
         });
       });
@@ -217,17 +226,22 @@ describe("EventRow", () => {
     describe("hasChanged", () => {
       const updatedLocation = "somewhere else";
 
-      const parts = [
+      const partsJSON = [
         {
           type: "cocktail hour",
-          start: timeObj("2024-12-01T18:00:00-04:00"),
-          end: timeObj("2024-12-01T19:00:00-04:00")
+          startDateTime: "2024-12-01T18:00:00-04:00",
+          endDateTime: "2024-12-01T19:00:00-04:00"
         }, {
           type: "reception",
-          start: timeObj("2024-12-01T19:00:00-04:00"),
-          end: timeObj("2024-12-01T23:00:00-04:00")
+          startDateTime: "2024-12-01T19:00:00-04:00",
+          endDateTime: "2024-12-01T23:00:00-04:00"
         }
-      ] satisfies EventPart[];
+      ] satisfies GigPartJSON[];
+
+      const parts = [
+        new CocktailHour("2024-12-01T18:00:00-04:00", "2024-12-01T19:00:00-04:00"),
+        new Reception("2024-12-01T19:00:00-04:00", "2024-12-01T23:00:00-04:00")
+      ] satisfies GigPart[];
 
       const calendarGig = GoogleGig.make({
         start: { dateTime: start },
@@ -235,13 +249,13 @@ describe("EventRow", () => {
         location,
         extendedProperties: {
           private: {
-            parts: JSON.stringify(parts)
+            parts: JSON.stringify(partsJSON)
           }
         }
       });
 
       it("is false if there are no changes in parts or locations", () => {
-        const emailGig = EmailGig.make({ location, parts });
+        const emailGig = EmailGig.make(location, parts);
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.locationHasChanged).toBe(false);
         expect(row.partsHaveChanged).toBe(false);
@@ -264,8 +278,8 @@ describe("EventRow", () => {
         ["a part has been added", [
           {
             type: "ceremony",
-            start: timeObj("2024-12-01T17:30:00-04:00"),
-            end: timeObj("2024-12-01T18:00:00-04:00")
+            startDateTime: "2024-12-01T17:30:00-04:00",
+            endDateTime: "2024-12-01T18:00:00-04:00"
           },
           ...parts
         ]]
