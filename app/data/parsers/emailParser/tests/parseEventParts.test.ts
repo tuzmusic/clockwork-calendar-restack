@@ -1,11 +1,11 @@
-import { EventPart } from "~/data/models/types";
+import { GigPart } from "~/data/models/GigParts/GigPart";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 
 import { buildEvent, buildHtml, buildMonthHeader, buildOtherPart } from "./htmlBuilders";
 
 const location = 'Lenox Hotel, Boston, MA'
 
-describe.skip('Parsing event parts', () => {
+describe('Parsing event parts', () => {
   describe('Reception', () => {
     it('Parses an event with reception only', () => {
       const html = buildHtml(
@@ -140,7 +140,7 @@ describe.skip('Parsing event parts', () => {
         '2024-07-08T17:00:00-04:00'
       )
 
-      expect(ceremony.actualStart?.dateTime).toEqual(
+      expect(ceremony.actualStartDateTime).toEqual(
         '2024-07-08T16:00:00-04:00' // but we start playing at 4:00
       )
     })
@@ -148,12 +148,12 @@ describe.skip('Parsing event parts', () => {
 })
 
 function testEventPart(
-  part: EventPart,
+  part: GigPart,
   type: string,
   startTime: string,
   endTime: string
 ) {
   expect(part.type).toEqual(type)
-  expect(part.start.dateTime).toEqual(startTime)
-  expect(part.end.dateTime).toEqual(endTime)
+  expect(part.startDateTime).toEqual(startTime)
+  expect(part.endDateTime).toEqual(endTime)
 }
