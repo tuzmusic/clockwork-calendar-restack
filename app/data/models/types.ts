@@ -18,12 +18,4 @@ export interface DistanceData {
   formattedTime: string
 }
 
-export interface EventPart {
-  type: 'reception' | 'cocktail hour' | 'ceremony'
-  start: string
-  end: string
-  actualStart?: string
-  actualEnd?: string
-}
-
 export type GigPartType = "reception" | "cocktail hour" | "ceremony"

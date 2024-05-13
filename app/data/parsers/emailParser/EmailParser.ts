@@ -77,10 +77,10 @@ export default class EmailParser {
 
   private addGigToList() {
     // todo: I don't like these exclamation points.
-    this.gigs.push(EmailGig.make({
-      parts: this.currentGigData!.parts!,
-      location: this.currentGigData!.location!
-    }));
+    this.gigs.push(EmailGig.make(
+      this.currentGigData!.location!,
+      this.currentGigData!.parts!
+    ));
   }
 
   private isRowMonthDivider(row: Cheerio<Element>) {
@@ -201,7 +201,7 @@ export default class EmailParser {
 
     const [startTimeStr, endTimeStr] = getTimesFromOtherPartText(text);
     const { dateTime } = this.makeDate(startTimeStr);
-    const writtenStartDay = DayJsTz(dateTime)
+    const writtenStartDay = DayJsTz(dateTime);
     const actualStartDay = writtenStartDay.subtract(30, "minutes");
 
     const ceremony: EventPart = {
