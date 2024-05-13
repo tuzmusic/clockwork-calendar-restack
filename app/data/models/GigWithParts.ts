@@ -14,4 +14,8 @@ export default abstract class GigWithParts extends SimpleGig {
   public getParts() {
     return this.timeline.getParts();
   }
+
+  public getPartsJson() {
+    return this.getParts().map(p => p.serialize())
+  }
 }

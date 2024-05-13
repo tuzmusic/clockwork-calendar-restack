@@ -11,16 +11,22 @@ import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 
+interface MakeFromValues {
+  location: string,
+  parts: GigPart[] | null,
+  distanceService?: DistanceService
+  isNew?: boolean
+}
+
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
-  public static makeFromValues(
-    { location, parts, distanceService = new DistanceService(), isNew = false }: {
-      location: string,
-      parts?: GigPart[] | null,
-      distanceService?: DistanceService
-      isNew?: boolean
-    }
+  public static makeFromValues({
+                                 location,
+                                 parts,
+                                 distanceService = new DistanceService(),
+                                 isNew = false
+                               }: MakeFromValues
   ) {
     return new FullCalendarGig({
         location,

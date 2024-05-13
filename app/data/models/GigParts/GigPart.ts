@@ -22,7 +22,14 @@ export abstract class GigPart {
   }
 
   public serialize() {
-    const { type, actualEndDateTime, actualStartDateTime, endDateTime, startDateTime } = this;
+    const {
+      type,
+      actualEndDateTime,
+      actualStartDateTime,
+      endDateTime,
+      startDateTime
+    } = this;
+
     return {
       type,
       startDateTime,

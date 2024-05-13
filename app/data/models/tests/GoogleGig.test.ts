@@ -1,4 +1,5 @@
 import { calendar_v3 } from "googleapis";
+
 import GoogleGig from "~/data/models/GoogleGig";
 import { end, location, mockDistanceData, mockParts, start } from "~/data/models/tests/testConstants";
 
@@ -24,7 +25,7 @@ describe("GoogleGig.make", () => {
     });
 
     it("has the parts as null", () => {
-      expect(gig.partsJson).toBeNull()
+      expect(gig.getPartsJson()).toBeNull()
     });
 
     it("makes has start and end times", () => {
@@ -67,7 +68,7 @@ describe("GoogleGig.make", () => {
       };
 
       const gig = GoogleGig.make(mockData);
-      expect(gig.partsJson).toEqual(mockParts);
+      expect(gig.getPartsJson()).toEqual(mockParts);
     });
   });
 });

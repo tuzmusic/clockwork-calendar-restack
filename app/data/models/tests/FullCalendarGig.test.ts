@@ -2,23 +2,13 @@ import { mock } from "vitest-mock-extended";
 
 import { TIME_ZONE } from "~/data/models/constants";
 import FullCalendarGig from "~/data/models/FullCalendarGig";
-import GoogleGig from "~/data/models/GoogleGig";
+import { location, receptionPart } from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
-import { DistanceData, timeObj } from "~/data/models/types";
+import { DistanceData } from "~/data/models/types";
 import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
 
-const location = "wherever";
-const start = "2024-12-01T19:00:00-04:00";
-const end = "2024-12-01T23:00:00-04:00";
-
 describe("FullCalendarGig.make", () => {
-  const basicGig = GoogleGig.make({
-    location: location,
-    start: timeObj(start),
-    end: timeObj(end)
-  });
-
   describe("distance info", () => {
     test("It gets distance info from the Distance Service", async () => {
       const distanceService = mock<DistanceService>();
@@ -27,14 +17,12 @@ describe("FullCalendarGig.make", () => {
       } satisfies DistanceData);
 
       const fullGig = FullCalendarGig.makeFromValues({
-        location: basicGig.getLocation(),
-        parts: basicGig.getParts(),
+        location,
+        parts: [receptionPart],
         distanceService
       });
 
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-      expect(fullGig.getId()).toEqual(basicGig.getId());
-
       await fullGig.fetchRouteInfo();
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
@@ -44,8 +32,8 @@ describe("FullCalendarGig.make", () => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = FullCalendarGig.makeFromValues({
-          location: basicGig.getLocation(),
-          parts: basicGig.getParts(),
+          location,
+          parts: [receptionPart],
           distanceService
         });
 
@@ -115,11 +103,20 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("includes the startTime the payload as extendedProperties", async ({ gig }) => {
-        expect(await testCall(gig)).toMatchObject({ start: { dateTime: start, timeZone: TIME_ZONE } });
-      });
+        expect(await testCall(gig)).toMatchObject({
+          start: {
+            dateTime: receptionPart.startDateTime,
+            timeZone: TIME_ZONE
+          }
+        });      });
 
       it("includes the endTime the payload as extendedProperties", async ({ gig }) => {
-        expect(await testCall(gig)).toMatchObject({ end: { dateTime: end, timeZone: TIME_ZONE } });
+        expect(await testCall(gig)).toMatchObject({
+          end: {
+            dateTime: receptionPart.endDateTime,
+            timeZone: TIME_ZONE
+          }
+        });
       });
 
       it("includes the route info in the payload as extendedProperties", async ({ gig }) => {

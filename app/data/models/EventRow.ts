@@ -30,8 +30,8 @@ export default class EventRow {
   }
 
   private get partsMatch() {
-    const emailParts = this.emailGig?.getParts();
-    const googleParts = this.googleGig?.getParts();
+    const emailParts = this.emailGig?.getParts().map(p => p.serialize());
+    const googleParts = this.googleGig?.getPartsJson();
     return JSON.stringify(emailParts) === JSON.stringify(googleParts);
   }
 
