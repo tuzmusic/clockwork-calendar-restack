@@ -1,6 +1,4 @@
 import { calendar_v3 } from "googleapis";
-
-import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import GoogleGig from "~/data/models/GoogleGig";
 import { end, location, mockDistanceData, mockParts, start } from "~/data/models/tests/testConstants";
 
@@ -25,11 +23,13 @@ describe("GoogleGig.make", () => {
       expect(gig.getRouteInfo()).toBeNull();
     });
 
-    it("makes a reception with the start and end times", () => {
-      const [part] = gig.getParts();
-      expect(part.type).toEqual("reception");
-      expect(part.startDateTime).toEqual(start);
-      expect(part.endDateTime).toEqual(end);
+    it("has the parts as null", () => {
+      expect(gig.partsJson).toBeNull()
+    });
+
+    it("makes has start and end times", () => {
+      expect(gig.getStartTime()).toEqual(start);
+      expect(gig.getEndTime()).toEqual(end);
     });
   });
 
@@ -53,7 +53,8 @@ describe("GoogleGig.make", () => {
   });
 
   describe("with parts", () => {
-    it("populates the parts from the stored gig", () => {
+    it("populates the parts from the stored gig " +
+      "(though it's not clear what we're going to do with them...)", () => {
       const mockData: calendar_v3.Schema$Event = {
         start: { dateTime: start },
         end: { dateTime: end },
@@ -66,15 +67,7 @@ describe("GoogleGig.make", () => {
       };
 
       const gig = GoogleGig.make(mockData);
-
-      const actualJson = gig.getParts().map(p => p.serialize());
-      const mockPartsFullJson = mockParts.map(p => ({
-        ...p,
-        actualStartDateTime: p.startDateTime,
-        actualEndDateTime: p.endDateTime
-      } satisfies GigPartJSON));
-
-      expect(actualJson).toEqual(mockPartsFullJson);
+      expect(gig.partsJson).toEqual(mockParts);
     });
   });
 });

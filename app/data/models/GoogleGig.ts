@@ -10,7 +10,7 @@ import { DistanceData } from "~/data/models/types";
 
 export default class GoogleGig extends SimpleGig {
   private routeInfo: Record<string, DistanceData> | null = null;
-  private readonly partsJson: GigPartJSON[] | null = null;
+  public readonly partsJson: GigPartJSON[] | null = null;
 
   public getRouteInfo() {
     return this.routeInfo;
