@@ -3,6 +3,7 @@ import { MockProxy } from "vitest-mock-extended";
 
 import EmailGig from "~/data/models/EmailGig";
 import EventRow from "~/data/models/EventRow";
+import { Ceremony } from "~/data/models/GigParts/Ceremony";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
@@ -17,7 +18,6 @@ import {
   start
 } from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
-import { EventPart } from "~/data/models/types";
 import DistanceService from "~/data/services/DistanceService";
 
 let distanceService: MockProxy<DistanceService>;
@@ -226,26 +226,37 @@ describe("EventRow", () => {
     describe("hasChanged", () => {
       const updatedLocation = "somewhere else";
 
-      const partsJSON = [
+      const ceremonyStart = "2024-12-01T17:30:00-04:00";
+      const cocktailStart = "2024-12-01T18:00:00-04:00";
+      const cocktailEnd = "2024-12-01T19:00:00-04:00";
+      const receptionStart = cocktailEnd;
+      const receptionEnd = "2024-12-01T23:00:00-04:00";
+      const receiptionLaterEnd = "2024-12-01T23:30:00-04:00";
+
+      const partsJSON: GigPartJSON[] = [
         {
           type: "cocktail hour",
-          startDateTime: "2024-12-01T18:00:00-04:00",
-          endDateTime: "2024-12-01T19:00:00-04:00"
+          startDateTime: cocktailStart,
+          endDateTime: cocktailEnd
         }, {
           type: "reception",
-          startDateTime: "2024-12-01T19:00:00-04:00",
-          endDateTime: "2024-12-01T23:00:00-04:00"
+          startDateTime: receptionStart,
+          endDateTime: receptionEnd
         }
-      ] satisfies GigPartJSON[];
+      ];
 
-      const parts = [
-        new CocktailHour("2024-12-01T18:00:00-04:00", "2024-12-01T19:00:00-04:00"),
-        new Reception("2024-12-01T19:00:00-04:00", "2024-12-01T23:00:00-04:00")
-      ] satisfies GigPart[];
+      const ceremonyPart = new Ceremony(ceremonyStart, cocktailStart);
+      const cocktailHourPart = new CocktailHour(cocktailStart, cocktailEnd);
+      const receptionPart = new Reception(cocktailEnd, receptionEnd);
+
+      const parts: GigPart[] = [
+        cocktailHourPart,
+        receptionPart
+      ];
 
       const calendarGig = GoogleGig.make({
-        start: { dateTime: start },
-        end: { dateTime: end },
+        start: { dateTime: receptionStart },
+        end: { dateTime: receptionEnd },
         location,
         extendedProperties: {
           private: {
@@ -263,28 +274,22 @@ describe("EventRow", () => {
       });
 
       it("is true if the two gigs have different locations", () => {
-        const emailGig = EmailGig.make({ location: updatedLocation, parts });
+        const emailGig = EmailGig.make(updatedLocation, parts);
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.locationHasChanged).toBe(true);
         expect(row.hasChanged).toBe(true);
       });
 
-      it.each<[string, EventPart[]]>([
+
+      it.each<[string, GigPart[]]>([
         ["a single part has changed", [
-          parts[0],
-          { ...parts[1], start: { ...parts[1].start, dateTime: parts[1].end.dateTime.replace("T23", "T22") } }
+          cocktailHourPart,
+          new Reception(receptionStart, receiptionLaterEnd)
         ]],
-        ["a part has been removed", [parts[1]]],
-        ["a part has been added", [
-          {
-            type: "ceremony",
-            startDateTime: "2024-12-01T17:30:00-04:00",
-            endDateTime: "2024-12-01T18:00:00-04:00"
-          },
-          ...parts
-        ]]
+        ["a part has been removed", [receptionPart]],
+        ["a part has been added", [ceremonyPart, ...parts]]
       ])("is true if %s", (_, emailParts) => {
-        const emailGig = EmailGig.make({ location, parts: emailParts });
+        const emailGig = EmailGig.make(location, emailParts);
         const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
         expect(row.partsHaveChanged).toBe(true);
         expect(row.hasChanged).toBe(true);
