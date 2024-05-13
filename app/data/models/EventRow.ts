@@ -72,8 +72,6 @@ export default class EventRow {
 
     row.appGig = FullCalendarGig.makeFromValues({
       location: emailGig.getLocation(),
-      startDateTimeStr: emailGig.getStartTime().dateTime,
-      endDateTimeStr: emailGig.getEndTime().dateTime,
       parts: emailGig.getParts(),
       isNew: !googleGig,
       distanceService

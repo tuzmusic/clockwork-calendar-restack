@@ -25,11 +25,13 @@ export class GigTimeline {
   }
 
   public getEnd() {
-    if (this.parts.length === 0) {
+    const lastPart = this.parts.slice(-1).pop();
+
+    if (!lastPart) {
       throw Error("No parts yet!");
     }
 
-    return this.parts.slice(-1).pop()?.endDateTime;
+    return lastPart.endDateTime;
   }
 
   static make(initialParts: GigPart[] = []): GigTimeline {

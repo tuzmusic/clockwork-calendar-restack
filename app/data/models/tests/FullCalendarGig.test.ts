@@ -1,10 +1,10 @@
 import { mock } from "vitest-mock-extended";
 
-import CalendarGig from "~/data/models/CalendarGig";
 import { TIME_ZONE } from "~/data/models/constants";
 import FullCalendarGig from "~/data/models/FullCalendarGig";
+import GoogleGig from "~/data/models/GoogleGig";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
-import { DistanceData } from "~/data/models/types";
+import { DistanceData, timeObj } from "~/data/models/types";
 import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
 
@@ -13,11 +13,10 @@ const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
 describe("FullCalendarGig.make", () => {
-  const basicGig = CalendarGig.makeFromValues({
+  const basicGig = GoogleGig.make({
     location: location,
-    startDateTimeStr: start,
-    endDateTimeStr: end,
-    isNew: false
+    start: timeObj(start),
+    end: timeObj(end)
   });
 
   describe("distance info", () => {
@@ -27,7 +26,11 @@ describe("FullCalendarGig.make", () => {
         miles: 10, minutes: 60, formattedTime: "1h"
       } satisfies DistanceData);
 
-      const fullGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
+      const fullGig = FullCalendarGig.makeFromValues({
+        location: basicGig.getLocation(),
+        parts: basicGig.getParts(),
+        distanceService
+      });
 
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
       expect(fullGig.getId()).toEqual(basicGig.getId());
@@ -36,51 +39,60 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
-    const it = test.extend<{ gig: FullCalendarGig }>({
-      gig: async ({ task: _ }, use) => {
+    const it = test.extend<{ routeInfo: Record<string, DistanceData> }>({
+      routeInfo: async ({ task: _ }, use) => {
         const distanceService = getDistanceServiceWithMocks(location);
 
-        const newGig = await FullCalendarGig.makeFromBasicCalendarGig(basicGig, distanceService);
+        const newGig = FullCalendarGig.makeFromValues({
+          location: basicGig.getLocation(),
+          parts: basicGig.getParts(),
+          distanceService
+        });
+
         await newGig.fetchRouteInfo();
-        return await use(newGig);
+        const routeInfo = newGig.getRouteInfo();
+        if (!routeInfo) {
+          throw Error("Fetched route info but it is null");
+        }
+        return await use(routeInfo);
       }
     });
 
     describe("Gets the correct distance info", () => {
-      it("withWaltham", ({ gig }) => {
-        expect(gig.getRouteInfo().withWaltham).toEqual({
+      it("withWaltham", ({ routeInfo }) => {
+        expect(routeInfo.withWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 120,
           formattedTime: "2h"
         });
       });
 
-      it("fromHome", ({ gig }) => {
-        expect(gig.getRouteInfo().fromHome).toEqual({
+      it("fromHome", ({ routeInfo }) => {
+        expect(routeInfo.fromHome).toEqual({
           miles: expect.any(Number),
           minutes: 90,
           formattedTime: "1h 30m"
         });
       });
 
-      it("fromWaltham", ({ gig }) => {
-        expect(gig.getRouteInfo().fromWaltham).toEqual({
+      it("fromWaltham", ({ routeInfo }) => {
+        expect(routeInfo.fromWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 45,
           formattedTime: "45m"
         });
       });
 
-      it("walthamDetour", ({ gig }) => {
-        expect(gig.getRouteInfo().walthamDetour).toEqual({
+      it("walthamDetour", ({ routeInfo }) => {
+        expect(routeInfo.walthamDetour).toEqual({
           miles: 10,
           minutes: 30,
           formattedTime: "30m"
         });
       });
 
-      it("fromBoston", ({ gig }) => {
-        expect(gig.getRouteInfo().fromBoston).toEqual({
+      it("fromBoston", ({ routeInfo }) => {
+        expect(routeInfo.fromBoston).toEqual({
           miles: 65,
           minutes: 70,
           formattedTime: "1h 10m"
