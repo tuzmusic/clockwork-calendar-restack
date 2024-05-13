@@ -1,4 +1,5 @@
-const laterTime = "2024-12-01T19:00:00-04:00";
+import SimpleGig from "~/data/models/SimpleGig";
+
 const earlierTime = "2024-12-01T18:00:00-04:00";
 const finalTime = "2024-12-01T21:00:00-04:00";
 
