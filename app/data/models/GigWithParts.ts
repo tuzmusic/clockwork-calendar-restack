@@ -1,7 +1,7 @@
 import { GigPart } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 
-export default abstract class Gig {
+export default abstract class GigWithParts {
   private readonly id: string;
   protected timeline: GigTimeline;
 

@@ -1,7 +1,7 @@
-import Gig from "~/data/models/Gig";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
+import GigWithParts from "~/data/models/GigWithParts";
 
 const laterTime = "2024-12-01T19:00:00-04:00";
 const earlierTime = "2024-12-01T18:00:00-04:00";
@@ -11,7 +11,7 @@ const reception = new Reception(laterTime, finalTime);
 const cocktailHour = new CocktailHour(earlierTime, laterTime);
 
 describe("Gig abstract class", () => {
-  class GigImpl extends Gig {
+  class GigImpl extends GigWithParts {
     public static make(location: string, parts: GigPart[]) {
       return new this(location, parts);
     }

@@ -1,14 +1,14 @@
 import { calendar_v3 } from "googleapis";
 
-import Gig from "~/data/models/Gig";
 import { Ceremony } from "~/data/models/GigParts/Ceremony";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 import { Reception } from "~/data/models/GigParts/Reception";
+import GigWithParts from "~/data/models/GigWithParts";
 import { DistanceData } from "~/data/models/types";
 
-export default class GoogleGig extends Gig {
+export default class GoogleGig extends GigWithParts {
   private routeInfo: Record<string, DistanceData> | null = null;
 
   public getRouteInfo() {

@@ -1,6 +1,6 @@
 import { mock } from "vitest-mock-extended";
 
-import Gig from "~/data/models/Gig";
+import GigWithParts from "~/data/models/GigWithParts";
 import { conditions } from "~/data/models/tests/conditions.testHelpers";
 import DistanceService from "~/data/services/DistanceService";
 
@@ -40,7 +40,7 @@ export function getDistanceServiceWithMocks(location: string) {
 }
 
 export async function testBasicGigInfo(
-  makeGig: (location: string, start: string, end: string) => Promise<Gig>
+  makeGig: (location: string, start: string, end: string) => Promise<GigWithParts>
 ) {
   const start = "2024-12-01T19:00:00-04:00";
   const end = "2024-12-01T23:00:00-04:00";

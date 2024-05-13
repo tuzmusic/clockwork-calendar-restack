@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
 import { LOCATIONS } from "~/data/models/constants";
-import Gig from "~/data/models/Gig";
 import { GigPart } from "~/data/models/GigParts/GigPart";
+import GigWithParts from "~/data/models/GigWithParts";
 import { DistanceData, timeObj } from "~/data/models/types";
 import { formatDuration } from "~/data/models/utilityFunctions";
 import CalendarService from "~/data/services/CalendarService";
@@ -11,7 +11,7 @@ import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 
-export default class FullCalendarGig extends Gig {
+export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
   public static makeFromValues(
@@ -30,8 +30,6 @@ export default class FullCalendarGig extends Gig {
       isNew
     );
   }
-
-
 
   protected constructor({ location, parts, distanceService }: {
     location: string,

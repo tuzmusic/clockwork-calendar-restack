@@ -1,10 +1,10 @@
 import { calendar_v3 } from "googleapis";
 
 import EmailGig from "~/data/models/EmailGig";
-import Gig from "~/data/models/Gig";
+import GigWithParts from "~/data/models/GigWithParts";
 import { EventPart, TimeObj } from "~/data/models/types";
 
-export default class CalendarGig extends Gig {
+export default class CalendarGig extends GigWithParts {
   protected readonly _isNew: boolean;
   public get isNew() {
     return this._isNew;
