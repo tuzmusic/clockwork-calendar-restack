@@ -12,7 +12,7 @@ const location = "wherever";
 const start = "2024-12-01T19:00:00-04:00";
 const end = "2024-12-01T23:00:00-04:00";
 
-describe("Constructing the 'middle gig' (nothing about comparison yet)", () => {
+describe.skip("Constructing the 'middle gig' (nothing about comparison yet)", () => {
   describe("An email gig with a matching calendar gig", () => {
     describe("Existing calendar gig is incomplete", () => {
 

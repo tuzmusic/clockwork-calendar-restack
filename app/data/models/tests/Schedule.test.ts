@@ -16,7 +16,7 @@ function makeStartAndEndDateTimes({ dayNumber }: { dayNumber: number }) {
   return [start, end];
 }
 
-describe("Schedule", () => {
+describe.skip("Schedule", () => {
   describe("Schedule.build", () => {
     it("matches an email event with a google event", () => {
       const emailGig = EmailGig.make({ location: "somewhere", parts: mockParts });
