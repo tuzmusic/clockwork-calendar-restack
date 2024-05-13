@@ -1,4 +1,5 @@
 import { mock } from "vitest-mock-extended";
+
 import { conditions } from "~/data/models/tests/conditions.testHelpers";
 import DistanceService from "~/data/services/DistanceService";
 

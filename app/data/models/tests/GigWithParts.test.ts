@@ -10,7 +10,7 @@ const finalTime = "2024-12-01T21:00:00-04:00";
 const reception = new Reception(laterTime, finalTime);
 const cocktailHour = new CocktailHour(earlierTime, laterTime);
 
-describe("Gig abstract class", () => {
+describe("GigWithParts abstract class", () => {
   class GigImpl extends GigWithParts {
     public static make(location: string, parts: GigPart[]) {
       return new this(location, parts);
@@ -32,7 +32,7 @@ describe("Gig abstract class", () => {
       expect(gig.getStartTime()).toEqual(earlierTime);
     });
 
-    it("has an start time", () => {
+    it("has an end time that is the end time of its last part", () => {
       expect(gig.getEndTime()).toEqual(finalTime);
     });
 
