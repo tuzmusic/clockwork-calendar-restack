@@ -24,4 +24,13 @@ export default abstract class SimpleGig {
   public getEndTime() {
     return this.endDateTime;
   }
+
+  public serialize() {
+    return {
+      location: this.location,
+      startDateTime: this.startDateTime,
+      endDateTime: this.endDateTime,
+      id: this.id
+    }
+  }
 }

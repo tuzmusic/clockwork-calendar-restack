@@ -3,14 +3,19 @@ import { mock } from "vitest-mock-extended";
 import EmailGig from "~/data/models/EmailGig";
 import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { GigPartJSON } from "~/data/models/GigParts/GigPart";
+import GoogleGig from "~/data/models/GoogleGig";
 import {
   cocktailEnd,
   cocktailHourPart,
   cocktailStart,
+  end,
   location,
+  mockDistanceData,
+  mockParts,
   receptionEnd,
   receptionPart,
-  receptionStart
+  receptionStart,
+  start
 } from "~/data/models/tests/testConstants";
 import { DistanceData } from "~/data/models/types";
 import DistanceService from "~/data/services/DistanceService";
@@ -56,6 +61,29 @@ describe("serializers", () => {
       });
     });
   });
+
+  describe("GoogleGig#serialize", () => {
+    it("returns the json (without any extended info)", () => {
+      const gig = GoogleGig.make({
+        start: { dateTime: start },
+        end: { dateTime: end },
+        location,
+        extendedProperties: {
+          private: {
+            distanceInfo: JSON.stringify(mockDistanceData),
+            parts: JSON.stringify(mockParts)
+          }
+        }
+      });
+      expect(gig.serialize()).toEqual({
+        location,
+        startDateTime: start,
+        endDateTime: end,
+        id: receptionStart.split("T").shift(),
+      });
+    });
+  });
+
   describe("FullCalendarGig#serialize", () => {
     it("returns the json", async () => {
       const mockDistanceService = mock<DistanceService>();
