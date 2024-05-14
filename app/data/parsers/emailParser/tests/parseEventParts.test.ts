@@ -8,13 +8,14 @@ const location = 'Lenox Hotel, Boston, MA'
 describe('Parsing event parts', () => {
   describe('Reception', () => {
     it('Parses an event with reception only', () => {
+      const eventHtml = buildEvent({
+        dateNum: 8,
+        timeStr: '6:00-10:30',
+        location,
+      });
       const html = buildHtml(
         buildMonthHeader('July, 2024'),
-        buildEvent({
-          dateNum: 8,
-          timeStr: '6:00-10:30',
-          location,
-        })
+        eventHtml
       )
       const gigs = EmailParser.parseEmail(html);
       const event = gigs.shift()!
@@ -28,7 +29,7 @@ describe('Parsing event parts', () => {
         '2024-07-08T22:30:00-04:00'
       )
 
-      expect(event.getOriginalHtml()).toEqual(html)
+      expect(event.getOriginalHtml()).toEqual(eventHtml)
     })
 
     it('Parses an event with reception ending after 12am (but before 1am)', () => {
