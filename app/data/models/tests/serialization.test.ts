@@ -68,6 +68,7 @@ describe("serializers", () => {
         start: { dateTime: start },
         end: { dateTime: end },
         location,
+        description: 'simple one-line description',
         extendedProperties: {
           private: {
             distanceInfo: JSON.stringify(mockDistanceData),
@@ -80,6 +81,7 @@ describe("serializers", () => {
         startDateTime: start,
         endDateTime: end,
         id: receptionStart.split("T").shift(),
+        description: 'simple one-line description',
       });
     });
   });
