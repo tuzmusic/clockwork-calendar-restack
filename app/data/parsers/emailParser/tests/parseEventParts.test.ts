@@ -78,18 +78,22 @@ describe('Parsing event parts', () => {
 
   describe('Cocktail hour and ceremony', () => {
     it('Parses an event with a reception and cocktail hour', () => {
+      const receptionStr = buildEvent({
+        dateNum: 8,
+        timeStr: '6:00-10:30',
+        location,
+      });
+      const cocktailStr = buildOtherPart({ timeStr: '5:00-6:00', part: 'Cocktail Hour' });
+
       const html = buildHtml(
         buildMonthHeader('July, 2024'),
-        buildEvent({
-          dateNum: 8,
-          timeStr: '6:00-10:30',
-          location,
-        }),
-        buildOtherPart({ timeStr: '5:00-6:00', part: 'Cocktail Hour' })
+        receptionStr,
+        cocktailStr
       )
 
       const event = EmailParser.parseEmail(html).shift()!
 
+      expect(event.getOriginalHtml()).toEqual(`${receptionStr.trim()}${cocktailStr.trim()}`)
       expect(event.getParts()).toHaveLength(2)
       const [cocktails, reception] = event.getParts() // implicitly tests ordering
       testEventPart(
