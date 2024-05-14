@@ -5,11 +5,14 @@ import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 import { Reception } from "~/data/models/GigParts/Reception";
-import SimpleGig from "~/data/models/SimpleGig";
+import SimpleGig, { SimpleGigJson } from "~/data/models/SimpleGig";
 import { DistanceData } from "~/data/models/types";
 
-export default class GoogleGig extends SimpleGig {
-  private distanceInfo: Record<string, DistanceData> | null = null;
+export default class GoogleGig extends SimpleGig<{
+  startDateTime: string,
+  endDateTime: string
+}> {
+  private readonly distanceInfo: Record<string, DistanceData> | null = null;
   private readonly partsJson: GigPartJSON[] | null = null;
 
   public getDistanceInfo() {
@@ -56,5 +59,14 @@ export default class GoogleGig extends SimpleGig {
 
   static make(json: calendar_v3.Schema$Event) {
     return new GoogleGig(json);
+  }
+
+  public override serialize(): { startDateTime: string; endDateTime: string } & SimpleGigJson {
+    return {
+      id: this.id,
+      location: this.location,
+      startDateTime: this.startDateTime,
+      endDateTime: this.endDateTime
+    };
   }
 }

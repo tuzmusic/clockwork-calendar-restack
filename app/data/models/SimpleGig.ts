@@ -1,4 +1,9 @@
-export default abstract class SimpleGig {
+export interface SimpleGigJson {
+  location: string,
+  id: string
+}
+
+export default abstract class SimpleGig<T> {
   protected readonly id: string;
 
   protected constructor(
@@ -25,12 +30,5 @@ export default abstract class SimpleGig {
     return this.endDateTime;
   }
 
-  public serialize() {
-    return {
-      location: this.location,
-      startDateTime: this.startDateTime,
-      endDateTime: this.endDateTime,
-      id: this.id
-    }
-  }
+  public abstract serialize(): T & SimpleGigJson
 }

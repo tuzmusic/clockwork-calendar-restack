@@ -27,6 +27,8 @@ describe('Parsing event parts', () => {
         '2024-07-08T18:00:00-04:00',
         '2024-07-08T22:30:00-04:00'
       )
+
+      expect(event.getOriginalHtml()).toEqual(html)
     })
 
     it('Parses an event with reception ending after 12am (but before 1am)', () => {

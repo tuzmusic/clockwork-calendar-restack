@@ -1,14 +1,16 @@
-import { GigPart } from "~/data/models/GigParts/GigPart";
+import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 import SimpleGig from "~/data/models/SimpleGig";
 
-export default abstract class GigWithParts extends SimpleGig {
+export default abstract class GigWithParts extends SimpleGig<{
+    parts: GigPartJSON[]
+  }> {
   protected timeline: GigTimeline;
 
   protected constructor(protected location: string, parts: GigPart[]) {
     const timeline = GigTimeline.make(parts);
-    super(location,  timeline.getStart(), timeline.getEnd())
-    this.timeline = timeline
+    super(location, timeline.getStart(), timeline.getEnd());
+    this.timeline = timeline;
   }
 
   public getParts() {
@@ -16,14 +18,14 @@ export default abstract class GigWithParts extends SimpleGig {
   }
 
   public getPartsJson() {
-    return this.getParts().map(p => p.serialize())
+    return this.getParts().map(p => p.serialize());
   }
 
-  public serialize() {
+  public override serialize() {
     return {
       id: this.id,
       location: this.location,
       parts: this.getPartsJson()
-    }
+    };
   }
 }
