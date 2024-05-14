@@ -48,6 +48,7 @@ describe('Parsing event parts', () => {
         '2024-07-08T18:00:00-04:00',
         '2024-07-09T00:30:00-04:00'
       )
+      expect(event.getId()).toEqual('2024-07-08')
     })
 
     it('Parses an event with reception ending AT 12am', () => {
@@ -118,7 +119,7 @@ describe('Parsing event parts', () => {
       const event = EmailParser.parseEmail(html).shift()!
 
       expect(event.getParts()).toHaveLength(3)
-      const [ceremony, cocktails, reception] = event.getParts() // implicitly tests ordering
+      const [ceremony, cocktails, reception] = event.getParts()
       testEventPart(
         reception,
         'reception',

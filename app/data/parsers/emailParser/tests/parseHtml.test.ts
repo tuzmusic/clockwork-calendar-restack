@@ -1,17 +1,15 @@
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
-import { describe, expect, it } from "vitest";
 
-import { ScheduleParser } from "~/data/parsers/emailParser/ScheduleParser";
+import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import { buildEvent, buildHtml, buildMonthHeader } from "~/data/parsers/emailParser/tests/htmlBuilders";
-
 
 dayjs.extend(timezone)
 
 const location1 = 'Lenox Hotel, Boston, MA'
 const location2 = 'Somewhere Else, Boston MA'
 
-describe.skip('ScheduleParser: Basic event/month parsing', () => {
+describe('ScheduleParser: Basic event/month parsing', () => {
   it('parses a single event in a single month', () => {
     const html = buildHtml(
       buildMonthHeader('July'),
@@ -21,7 +19,7 @@ describe.skip('ScheduleParser: Basic event/month parsing', () => {
         location: location1,
       })
     )
-    const result = new ScheduleParser(html).parse()
+    const result = EmailParser.parseEmail(html)
     expect(result).toHaveLength(1)
   })
 
@@ -31,10 +29,10 @@ describe.skip('ScheduleParser: Basic event/month parsing', () => {
       buildEvent({ dateNum: 8, location: location1 }),
       buildEvent({ dateNum: 9, location: location2 })
     )
-    const result = new ScheduleParser(html).parse()
+    const result = EmailParser.parseEmail(html)
     expect(result).toHaveLength(2)
 
-    const startTimes = result.map((ev) => dayjs(ev.startTime))
+     const startTimes = result.map((ev) => dayjs(ev.getStartTime()))
 
     // assert month
     expect(startTimes[0]!.month()).toEqual(6)
@@ -45,8 +43,8 @@ describe.skip('ScheduleParser: Basic event/month parsing', () => {
     expect(startTimes[1]!.date()).toEqual(9)
 
     // assert different, correct locations
-    expect(result[0]!.location).toEqual(location1)
-    expect(result[1]!.location).toEqual(location2)
+    expect(result[0]!.getLocation()).toEqual(location1)
+    expect(result[1]!.getLocation()).toEqual(location2)
   })
 
   it('parses a multiple events in a multiple months', () => {
@@ -59,10 +57,10 @@ describe.skip('ScheduleParser: Basic event/month parsing', () => {
       buildEvent({ dateNum: 19 })
     )
 
-    const result = new ScheduleParser(html).parse()
+    const result = EmailParser.parseEmail(html)
     expect(result).toHaveLength(4)
 
-    const startTimes = result.map((ev) => dayjs(ev.startTime))
+    const startTimes = result.map((ev) => dayjs(ev.getStartTime()))
     expect(startTimes.filter(Boolean)).toHaveLength(4)
 
     // assert month
