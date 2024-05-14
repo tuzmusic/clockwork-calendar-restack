@@ -70,7 +70,7 @@ export default class EventRow {
 
     const row = new EventRow(emailGig, googleGig, distanceService);
 
-    row.appGig = FullCalendarGig.makeFromValues({
+    row.appGig = FullCalendarGig.make({
       location: emailGig.getLocation(),
       parts: emailGig.getParts(),
       isNew: !googleGig,

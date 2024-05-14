@@ -16,7 +16,7 @@ describe("FullCalendarGig.make", () => {
         miles: 10, minutes: 60, formattedTime: "1h"
       } satisfies DistanceData);
 
-      const fullGig = FullCalendarGig.makeFromValues({
+      const fullGig = FullCalendarGig.make({
         location,
         parts: [receptionPart],
         distanceService
@@ -31,7 +31,7 @@ describe("FullCalendarGig.make", () => {
       gig: async ({ task: _ }, use) => {
         const distanceService = getDistanceServiceWithMocks(location);
 
-        const newGig = FullCalendarGig.makeFromValues({
+        const newGig = FullCalendarGig.make({
           location,
           parts: [receptionPart],
           distanceService

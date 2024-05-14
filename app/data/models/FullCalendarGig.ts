@@ -21,7 +21,7 @@ interface MakeFromValues {
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
-  public static makeFromValues({
+  public static make({
                                  location,
                                  parts,
                                  distanceService = new DistanceService(),
