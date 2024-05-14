@@ -9,6 +9,15 @@ function assertEqualsIgnoringWhitespace(str1: string, str2: string) {
   expect(str1.replace(/\s+/g, ``)).toEqual(str2.replace(/\s+/g, ``));
 }
 
+expect.extend({
+  toEqualIgnoringWhitespace(got: string, want: string) {
+    return {
+      pass: got.trim().replace(/\s+/g, ``) === want.trim().replace(/\s+/g, ``),
+      message: () => `Even with whitespace removed, ${got} does not equal ${want}.`
+    };
+  }
+});
+
 describe("Parsing event parts", () => {
   describe("Reception", () => {
     it("Parses an event with reception only", () => {
@@ -17,6 +26,7 @@ describe("Parsing event parts", () => {
         timeStr: "6:00-10:30",
         location
       });
+
       const html = buildHtml(
         buildMonthHeader("July, 2024"),
         eventHtml
@@ -33,10 +43,7 @@ describe("Parsing event parts", () => {
         "2024-07-08T22:30:00-04:00"
       );
 
-      assertEqualsIgnoringWhitespace(
-        event.getOriginalHtml() ?? "",
-        eventHtml.trim()
-      );
+      expect(event.getOriginalHtml()).toEqualIgnoringWhitespace(eventHtml);
     });
 
     it("Parses an event with reception ending after 12am (but before 1am)", () => {
@@ -100,11 +107,9 @@ describe("Parsing event parts", () => {
 
       const event = EmailParser.parseEmail(html).shift()!;
 
-      assertEqualsIgnoringWhitespace(
-        event.getOriginalHtml() ?? "",
-        `${receptionStr.trim()}${cocktailStr.trim()}`
-      );
-      // expect(event.getOriginalHtml()).toEqual(`${receptionStr.trim()}${cocktailStr.trim()}`);
+      const eventHtml = `${receptionStr}${cocktailStr}`;
+      expect(event.getOriginalHtml()).toEqualIgnoringWhitespace(eventHtml);
+
       expect(event.getParts()).toHaveLength(2);
       const [cocktails, reception] = event.getParts(); // implicitly tests ordering
       testEventPart(
