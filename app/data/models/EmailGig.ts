@@ -5,6 +5,10 @@ export default class EmailGig extends GigWithParts {
 
   private readonly originalHtml: string | null
 
+  public getOriginalHtml() {
+    return this.originalHtml
+  }
+
   constructor(location: string, parts: GigPart[], originalHtml?: string) {
     super(location, parts)
     this.originalHtml = originalHtml ?? null
