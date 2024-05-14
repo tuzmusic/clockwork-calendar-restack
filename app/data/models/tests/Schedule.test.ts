@@ -3,23 +3,13 @@ import { mock } from "vitest-mock-extended";
 import EmailGig from "~/data/models/EmailGig";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
-import { end, location, mockParts, start } from "~/data/models/tests/testConstants";
+import { end, location, receptionPart, start } from "~/data/models/tests/testConstants";
 import DistanceService from "~/data/services/DistanceService";
 
-function to2Digits(num: number) {
-  return num.toString().padStart(2, "0");
-}
-
-function makeStartAndEndDateTimes({ dayNumber }: { dayNumber: number }) {
-  const start = `2024-12-${to2Digits(dayNumber)}T19:00:00-04:00`;
-  const end = `2024-12-${to2Digits(dayNumber)}T23:00:00-04:00`;
-  return [start, end];
-}
-
-describe.skip("Schedule", () => {
+describe("Schedule", () => {
   describe("Schedule.build", () => {
     it("matches an email event with a google event", () => {
-      const emailGig = EmailGig.make({ location: "somewhere", parts: mockParts });
+      const emailGig = EmailGig.make(location, [receptionPart]);
       const remoteGig = GoogleGig.make({
         start: { dateTime: start },
         end: { dateTime: end },
@@ -42,7 +32,7 @@ describe.skip("Schedule", () => {
     });
 
     it("handles a new email event (with no matching google event", () => {
-      const emailGig = EmailGig.make({ location: "somewhere", parts: mockParts });
+      const emailGig = EmailGig.make(location, [receptionPart]);
 
       const schedule = Schedule.build({
           emailGigs: [emailGig],
