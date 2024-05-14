@@ -26,7 +26,9 @@ export const cocktailHourPart = new CocktailHour(earlierTime, laterTime);
 export const mockReceptionJSON = {
   type: "reception",
   startDateTime: start,
-  endDateTime: end
+  endDateTime: end,
+  actualStartDateTime: start,
+  actualEndDateTime: end
 } satisfies GigPartJSON;
 
 export const mockReceiptionPart = new Reception(mockReceptionJSON.startDateTime, mockReceptionJSON.endDateTime);
