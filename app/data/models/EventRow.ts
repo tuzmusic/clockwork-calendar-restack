@@ -78,9 +78,9 @@ export default class EventRow {
     });
 
     if (googleGig && row.locationsMatch) {
-      const routeInfo = googleGig.getRouteInfo();
-      if (routeInfo) {
-        row.appGig.setRouteInfo(routeInfo);
+      const distanceInfo = googleGig.getDistanceInfo();
+      if (distanceInfo) {
+        row.appGig.setRouteInfo(distanceInfo);
       }
     }
 

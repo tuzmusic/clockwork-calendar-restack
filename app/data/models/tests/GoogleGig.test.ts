@@ -21,7 +21,7 @@ describe("GoogleGig.make", () => {
     });
 
     it("has the route info as null", () => {
-      expect(gig.getRouteInfo()).toBeNull();
+      expect(gig.getDistanceInfo()).toBeNull();
     });
 
     it("has the parts as null", () => {
@@ -49,7 +49,7 @@ describe("GoogleGig.make", () => {
 
       const gig = GoogleGig.make(mockData);
 
-      expect(gig.getRouteInfo()).toEqual(mockDistanceData);
+      expect(gig.getDistanceInfo()).toEqual(mockDistanceData);
     });
   });
 

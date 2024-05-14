@@ -9,11 +9,11 @@ import SimpleGig from "~/data/models/SimpleGig";
 import { DistanceData } from "~/data/models/types";
 
 export default class GoogleGig extends SimpleGig {
-  private routeInfo: Record<string, DistanceData> | null = null;
+  private distanceInfo: Record<string, DistanceData> | null = null;
   private readonly partsJson: GigPartJSON[] | null = null;
 
-  public getRouteInfo() {
-    return this.routeInfo;
+  public getDistanceInfo() {
+    return this.distanceInfo;
   }
 
   public getPartsJson() {
@@ -31,7 +31,7 @@ export default class GoogleGig extends SimpleGig {
 
     if (extendedProps) {
       if (extendedProps.distanceInfo) {
-        this.routeInfo = JSON.parse(extendedProps.distanceInfo);
+        this.distanceInfo = JSON.parse(extendedProps.distanceInfo);
       }
       if (extendedProps.parts) {
         this.partsJson = JSON.parse(extendedProps.parts) as GigPartJSON[];

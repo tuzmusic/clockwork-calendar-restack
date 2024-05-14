@@ -13,7 +13,7 @@ export function getDistanceServiceWithMocks(location: string) {
 
   const distanceService = mock<DistanceService>();
   distanceService.getDistanceInfo.mockImplementation((args) => {
-    const routeInfo = (() => {
+    const distanceInfo = (() => {
       switch (true) {
         case timeFromHome(args):
           return { minutes: 90, formattedTime: "1h 30m", miles: 100 };
@@ -30,8 +30,8 @@ export function getDistanceServiceWithMocks(location: string) {
     })();
 
     return Promise.resolve({
-      ...routeInfo,
-      miles: routeInfo.miles ?? 0
+      ...distanceInfo,
+      miles: distanceInfo.miles ?? 0
     });
   });
 

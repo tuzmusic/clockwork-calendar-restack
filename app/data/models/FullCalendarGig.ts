@@ -22,11 +22,11 @@ export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
   public static make({
-                                 location,
-                                 parts,
-                                 distanceService = new DistanceService(),
-                                 isNew = false
-                               }: MakeFromValues
+                       location,
+                       parts,
+                       distanceService = new DistanceService(),
+                       isNew = false
+                     }: MakeFromValues
   ) {
     return new FullCalendarGig({
         location,
@@ -46,18 +46,18 @@ export default class FullCalendarGig extends GigWithParts {
     this.distanceService = distanceService;
   }
 
-  private _routeInfo: Record<string, DistanceData> | null = null;
+  private _distanceInfo: Record<string, DistanceData> | null = null;
 
   public getRouteInfo() {
-    return this._routeInfo;
+    return this._distanceInfo;
   }
 
-  public setRouteInfo(routeInfo: Record<string, DistanceData>) {
-    this._routeInfo = routeInfo;
+  public setRouteInfo(distanceInfo: Record<string, DistanceData>) {
+    this._distanceInfo = distanceInfo;
   }
 
   public async fetchRouteInfo() {
-    if (this._routeInfo) return this._routeInfo;
+    if (this._distanceInfo) return this._distanceInfo;
 
     const { distanceService } = this;
     const fromHome = await distanceService.getDistanceInfo({
@@ -79,7 +79,7 @@ export default class FullCalendarGig extends GigWithParts {
       )
     };
 
-    this._routeInfo = {
+    this._distanceInfo = {
       fromHome,
       withWaltham,
       walthamDetour,

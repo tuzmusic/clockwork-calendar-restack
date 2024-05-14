@@ -38,8 +38,8 @@ describe("FullCalendarGig.make", () => {
         });
 
         await newGig.fetchRouteInfo();
-        const routeInfo = newGig.getRouteInfo();
-        if (!routeInfo) {
+        const distanceInfo = newGig.getRouteInfo();
+        if (!distanceInfo) {
           throw Error("Fetched route info but it is null");
         }
         return await use(newGig);
