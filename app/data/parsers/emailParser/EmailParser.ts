@@ -20,7 +20,8 @@ interface InProcessGigData {
     date: number, month: Month, year: number
   } | undefined,
   location?: string | undefined,
-  parts: GigPart[]
+  parts: GigPart[],
+  htmlLines: string[]
 }
 
 export default class EmailParser {
@@ -65,7 +66,6 @@ export default class EmailParser {
     const { atIndex: rowIndex, el } = param;
     if (rowIndex < FIRST_MONTH_ROW_INDEX) return;
     const row = this.$(el);
-
     if (this.isRowMonthDivider(row)) return;
     if (this.parseMonthHeader(row)) return;
 
@@ -73,15 +73,17 @@ export default class EmailParser {
     // no add'l parts we'll miss adding the gig.
     // and then it's cludgy to add from parseGig if we don't know
     // whether there are add'l parts
-    if (this.parseGig(row)) return;
-    if (this.parseAdditionalParts(row)) return;
+    if (this.parseGig(row) || this.parseAdditionalParts(row)) {
+      this.currentGigData?.htmlLines.push(row.html() ?? "");
+    }
   }
 
   private addGigToList() {
     // todo: I don't like these exclamation points.
     this.gigs.push(EmailGig.make(
       this.currentGigData!.location!,
-      this.currentGigData!.parts!
+      this.currentGigData!.parts!,
+      this.currentGigData!.htmlLines.join("")
     ));
   }
 
@@ -241,7 +243,8 @@ export default class EmailParser {
 
   private resetGig() {
     this.currentGigData = {
-      parts: []
+      parts: [],
+      htmlLines: []
     };
   }
 }
