@@ -1,6 +1,12 @@
 import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
 import { Reception } from "~/data/models/GigParts/Reception";
-import { cocktailHourPart, earlierTime, finalTime, laterTime, receptionPart } from "~/data/models/tests/testConstants";
+import {
+  cocktailHourPart,
+  cocktailStart,
+  receptionEnd,
+  receptionPart,
+  receptionStart
+} from "~/data/models/tests/testConstants";
 
 describe("GigTimeline", () => {
   it("can be initialized empty", () => {
@@ -18,20 +24,20 @@ describe("GigTimeline", () => {
   });
 
   it("can add a new part, preserving chronological order", () => {
-    const timeline = GigTimeline.make([new Reception(laterTime, finalTime)]);
+    const timeline = GigTimeline.make([new Reception(receptionStart, receptionEnd)]);
     timeline.addPart(cocktailHourPart);
     expect(timeline.getParts()[0].type).toEqual("cocktail hour");
   });
 
   it("returns the start time of the first part as the timeline start", () => {
-    const timeline = GigTimeline.make([new Reception(laterTime, finalTime)]);
+    const timeline = GigTimeline.make([new Reception(receptionStart, receptionEnd)]);
     timeline.addPart(cocktailHourPart);
-    expect(timeline.getStart()).toEqual(earlierTime);
+    expect(timeline.getStart()).toEqual(cocktailStart);
   });
 
   it("returns the end time of the first part as the timeline end", () => {
-    const timeline = GigTimeline.make([new Reception(laterTime, finalTime)]);
+    const timeline = GigTimeline.make([new Reception(receptionStart, receptionEnd)]);
     timeline.addPart(cocktailHourPart);
-    expect(timeline.getEnd()).toEqual(finalTime);
+    expect(timeline.getEnd()).toEqual(receptionEnd);
   });
 });

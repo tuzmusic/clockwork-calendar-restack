@@ -2,11 +2,11 @@ import EmailGig from "~/data/models/EmailGig";
 import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import {
   cocktailHourPart,
-  earlierTime,
-  finalTime,
-  laterTime,
+  cocktailStart,
   location,
-  receptionPart
+  receptionEnd,
+  receptionPart,
+  receptionStart
 } from "~/data/models/tests/testConstants";
 
 describe("serializers", () => {
@@ -15,21 +15,21 @@ describe("serializers", () => {
       const gig = EmailGig.make(location, [cocktailHourPart, receptionPart]);
       expect(gig.serialize()).toEqual({
         location,
-        id: laterTime.split('T').shift(),
+        id: receptionStart.split('T').shift(),
         parts: [
           {
             type: 'cocktail hour',
-            startDateTime: earlierTime,
-            actualStartDateTime: earlierTime,
-            endDateTime: laterTime,
-            actualEndDateTime: laterTime
+            startDateTime: cocktailStart,
+            actualStartDateTime: cocktailStart,
+            endDateTime: receptionStart,
+            actualEndDateTime: receptionStart
           },
           {
             type: 'reception',
-            startDateTime: laterTime,
-            actualStartDateTime: laterTime,
-            endDateTime: finalTime,
-            actualEndDateTime: finalTime
+            startDateTime: receptionStart,
+            actualStartDateTime: receptionStart,
+            endDateTime: receptionEnd,
+            actualEndDateTime: receptionEnd
           }
         ] satisfies GigPartJSON[]
       })

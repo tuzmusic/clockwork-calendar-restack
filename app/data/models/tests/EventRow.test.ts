@@ -9,12 +9,16 @@ import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
 import {
+  cocktailEnd,
+  cocktailStart,
   end,
   location,
   mockDistanceData,
   mockParts,
   mockReceiptionPart,
   mockReceptionJSONWithActual,
+  receptionEnd,
+  receptionStart,
   start
 } from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
@@ -227,11 +231,7 @@ describe("EventRow", () => {
       const updatedLocation = "somewhere else";
 
       const ceremonyStart = "2024-12-01T17:30:00-04:00";
-      const cocktailStart = "2024-12-01T18:00:00-04:00";
-      const cocktailEnd = "2024-12-01T19:00:00-04:00";
-      const receptionStart = cocktailEnd;
-      const receptionEnd = "2024-12-01T23:00:00-04:00";
-      const receiptionLaterEnd = "2024-12-01T23:30:00-04:00";
+      const receptionLaterEnd = "2024-12-01T23:30:00-04:00";
 
       const partsJSON: GigPartJSON[] = [
         {
@@ -288,7 +288,7 @@ describe("EventRow", () => {
       it.each<[string, GigPart[]]>([
         ["a single part has changed", [
           cocktailHourPart,
-          new Reception(receptionStart, receiptionLaterEnd)
+          new Reception(receptionStart, receptionLaterEnd)
         ]],
         ["a part has been removed", [receptionPart]],
         ["a part has been added", [ceremonyPart, ...parts]]
