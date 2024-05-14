@@ -1,7 +1,7 @@
 import EmailGig from "~/data/models/EmailGig";
 import EventRow from "~/data/models/EventRow";
-import GigWithParts from "~/data/models/GigWithParts";
 import GoogleGig from "~/data/models/GoogleGig";
+import SimpleGig from "~/data/models/SimpleGig";
 import DistanceService from "~/data/services/DistanceService";
 
 export default class Schedule {
@@ -9,7 +9,7 @@ export default class Schedule {
   private readonly remoteGigsTable: Record<string, GoogleGig>;
   public readonly eventSets: EventRow[];
 
-  private makeTableById<T extends GigWithParts>(gigs: T[]): Record<string, T> {
+  private makeTableById<T extends SimpleGig>(gigs: T[]): Record<string, T> {
     return gigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
     }), {});
