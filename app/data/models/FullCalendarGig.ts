@@ -48,15 +48,15 @@ export default class FullCalendarGig extends GigWithParts {
 
   private _distanceInfo: Record<string, DistanceData> | null = null;
 
-  public getRouteInfo() {
+  public getDistanceInfo() {
     return this._distanceInfo;
   }
 
-  public setRouteInfo(distanceInfo: Record<string, DistanceData>) {
+  public setDistanceInfo(distanceInfo: Record<string, DistanceData>) {
     this._distanceInfo = distanceInfo;
   }
 
-  public async fetchRouteInfo() {
+  public async fetchDistanceInfo() {
     if (this._distanceInfo) return this._distanceInfo;
 
     const { distanceService } = this;
@@ -94,6 +94,13 @@ export default class FullCalendarGig extends GigWithParts {
     };
   }
 
+  public serialize() {
+    return {
+      ...super.serialize(),
+      distanceInfo: this._distanceInfo
+    };
+  }
+
   public async store(calendarService = new CalendarService()) {
     await calendarService.post({
       location: this.location,
@@ -101,7 +108,7 @@ export default class FullCalendarGig extends GigWithParts {
       end: timeObj(this.getEndTime()),
       extendedProperties: {
         private: {
-          distanceInfo: JSON.stringify(this.getRouteInfo())
+          distanceInfo: JSON.stringify(this.getDistanceInfo())
 
         }
       }

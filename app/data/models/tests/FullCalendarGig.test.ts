@@ -23,7 +23,7 @@ describe("FullCalendarGig.make", () => {
       });
 
       expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-      await fullGig.fetchRouteInfo();
+      await fullGig.fetchDistanceInfo();
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
@@ -37,8 +37,8 @@ describe("FullCalendarGig.make", () => {
           distanceService
         });
 
-        await newGig.fetchRouteInfo();
-        const distanceInfo = newGig.getRouteInfo();
+        await newGig.fetchDistanceInfo();
+        const distanceInfo = newGig.getDistanceInfo();
         if (!distanceInfo) {
           throw Error("Fetched route info but it is null");
         }
@@ -48,7 +48,7 @@ describe("FullCalendarGig.make", () => {
 
     describe("Gets the correct distance info", () => {
       it("withWaltham", ({ gig }) => {
-        expect(gig.getRouteInfo()?.withWaltham).toEqual({
+        expect(gig.getDistanceInfo()?.withWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 120,
           formattedTime: "2h"
@@ -56,7 +56,7 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("fromHome", ({ gig }) => {
-        expect(gig.getRouteInfo()?.fromHome).toEqual({
+        expect(gig.getDistanceInfo()?.fromHome).toEqual({
           miles: expect.any(Number),
           minutes: 90,
           formattedTime: "1h 30m"
@@ -64,7 +64,7 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("fromWaltham", ({ gig }) => {
-        expect(gig.getRouteInfo()?.fromWaltham).toEqual({
+        expect(gig.getDistanceInfo()?.fromWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 45,
           formattedTime: "45m"
@@ -72,7 +72,7 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("walthamDetour", ({ gig }) => {
-        expect(gig.getRouteInfo()?.walthamDetour).toEqual({
+        expect(gig.getDistanceInfo()?.walthamDetour).toEqual({
           miles: 10,
           minutes: 30,
           formattedTime: "30m"
@@ -80,7 +80,7 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("fromBoston", ({ gig }) => {
-        expect(gig.getRouteInfo()?.fromBoston).toEqual({
+        expect(gig.getDistanceInfo()?.fromBoston).toEqual({
           miles: 65,
           minutes: 70,
           formattedTime: "1h 10m"

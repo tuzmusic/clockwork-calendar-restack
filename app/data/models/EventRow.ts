@@ -80,7 +80,7 @@ export default class EventRow {
     if (googleGig && row.locationsMatch) {
       const distanceInfo = googleGig.getDistanceInfo();
       if (distanceInfo) {
-        row.appGig.setRouteInfo(distanceInfo);
+        row.appGig.setDistanceInfo(distanceInfo);
       }
     }
 

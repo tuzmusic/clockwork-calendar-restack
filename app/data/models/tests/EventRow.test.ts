@@ -61,21 +61,21 @@ describe("EventRow", () => {
         });
 
         it("starts with no route info", ({ row: { appGig } }) => {
-          expect(appGig.getRouteInfo()).toBeNull();
+          expect(appGig.getDistanceInfo()).toBeNull();
         });
 
         it("can fill out the route info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          await appGig.fetchRouteInfo();
+          await appGig.fetchDistanceInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).not.toBeNull();
+          expect(appGig.getDistanceInfo()).not.toBeNull();
         });
       });
 
       describe("Email gig + Full Calendar Gig; Basic info matches", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockDataWithRouteInfo: calendar_v3.Schema$Event = {
+            const mockDataWithDistanceInfo: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location,
@@ -87,7 +87,7 @@ describe("EventRow", () => {
               }
             };
             const emailGig = EmailGig.make(location, [mockReceiptionPart]);
-            const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
+            const calendarGig = GoogleGig.make(mockDataWithDistanceInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
             expect(row).instanceof(EventRow);
@@ -108,16 +108,16 @@ describe("EventRow", () => {
 
         it("populates the route info from the stored gig", ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).toEqual(mockDistanceData);
+          expect(appGig.getDistanceInfo()).toEqual(mockDistanceData);
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
         });
 
-        it("does not call the distance service when calling setRouteInfo", async ({ row: { appGig } }) => {
-          expect(appGig.getRouteInfo()).not.toBeNull();
+        it("does not call the distance service when calling setDistanceInfo", async ({ row: { appGig } }) => {
+          expect(appGig.getDistanceInfo()).not.toBeNull();
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          await appGig.fetchRouteInfo();
+          await appGig.fetchDistanceInfo();
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).not.toBeNull();
+          expect(appGig.getDistanceInfo()).not.toBeNull();
         });
       });
 
@@ -147,11 +147,11 @@ describe("EventRow", () => {
         });
 
         it("starts with no route info and can fill it in on demand", async ({ row: { appGig } }) => {
-          expect(appGig.getRouteInfo()).toBeNull();
+          expect(appGig.getDistanceInfo()).toBeNull();
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          await appGig.fetchRouteInfo();
+          await appGig.fetchDistanceInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).not.toBeNull();
+          expect(appGig.getDistanceInfo()).not.toBeNull();
         });
       });
 
@@ -160,7 +160,7 @@ describe("EventRow", () => {
 
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const mockDataWithRouteInfo: calendar_v3.Schema$Event = {
+            const mockDataWithDistanceInfo: calendar_v3.Schema$Event = {
               start: { dateTime: start },
               end: { dateTime: end },
               location,
@@ -171,7 +171,7 @@ describe("EventRow", () => {
               }
             };
             const emailGig = EmailGig.make(updatedLocation, [mockReceiptionPart]);
-            const calendarGig = GoogleGig.make(mockDataWithRouteInfo);
+            const calendarGig = GoogleGig.make(mockDataWithDistanceInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
             expect(row).instanceof(EventRow);
@@ -188,11 +188,11 @@ describe("EventRow", () => {
 
         it("keeps the distance info empty (because it's out of date) but can fill it in info on demand", async ({ row: { appGig } }) => {
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).toBeNull();
+          expect(appGig.getDistanceInfo()).toBeNull();
           expect(distanceService.getDistanceInfo).not.toHaveBeenCalled();
-          await appGig.fetchRouteInfo();
+          await appGig.fetchDistanceInfo();
           expect(distanceService.getDistanceInfo).toHaveBeenCalled();
-          expect(appGig.getRouteInfo()).not.toBeNull();
+          expect(appGig.getDistanceInfo()).not.toBeNull();
         });
       });
 
