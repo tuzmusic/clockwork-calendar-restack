@@ -19,7 +19,7 @@ export const buildEvent = ({
 }) => `
       <tr>
         <td>&nbsp;</td>
-        <td>${dateNum}</strong></td>
+        <td><strong>${dateNum}</strong></td>
         <td>&nbsp;</td>
         <td> ${timeStr} 
         </td>

@@ -66,7 +66,7 @@ export default class EmailParser {
     const { atIndex: rowIndex, el } = param;
     if (rowIndex < FIRST_MONTH_ROW_INDEX) return;
     const row = this.$(el);
-    const rowHtml = row.html()
+    const rowHtml = row.html();
     if (this.isRowMonthDivider(row)) return;
     if (this.parseMonthHeader(row)) return;
 
@@ -75,7 +75,10 @@ export default class EmailParser {
     // and then it's cludgy to add from parseGig if we don't know
     // whether there are add'l parts
     if (this.parseGig(row) || this.parseAdditionalParts(row)) {
-      this.currentGigData?.htmlLines.push(rowHtml ?? "");
+      this.currentGigData?.htmlLines.push([
+          "<tr>", rowHtml ?? "", "</tr>"
+        ].join("")
+      );
     }
   }
 
