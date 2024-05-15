@@ -7,6 +7,7 @@ export default class EmailFixtureService extends EmailService {
       buildMonthHeader('July'),
       buildEvent({ dateNum: 8 }),
       buildEvent({ dateNum: 9 }),
+      buildOtherPart({ timeStr: "4:00-5:00", part: "Ceremony" }),
       buildOtherPart({ timeStr: "5:00-6:00", part: "Cocktail Hour" }),
       buildMonthHeader('August'),
       buildEvent({ dateNum: 18 }),

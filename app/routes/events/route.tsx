@@ -27,5 +27,17 @@ export async function loader(_args: LoaderFunctionArgs) {
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
 
-  return <pre>{JSON.stringify(eventRowsJson, null, 2)}</pre>;
-}
+  return <div className="p-2 w-11/12 h-1/2 grid grid-cols-3">
+    <h2>Email</h2>
+    <h2>Final</h2>
+    <h2>Calendar</h2>
+
+    {eventRowsJson.map(row => <>
+      <table>
+        <tbody dangerouslySetInnerHTML={{ __html: row.emailGig?.originalHtml ?? "(email html here)" }} />
+      </table>
+      <div />
+      <div />
+    </>)}
+  </div>;
+};
