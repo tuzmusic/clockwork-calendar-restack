@@ -4,11 +4,13 @@ import GoogleGig from "~/data/models/GoogleGig";
 import DistanceService from "~/data/services/DistanceService";
 
 export default class EventRow {
+  private readonly id: string
   private constructor(
     private emailGig: EmailGig | undefined,
     private googleGig: GoogleGig | undefined,
     private distanceService: DistanceService
   ) {
+    this.id = emailGig?.getId() ?? googleGig?.getId() ?? 'new'
   }
 
   public serialize() {

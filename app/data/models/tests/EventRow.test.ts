@@ -91,6 +91,7 @@ describe("EventRow", () => {
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
             expect(row).instanceof(EventRow);
+            expect(row.id).toEqual("2024-12-01");
             return await use(row);
           }
         });

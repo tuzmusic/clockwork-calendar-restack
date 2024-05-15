@@ -33,7 +33,7 @@ export default function Events() {
     <h2>Calendar</h2>
 
     {eventRowsJson.map(row => <>
-      <table>
+      <table key={row.appGig.id}>
         <tbody dangerouslySetInnerHTML={{ __html: row.emailGig?.originalHtml ?? "(email html here)" }} />
       </table>
       <div />
