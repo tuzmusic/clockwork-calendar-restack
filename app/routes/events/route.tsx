@@ -8,6 +8,7 @@ import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
 import EmailFixtureService from "~/data/services/EmailFixtureService";
 import { EmailHtml } from "~/routes/events/components/EmailHtml";
+import { FullGigUI } from "~/routes/events/components/FullGigUI";
 
 export async function loader(_args: LoaderFunctionArgs) {
   const emailService = new EmailFixtureService();
@@ -37,8 +38,8 @@ export default function Events() {
 
       {eventRowsJson.map((row) =>
         <React.Fragment key={row.id}>
-          {row.emailGig ? <EmailHtml gig={row.emailGig}/> : <div />}
-          <div />
+          {row.emailGig ? <EmailHtml gig={row.emailGig} /> : <div />}
+          <FullGigUI gig={row.appGig} />
           <div />
         </React.Fragment>
       )}
