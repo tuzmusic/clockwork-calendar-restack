@@ -3,8 +3,10 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 import GoogleGig from "~/data/models/GoogleGig";
 import DistanceService from "~/data/services/DistanceService";
 
+export type EventRowJson = ReturnType<EventRow['serialize']>
+
 export default class EventRow {
-  private readonly id: string
+  public readonly id: string
   private constructor(
     private emailGig: EmailGig | undefined,
     private googleGig: GoogleGig | undefined,
@@ -17,7 +19,8 @@ export default class EventRow {
     return {
       emailGig: this.emailGig?.serialize() ?? null,
       googleGig: this.googleGig?.serialize() ?? null,
-      appGig: this.appGig.serialize()
+      appGig: this.appGig.serialize(),
+      id: this.id
     }
   }
 

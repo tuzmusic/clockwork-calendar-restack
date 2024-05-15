@@ -1,6 +1,8 @@
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import React from "react";
 
+import { EventRowJson } from "~/data/models/EventRow";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
@@ -24,20 +26,28 @@ export async function loader(_args: LoaderFunctionArgs) {
   return json({ eventRowsJson });
 }
 
+function EmailHtml({ row }: { row: EventRowJson }) {
+  return <table>
+    <tbody dangerouslySetInnerHTML={{ __html: row.emailGig?.originalHtml ?? "(email html here)" }} />
+  </table>;
+}
+
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
 
-  return <div className="p-2 w-11/12 h-1/2 grid grid-cols-3">
-    <h2>Email</h2>
-    <h2>Final</h2>
-    <h2>Calendar</h2>
+  return (
+    <div className="p-2 w-11/12 h-1/2 grid grid-cols-3">
+      <h2>Email</h2>
+      <h2>Final</h2>
+      <h2>Calendar</h2>
 
-    {eventRowsJson.map(row => <>
-      <table key={row.appGig.id}>
-        <tbody dangerouslySetInnerHTML={{ __html: row.emailGig?.originalHtml ?? "(email html here)" }} />
-      </table>
-      <div />
-      <div />
-    </>)}
-  </div>;
+      {eventRowsJson.map((row) =>
+        <React.Fragment key={row.id}>
+          <EmailHtml row={row} />
+          <div />
+          <div />
+        </React.Fragment>
+      )}
+    </div>
+  );
 };
