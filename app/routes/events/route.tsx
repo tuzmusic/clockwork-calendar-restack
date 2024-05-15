@@ -1,12 +1,17 @@
 import { json, LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
-import EmailGig from "~/data/models/EmailGig";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
+import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
+import EmailFixtureService from "~/data/services/EmailFixtureService";
 
-export function loader(_args: LoaderFunctionArgs) {
-  const emailGigs: EmailGig[] = [];
+export async function loader(_args: LoaderFunctionArgs) {
+  const emailService = new EmailFixtureService();
+  const html = await emailService.getMessageBody();
+
+  const emailGigs = EmailParser.parseEmail(html);
   const remoteGigs: GoogleGig[] = [];
   const schedule = Schedule.build({
       emailGigs,
@@ -14,9 +19,13 @@ export function loader(_args: LoaderFunctionArgs) {
     },
     new DistanceService()
   );
-  return json({});
+
+  const eventRowsJson = schedule.eventSets.map(set => set.serialize());
+  return json({ eventRowsJson });
 }
 
 export default function Events() {
-  return <h1>Hello</h1>;
+  const { eventRowsJson } = useLoaderData<typeof loader>();
+
+  return <pre>{JSON.stringify(eventRowsJson, null, 2)}</pre>;
 }

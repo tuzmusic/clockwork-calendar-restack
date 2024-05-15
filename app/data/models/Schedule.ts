@@ -9,7 +9,7 @@ export default class Schedule {
   private readonly remoteGigsTable: Record<string, GoogleGig>;
   public readonly eventSets: EventRow[];
 
-  private makeTableById<T extends SimpleGig>(gigs: T[]): Record<string, T> {
+  private makeTableById<T extends SimpleGig<unknown>>(gigs: T[]): Record<string, T> {
     return gigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
     }), {});

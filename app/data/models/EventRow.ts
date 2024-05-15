@@ -11,6 +11,14 @@ export default class EventRow {
   ) {
   }
 
+  public serialize() {
+    return {
+      emailGig: this.emailGig?.serialize() ?? null,
+      googleGig: this.googleGig?.serialize() ?? null,
+      appGig: this.appGig.serialize()
+    }
+  }
+
   public getEmailGig() {
     return this.emailGig
   }

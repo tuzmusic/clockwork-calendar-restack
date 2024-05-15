@@ -6,5 +6,6 @@ export default class DistanceService {
     to: string
     through?: string
   }): Promise<DistanceData> {
+    throw new Error('getDistanceInfo not implemented')
   }
 }
