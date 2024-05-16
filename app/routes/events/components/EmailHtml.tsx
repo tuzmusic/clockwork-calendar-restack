@@ -1,11 +1,21 @@
+import DayJsTz from "~/data/models/DayJsTz";
 import EmailGig from "~/data/models/EmailGig";
 
 export function EmailHtml({ gig }: { gig: ReturnType<EmailGig["serialize"]> }) {
+  // get the gig month and insert it into the <td> tag with the date
+  const month = DayJsTz(gig.id).format("MMM");
+  // replace the month in the first <td> tag of the originalHtml with the month
+  const html = gig.originalHtml?.replace(
+    /<td><strong>(\d{1,2})/,
+    `<td class="text-right"><strong>${month} $1`
+  );
+
+
   return (
-    <table>
+    <table cellPadding="2" cellSpacing="2">
       <tbody
         className="align-top"
-        dangerouslySetInnerHTML={{ __html: gig.originalHtml ?? "(email html here)" }}
+        dangerouslySetInnerHTML={{ __html: html ?? "(email html here)" }}
       />
     </table>
   );
