@@ -312,14 +312,43 @@ describe("EventRow", () => {
             extendedProperties: {
               private: {
                 parts: JSON.stringify(partsJSON),
-                distanceInfo: JSON.stringify(mockDistanceData),
+                distanceInfo: JSON.stringify(mockDistanceData)
               }
             }
           });
 
           const emailGig = EmailGig.make(location, parts);
           const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
-          expect(row.hasUpdates).toBe(false)
+          expect(row.hasUpdates).toBe(false);
+        });
+
+        describe("google gig is missing distance info", () => {
+          function getRow() {
+            const calendarGig = GoogleGig.make({
+              start: { dateTime: receptionStart },
+              end: { dateTime: receptionEnd },
+              location,
+              extendedProperties: {
+                private: {
+                  parts: JSON.stringify(partsJSON)
+                }
+              }
+            });
+
+            const emailGig = EmailGig.make(location, parts);
+            return EventRow.buildRow(emailGig, calendarGig, distanceService);
+          }
+
+          it("is false if the app gig also doesn't have distance info", () => {
+            const row = getRow();
+            expect(row.hasUpdates).toBe(false);
+          });
+
+          it("is true if the app gig has distance info", async () => {
+            const row = getRow();
+            await row.appGig.fetchDistanceInfo()
+            expect(row.hasUpdates).toBe(true);
+          });
         });
       });
     });

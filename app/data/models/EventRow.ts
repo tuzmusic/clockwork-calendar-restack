@@ -3,16 +3,17 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 import GoogleGig from "~/data/models/GoogleGig";
 import DistanceService from "~/data/services/DistanceService";
 
-export type EventRowJson = ReturnType<EventRow['serialize']>
+export type EventRowJson = ReturnType<EventRow["serialize"]>
 
 export default class EventRow {
-  public readonly id: string
+  public readonly id: string;
+
   private constructor(
     private emailGig: EmailGig | undefined,
     private googleGig: GoogleGig | undefined,
     private distanceService: DistanceService
   ) {
-    this.id = emailGig?.getId() ?? googleGig?.getId() ?? 'new'
+    this.id = emailGig?.getId() ?? googleGig?.getId() ?? "new";
   }
 
   public serialize() {
@@ -22,15 +23,15 @@ export default class EventRow {
       appGig: this.appGig.serialize(),
       id: this.id,
       hasChanged: this.hasChanged
-    }
+    };
   }
 
   public getEmailGig() {
-    return this.emailGig
+    return this.emailGig;
   }
 
   public getCalendarGig() {
-    return this.googleGig
+    return this.googleGig;
   }
 
   public appGig!: FullCalendarGig;
@@ -53,13 +54,31 @@ export default class EventRow {
     return !this.partsMatch;
   }
 
-  private _hasChanged!: boolean
+  private _hasUpdates!: boolean;
+
+  public get hasUpdates() {
+    const { googleGig, emailGig, appGig } = this;
+    if (this._hasUpdates === undefined) {
+      this._hasUpdates = (() => {
+        // if (this._hasChanged) return true;
+
+        if (!googleGig?.getDistanceInfo() && appGig.getDistanceInfo()) {
+          return true;
+        }
+
+        return false;
+      })();
+    }
+    return this._hasUpdates;
+  }
+
+  private _hasChanged!: boolean;
 
   public get hasChanged() {
     if (this._hasChanged === undefined) {
-      this._hasChanged = !this.eventsAreIdentical
+      this._hasChanged = !this.eventsAreIdentical;
     }
-    return this._hasChanged
+    return this._hasChanged;
   }
 
   private get eventsAreIdentical() {
@@ -75,11 +94,11 @@ export default class EventRow {
     distanceService: DistanceService
   ): EventRow {
     if (!emailGig && !googleGig) {
-      throw new Error('buildRow was called but neither event is defined.')
+      throw new Error("buildRow was called but neither event is defined.");
     }
 
     if (!emailGig) {
-      throw new Error('Unhandled: email gig is blank')
+      throw new Error("Unhandled: email gig is blank");
     }
 
     const row = new EventRow(emailGig, googleGig, distanceService);
