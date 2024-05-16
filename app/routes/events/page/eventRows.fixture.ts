@@ -17,7 +17,12 @@ export function getFixture(): EventRowJson[] {
         ],
         originalHtml: "<tr>\n        <td>&nbsp;</td>\n        <td><strong>8</strong></td>\n        <td>&nbsp;</td>\n        <td> 6:00-10:30 \n        </td>\n        <td>\n          <strong>CEC</strong> &nbsp;\n          Some location\n        </td>\n      </tr>"
       },
-      googleGig: null,
+      googleGig: {
+        startDateTime: "2024-07-08T18:00:00-04:00",
+        endDateTime: "2024-07-08T22:30:00-04:00",
+        id: "2024-07-08",
+        location: "Some location"
+      },
       appGig: {
         id: "2024-07-08",
         location: "Some location",
