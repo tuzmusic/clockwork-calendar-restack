@@ -322,6 +322,24 @@ describe("EventRow", () => {
           expect(row.hasUpdates).toBe(false);
         });
 
+        it("is true if hasChanged is true", () => {
+          const calendarGig = GoogleGig.make({
+            start: { dateTime: receptionStart },
+            end: { dateTime: receptionEnd },
+            location,
+            extendedProperties: {
+              private: {
+                parts: JSON.stringify(partsJSON),
+                distanceInfo: JSON.stringify(mockDistanceData)
+              }
+            }
+          });
+
+          const emailGig = EmailGig.make("somewhere else", parts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.hasUpdates).toBe(true);
+        });
+
         it("is true if google gig is missing parts", () => {
           const calendarGig = GoogleGig.make({
             start: { dateTime: receptionStart },

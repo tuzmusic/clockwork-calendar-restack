@@ -57,8 +57,10 @@ export default class EventRow {
 
   public get hasUpdates() {
     const { googleGig, appGig } = this;
-    // if (this._hasChanged) return true;
+    if (this.hasChanged) return true;
 
+    // if the info hasn't changed, but the google gig is missing info,
+    // there's still reason to update the google event.
     if (!googleGig?.getPartsJson()) {
       return true;
     }
