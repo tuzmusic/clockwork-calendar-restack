@@ -12,11 +12,13 @@ export function EmailHtml({ gig }: { gig: ReturnType<EmailGig["serialize"]> }) {
 
 
   return (
-    <table cellPadding="2" cellSpacing="2">
-      <tbody
-        className="align-top"
-        dangerouslySetInnerHTML={{ __html: html ?? "(email html here)" }}
-      />
-    </table>
+    <div className="py-2 w-full">
+      <table cellPadding="2" cellSpacing="2">
+        <tbody
+          className="align-top"
+          dangerouslySetInnerHTML={{ __html: html ?? "(email html here)" }}
+        />
+      </table>
+    </div>
   );
 }
