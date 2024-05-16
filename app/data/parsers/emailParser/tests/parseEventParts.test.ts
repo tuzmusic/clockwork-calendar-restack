@@ -5,8 +5,10 @@ import { buildEvent, buildHtml, buildMonthHeader, buildOtherPart } from "./htmlB
 
 const location = "Lenox Hotel, Boston, MA";
 
-function assertEqualsIgnoringWhitespace(str1: string, str2: string) {
-  expect(str1.replace(/\s+/g, ``)).toEqual(str2.replace(/\s+/g, ``));
+function assertEqualsIgnoringWhitespace(str1: string | null, str2: string | null) {
+  expect(str1).not.toBeNull()
+  expect(str2).not.toBeNull()
+  expect(str1?.replace(/\s+/g, ``)).toEqual(str2?.replace(/\s+/g, ``));
 }
 
 expect.extend({
@@ -43,7 +45,10 @@ describe("Parsing event parts", () => {
         "2024-07-08T22:30:00-04:00"
       );
 
-      expect(event.getOriginalHtml()).toEqualIgnoringWhitespace(eventHtml);
+      assertEqualsIgnoringWhitespace(
+        event.getOriginalHtml(),
+        eventHtml
+      );
     });
 
     it("Parses an event with reception ending after 12am (but before 1am)", () => {
@@ -108,7 +113,10 @@ describe("Parsing event parts", () => {
       const event = EmailParser.parseEmail(html).shift()!;
 
       const eventHtml = `${receptionStr}${cocktailStr}`;
-      expect(event.getOriginalHtml()).toEqualIgnoringWhitespace(eventHtml);
+      assertEqualsIgnoringWhitespace(
+        event.getOriginalHtml(),
+        eventHtml
+      );
 
       expect(event.getParts()).toHaveLength(2);
       const [cocktails, reception] = event.getParts(); // implicitly tests ordering
