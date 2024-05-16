@@ -7,12 +7,13 @@ export function FullGigUI({ gig }: { gig: ReturnType<FullCalendarGig["serialize"
   const date = dayjs(gig.parts[0].startDateTime).format("MMMM D, YYYY");
 
   return (
-    <>
-      <h3 className="flex justify-between border-b-2 align-middle p-2">
+    <div className="[&>*]:p-2">
+      <h3 className="flex justify-between border-b-2 align-middle">
         <span className="font-bold">{date}</span>
         <span>{gig.location}</span>
       </h3>
-      <ul className="p-2">
+
+      <ul >
         {gig.parts.map(part => (
           <GigPartUI key={part.type} part={part} />)
         )}
