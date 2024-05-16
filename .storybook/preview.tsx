@@ -1,5 +1,6 @@
 import { createRemixStub } from "@remix-run/testing";
 import type { Preview } from "@storybook/react";
+import "~/tailwind.css";
 
 const preview: Preview = {
   decorators: [

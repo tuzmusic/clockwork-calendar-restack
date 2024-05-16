@@ -7,8 +7,7 @@ import Schedule from "~/data/models/Schedule";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
 import EmailFixtureService from "~/data/services/EmailFixtureService";
-import { EmailHtml } from "~/routes/events/components/EmailHtml";
-import { FullGigUI } from "~/routes/events/components/FullGigUI";
+import { EventsPage } from "~/routes/events/page/EventsPage";
 
 export async function loader(_args: LoaderFunctionArgs) {
   const emailService = new EmailFixtureService();
@@ -27,19 +26,5 @@ export async function loader(_args: LoaderFunctionArgs) {
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
 
-  return (
-    <div className="p-2 grid grid-cols-3 items-start gap-3">
-      <h2>Email</h2>
-      <h2>Final</h2>
-      <h2>Calendar</h2>
-
-      {eventRowsJson.map((row) =>
-        <React.Fragment key={row.id}>
-          {row.emailGig ? <EmailHtml gig={row.emailGig} /> : <div />}
-          <FullGigUI gig={row.appGig} />
-          <div />
-        </React.Fragment>
-      )}
-    </div>
-  );
+  return <EventsPage eventRows={eventRowsJson} />;
 };
