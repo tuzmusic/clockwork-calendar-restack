@@ -323,30 +323,30 @@ describe("EventRow", () => {
         });
 
         describe("google gig is missing distance info", () => {
-          function getRow() {
-            const calendarGig = GoogleGig.make({
-              start: { dateTime: receptionStart },
-              end: { dateTime: receptionEnd },
-              location,
-              extendedProperties: {
-                private: {
-                  parts: JSON.stringify(partsJSON)
+          const it = test.extend<{ row: EventRow }>({
+            row: async ({ task: _ }, use) => {
+              const calendarGig = GoogleGig.make({
+                start: { dateTime: receptionStart },
+                end: { dateTime: receptionEnd },
+                location,
+                extendedProperties: {
+                  private: {
+                    parts: JSON.stringify(partsJSON)
+                  }
                 }
-              }
-            });
+              });
 
-            const emailGig = EmailGig.make(location, parts);
-            return EventRow.buildRow(emailGig, calendarGig, distanceService);
-          }
+              const emailGig = EmailGig.make(location, parts);
+              use(EventRow.buildRow(emailGig, calendarGig, distanceService));
+            }
+          });
 
-          it("is false if the app gig also doesn't have distance info", () => {
-            const row = getRow();
+          it("is false if the app gig also doesn't have distance info", ({ row }) => {
             expect(row.hasUpdates).toBe(false);
           });
 
-          it("is true if the app gig has distance info", async () => {
-            const row = getRow();
-            await row.appGig.fetchDistanceInfo()
+          it("is true if the app gig has distance info", async ({ row }) => {
+            await row.appGig.fetchDistanceInfo();
             expect(row.hasUpdates).toBe(true);
           });
         });
