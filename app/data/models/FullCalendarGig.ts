@@ -96,7 +96,7 @@ export default class FullCalendarGig extends GigWithParts {
 
   public serialize() {
     return {
-      ...super.serialize(),
+      ...super.serialize(), // includes parts
       distanceInfo: this._distanceInfo
     };
   }
@@ -109,7 +109,6 @@ export default class FullCalendarGig extends GigWithParts {
       extendedProperties: {
         private: {
           distanceInfo: JSON.stringify(this.getDistanceInfo())
-
         }
       }
     });
