@@ -23,7 +23,7 @@ module.exports = {
   },
 
   // Base config
-  extends: ["eslint:recommended"],
+  extends: ["eslint:recommended", "plugin:storybook/recommended"],
   rules: {
     "object-curly-spacing": "error",
     "object-property-newline": "error",
