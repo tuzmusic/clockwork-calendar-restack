@@ -9,7 +9,7 @@ import { SaveButton } from "~/routes/events/components/SaveButton";
 
 export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
   return (
-    <div className="p-2 grid grid-cols-3 items-start gap-3">
+    <div data-testid="EVENTS_PAGE" className="p-2 grid grid-cols-3 items-start gap-3">
       <div className="col-span-3 p-2 grid grid-cols-3 gap-3 bg-gray-200 font-bold">
         <h2>Email</h2>
         <h2 className="mx-auto">Final</h2>
@@ -29,7 +29,7 @@ export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
           <RoundedWrapper>
             {row.googleGig
               ? <CalendarGigUI gig={row.googleGig} hasUpdates={row.hasUpdates}/>
-              : <SaveButton>Save</SaveButton>}
+              : <SaveButton data-testid={'SAVE_BUTTON'}>Save</SaveButton>}
           </RoundedWrapper>
         </React.Fragment>
       )}

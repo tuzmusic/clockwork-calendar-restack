@@ -16,7 +16,7 @@ export function CalendarGigUI({ gig, hasUpdates }: { gig: ReturnType<GoogleGig["
       </ul>
       {hasUpdates ?
         <div className="mt-auto ml-auto w-min">
-          <SaveButton>Update</SaveButton>
+          <SaveButton data-testid="UPDATE_BUTTON">Update</SaveButton>
         </div>
         : null}
     </div>
