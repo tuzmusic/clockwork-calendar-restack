@@ -37,7 +37,8 @@ export function getFixture(): EventRowJson[] {
         ],
         distanceInfo: null
       },
-      id: "2024-07-08"
+      id: "2024-07-08",
+      hasChanged: false
     },
     {
       emailGig: {
@@ -68,7 +69,12 @@ export function getFixture(): EventRowJson[] {
         ],
         originalHtml: "<tr>\n        <td>&nbsp;</td>\n        <td><strong>9</strong></td>\n        <td>&nbsp;</td>\n        <td> 6:00-10:30 \n        </td>\n        <td>\n          <strong>CEC</strong> &nbsp;\n          Some location\n        </td>\n      </tr><tr>\n  <td colspan=\"3\" valign=\"top\">&nbsp;</td>\n  <td colspan=\"2\" valign=\"top\">\n    <span style=\"\n        color: #00f;\n        font-style: italic;\n        font-size: 11px;\n      \">\n      <strong>Ceremony</strong>,\n      4:00-5:00: Jonathan (Keys)\n    </span>\n  </td>\n</tr><tr>\n  <td colspan=\"3\" valign=\"top\">&nbsp;</td>\n  <td colspan=\"2\" valign=\"top\">\n    <span style=\"\n        color: #00f;\n        font-style: italic;\n        font-size: 11px;\n      \">\n      <strong>Cocktail Hour</strong>,\n      5:00-6:00: Jonathan (Keys)\n    </span>\n  </td>\n</tr>"
       },
-      googleGig: null,
+      googleGig: {
+        startDateTime: "2024-07-09T16:30:00-04:00",
+        endDateTime: "2024-07-09T22:30:00-04:00",
+        id: "2024-07-09",
+        location: "Some location"
+      },
       appGig: {
         id: "2024-07-09",
         location: "Some location",
@@ -97,7 +103,8 @@ export function getFixture(): EventRowJson[] {
         ],
         distanceInfo: null
       },
-      id: "2024-07-09"
+      id: "2024-07-09",
+      hasChanged: false,
     },
     {
       emailGig: {
@@ -129,7 +136,8 @@ export function getFixture(): EventRowJson[] {
         ],
         distanceInfo: null
       },
-      id: "2024-08-18"
+      id: "2024-08-18",
+      hasChanged: false,
     },
     {
       emailGig: {
@@ -161,7 +169,8 @@ export function getFixture(): EventRowJson[] {
         ],
         distanceInfo: null
       },
-      id: "2024-08-19"
+      id: "2024-08-19",
+      hasChanged: false,
     }
   ];
 }

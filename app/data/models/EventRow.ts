@@ -20,7 +20,8 @@ export default class EventRow {
       emailGig: this.emailGig?.serialize() ?? null,
       googleGig: this.googleGig?.serialize() ?? null,
       appGig: this.appGig.serialize(),
-      id: this.id
+      id: this.id,
+      hasChanged: this.hasChanged
     }
   }
 

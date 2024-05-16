@@ -17,8 +17,10 @@ export default meta;
 
 type Story = StoryObj<typeof meta>
 
+const fixture = getFixture();
+fixture[1].hasChanged = true
 export const Default = {
   args: {
-    eventRows: getFixture()
+    eventRows: fixture
   }
 } satisfies Story;
