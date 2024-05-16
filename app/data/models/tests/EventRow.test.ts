@@ -228,7 +228,8 @@ describe("EventRow", () => {
       });
     });
 
-    describe("hasChanged", () => {
+
+    describe("Events worth updating", () => {
       const updatedLocation = "somewhere else";
 
       const ceremonyStart = "2024-12-01T17:30:00-04:00";
@@ -240,13 +241,13 @@ describe("EventRow", () => {
           startDateTime: cocktailStart,
           endDateTime: cocktailEnd,
           actualStartDateTime: cocktailStart,
-          actualEndDateTime: cocktailEnd,
+          actualEndDateTime: cocktailEnd
         }, {
           type: "reception",
           startDateTime: receptionStart,
           endDateTime: receptionEnd,
           actualStartDateTime: receptionStart,
-          actualEndDateTime: receptionEnd,
+          actualEndDateTime: receptionEnd
         }
       ];
 
@@ -259,45 +260,67 @@ describe("EventRow", () => {
         receptionPart
       ];
 
-      const calendarGig = GoogleGig.make({
-        start: { dateTime: receptionStart },
-        end: { dateTime: receptionEnd },
-        location,
-        extendedProperties: {
-          private: {
-            parts: JSON.stringify(partsJSON)
+      describe("hasChanged", () => {
+        const calendarGig = GoogleGig.make({
+          start: { dateTime: receptionStart },
+          end: { dateTime: receptionEnd },
+          location,
+          extendedProperties: {
+            private: {
+              parts: JSON.stringify(partsJSON)
+            }
           }
-        }
+        });
+
+        it("is false if there are no changes in parts or locations", () => {
+          const emailGig = EmailGig.make(location, parts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.locationHasChanged).toBe(false);
+          expect(row.partsHaveChanged).toBe(false);
+          expect(row.hasChanged).toBe(false);
+        });
+
+        it("is true if the two gigs have different locations", () => {
+          const emailGig = EmailGig.make(updatedLocation, parts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.locationHasChanged).toBe(true);
+          expect(row.hasChanged).toBe(true);
+        });
+
+
+        it.each<[string, GigPart[]]>([
+          ["a single part has changed", [
+            cocktailHourPart,
+            new Reception(receptionStart, receptionLaterEnd)
+          ]],
+          ["a part has been removed", [receptionPart]],
+          ["a part has been added", [ceremonyPart, ...parts]]
+        ])("is true if %s", (_, emailParts) => {
+          const emailGig = EmailGig.make(location, emailParts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.partsHaveChanged).toBe(true);
+          expect(row.hasChanged).toBe(true);
+        });
       });
 
-      it("is false if there are no changes in parts or locations", () => {
-        const emailGig = EmailGig.make(location, parts);
-        const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
-        expect(row.locationHasChanged).toBe(false);
-        expect(row.partsHaveChanged).toBe(false);
-        expect(row.hasChanged).toBe(false);
-      });
+      describe("hasUpdates", () => {
+        it("is false if the google gig has all the information (parts and distance data)", () => {
+          const calendarGig = GoogleGig.make({
+            start: { dateTime: receptionStart },
+            end: { dateTime: receptionEnd },
+            location,
+            extendedProperties: {
+              private: {
+                parts: JSON.stringify(partsJSON),
+                distanceInfo: JSON.stringify(mockDistanceData),
+              }
+            }
+          });
 
-      it("is true if the two gigs have different locations", () => {
-        const emailGig = EmailGig.make(updatedLocation, parts);
-        const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
-        expect(row.locationHasChanged).toBe(true);
-        expect(row.hasChanged).toBe(true);
-      });
-
-
-      it.each<[string, GigPart[]]>([
-        ["a single part has changed", [
-          cocktailHourPart,
-          new Reception(receptionStart, receptionLaterEnd)
-        ]],
-        ["a part has been removed", [receptionPart]],
-        ["a part has been added", [ceremonyPart, ...parts]]
-      ])("is true if %s", (_, emailParts) => {
-        const emailGig = EmailGig.make(location, emailParts);
-        const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
-        expect(row.partsHaveChanged).toBe(true);
-        expect(row.hasChanged).toBe(true);
+          const emailGig = EmailGig.make(location, parts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.hasUpdates).toBe(false)
+        });
       });
     });
   });
