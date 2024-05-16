@@ -38,7 +38,8 @@ export function getFixture(): EventRowJson[] {
         distanceInfo: null
       },
       id: "2024-07-08",
-      hasChanged: false
+      hasChanged: false,
+      hasUpdates: false
     },
     {
       emailGig: {
@@ -105,6 +106,7 @@ export function getFixture(): EventRowJson[] {
       },
       id: "2024-07-09",
       hasChanged: false,
+      hasUpdates: false
     },
     {
       emailGig: {
@@ -138,6 +140,7 @@ export function getFixture(): EventRowJson[] {
       },
       id: "2024-08-18",
       hasChanged: false,
+      hasUpdates: false
     },
     {
       emailGig: {
@@ -171,6 +174,7 @@ export function getFixture(): EventRowJson[] {
       },
       id: "2024-08-19",
       hasChanged: false,
+      hasUpdates: false
     }
   ];
 }

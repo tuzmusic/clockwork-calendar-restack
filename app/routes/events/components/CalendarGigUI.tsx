@@ -2,7 +2,7 @@ import DayJsTz from "~/data/models/DayJsTz";
 import GoogleGig from "~/data/models/GoogleGig";
 import { SaveButton } from "~/routes/events/components/SaveButton";
 
-export function CalendarGigUI({ gig, hasChanged }: { gig: ReturnType<GoogleGig["serialize"]>, hasChanged: boolean }) {
+export function CalendarGigUI({ gig, hasUpdates }: { gig: ReturnType<GoogleGig["serialize"]>, hasUpdates: boolean }) {
   const [start, end] = [gig.startDateTime, gig.endDateTime].map(
     d => DayJsTz(d).format("h:mma")
   );
@@ -14,7 +14,7 @@ export function CalendarGigUI({ gig, hasChanged }: { gig: ReturnType<GoogleGig["
         <li>{gig.location}</li>
         <li>{start}-{end}</li>
       </ul>
-      {hasChanged ?
+      {hasUpdates ?
         <div className="mt-auto ml-auto w-min">
           <SaveButton>Update</SaveButton>
         </div>

@@ -28,7 +28,7 @@ export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
 
           <RoundedWrapper>
             {row.googleGig
-              ? <CalendarGigUI gig={row.googleGig} hasChanged={row.hasChanged}/>
+              ? <CalendarGigUI gig={row.googleGig} hasUpdates={row.hasUpdates}/>
               : <SaveButton>Save</SaveButton>}
           </RoundedWrapper>
         </React.Fragment>

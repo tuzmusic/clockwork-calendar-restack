@@ -22,7 +22,8 @@ export default class EventRow {
       googleGig: this.googleGig?.serialize() ?? null,
       appGig: this.appGig.serialize(),
       id: this.id,
-      hasChanged: this.hasChanged
+      hasChanged: this.hasChanged,
+      hasUpdates: this.hasUpdates
     };
   }
 
