@@ -1,16 +1,16 @@
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import React from "react";
 
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
 import EmailFixtureService from "~/data/services/EmailFixtureService";
+import EmailService from "~/data/services/EmailService";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
-export async function loader(_args: LoaderFunctionArgs) {
-  const emailService = new EmailFixtureService();
+export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailService) {
+  const emailService =  _emailService ?? new EmailFixtureService();
   const distanceService = new DistanceService();
 
   const html = await emailService.getMessageBody();

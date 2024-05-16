@@ -13,8 +13,8 @@
 - [X] Distance info in json
 - [X] Parts info in json?
   - maybe not since this is really only for hasChanged (which is returned in the event row json)
-- [ ] Distance info in Full gig UI
-- [ ] Distance info in Calendar gig UI?
+- [X] Distance info in Full gig UI
+- [X] ~~Distance info in Calendar gig UI?~~
 - [ ] Fetching distance info (resource action)
 - [ ] Save to calendar
 - [ ] Update to calendar
