@@ -322,6 +322,23 @@ describe("EventRow", () => {
           expect(row.hasUpdates).toBe(false);
         });
 
+        it("is true if google gig is missing parts", () => {
+          const calendarGig = GoogleGig.make({
+            start: { dateTime: receptionStart },
+            end: { dateTime: receptionEnd },
+            location,
+            extendedProperties: {
+              private: {
+                distanceInfo: JSON.stringify(mockDistanceData)
+              }
+            }
+          });
+
+          const emailGig = EmailGig.make(location, parts);
+          const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
+          expect(row.hasUpdates).toBe(true);
+        });
+
         describe("google gig is missing distance info", () => {
           const it = test.extend<{ row: EventRow }>({
             row: async ({ task: _ }, use) => {

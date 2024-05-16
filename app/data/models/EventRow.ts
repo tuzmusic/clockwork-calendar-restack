@@ -54,22 +54,20 @@ export default class EventRow {
     return !this.partsMatch;
   }
 
-  private _hasUpdates!: boolean;
 
   public get hasUpdates() {
-    const { googleGig, emailGig, appGig } = this;
-    if (this._hasUpdates === undefined) {
-      this._hasUpdates = (() => {
-        // if (this._hasChanged) return true;
+    const { googleGig, appGig } = this;
+    // if (this._hasChanged) return true;
 
-        if (!googleGig?.getDistanceInfo() && appGig.getDistanceInfo()) {
-          return true;
-        }
-
-        return false;
-      })();
+    if (!googleGig?.getPartsJson()) {
+      return true;
     }
-    return this._hasUpdates;
+
+    if (!googleGig?.getDistanceInfo() && appGig.getDistanceInfo()) {
+      return true;
+    }
+
+    return false;
   }
 
   private _hasChanged!: boolean;
