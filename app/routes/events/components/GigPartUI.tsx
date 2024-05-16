@@ -14,7 +14,7 @@ export function GigPartUI({ part }: { part: GigPartJSON }) {
       <div>{type}:</div>
       <div className="text-right">
         <div>{actualStart}-{actualEnd}</div>
-        {(showWritten) ? <div className="text-xs">(&quot;{writtenStart}-{writtenEnd}&quot;)</div> : null}
+        {(showWritten) ? <div className="text-xs mb-1.5">(&quot;{writtenStart}-{writtenEnd}&quot;)</div> : null}
       </div>
     </li>
   );
