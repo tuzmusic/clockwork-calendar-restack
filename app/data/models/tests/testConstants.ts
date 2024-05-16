@@ -14,7 +14,7 @@ export const mockDistanceData = {
   withWaltham: { miles: 2, minutes: 20, formattedTime: "20m" },
   walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
   fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
-  fromBoston: { miles: 5, minutes: 50, formattedTime: "0mm" }
+  fromBoston: { miles: 5, minutes: 50, formattedTime: "0m" }
 } satisfies Record<string, DistanceData>;
 
 export const receptionStart = "2024-12-01T19:00:00-04:00";

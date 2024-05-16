@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { mockDistanceData } from "~/data/models/tests/testConstants";
 import { getFixture } from "~/routes/events/page/eventRows.fixture";
 
 import { EventsPage } from "./EventsPage";
@@ -18,6 +19,7 @@ export default meta;
 type Story = StoryObj<typeof meta>
 
 const fixture = getFixture();
+fixture[0].appGig.distanceInfo = mockDistanceData
 fixture[1].hasUpdates = true
 export const Default = {
   args: {

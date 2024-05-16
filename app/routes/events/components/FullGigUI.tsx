@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 import FullCalendarGig from "~/data/models/FullCalendarGig";
+import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
 export function FullGigUI({ gig }: { gig: ReturnType<FullCalendarGig["serialize"]> }) {
@@ -13,11 +14,15 @@ export function FullGigUI({ gig }: { gig: ReturnType<FullCalendarGig["serialize"
         <span>{gig.location}</span>
       </h3>
 
-      <ul >
+      <ul>
         {gig.parts.map(part => (
           <GigPartUI key={part.type} part={part} />)
         )}
       </ul>
-    </>
+
+      {
+        gig.distanceInfo ? <DistanceInfo info={gig.distanceInfo} /> : null
+      }
+    </div>
   );
 }
