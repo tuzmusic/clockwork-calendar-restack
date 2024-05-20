@@ -1,5 +1,5 @@
-import { json, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
+import { useActionData, useLoaderData } from "@remix-run/react";
 
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
@@ -9,10 +9,10 @@ import EmailFixtureService from "~/data/services/EmailFixtureService";
 import EmailService from "~/data/services/EmailService";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
-export const PATH = '/events'
+export const PATH = "/events";
 
 export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailService) {
-  const emailService =  _emailService ?? new EmailFixtureService();
+  const emailService = _emailService ?? new EmailFixtureService();
   const distanceService = new DistanceService();
 
   const html = await emailService.getMessageBody();
@@ -25,8 +25,23 @@ export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailSer
   return json({ eventRowsJson });
 }
 
+
+export async function action(
+  args: ActionFunctionArgs,
+  distanceService?: DistanceService
+) {
+  console.log("BEFORE BEFORE BEFORE");
+  await distanceService?.getDistanceInfo({
+    from: "",
+    to: ""
+  });
+  console.log("AFTER AFTER AFTER");
+  return { hello: "world" };
+}
+
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
-
+  const actionData = useActionData()
+  console.log(actionData);
   return <EventsPage eventRows={eventRowsJson} />;
 };

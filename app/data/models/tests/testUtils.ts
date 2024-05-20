@@ -13,6 +13,7 @@ export function getDistanceServiceWithMocks(location: string) {
 
   const distanceService = mock<DistanceService>();
   distanceService.getDistanceInfo.mockImplementation((args) => {
+    console.log("HELLO HELLO HELLO");
     const distanceInfo = (() => {
       switch (true) {
         case timeFromHome(args):

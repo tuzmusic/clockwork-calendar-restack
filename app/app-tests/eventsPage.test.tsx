@@ -5,9 +5,8 @@ import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { buildEvent, buildHtml, buildMonthHeader } from "~/data/parsers/emailParser/tests/htmlBuilders";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
-import eventsRoute, { loader as eventsRouteLoader, PATH as eventsPath } from "~/routes/events/route";
+import eventsRoute, * as EventsRoute from "~/routes/events/route";
 
-import { action as getDistanceInfoAction, PATH as actionPath } from "../routes/actions.get-distance-info/route";
 
 class EmailServiceMock extends EmailService {
   public async getMessageBody(): Promise<string> {
@@ -35,19 +34,20 @@ describe("Actions on the Events page", () => {
     it("Fetches the distance info and updates the event ui", async () => {
       const RemixStub = createRemixStub([
         {
-          path: eventsPath,
-          loader: (args) => eventsRouteLoader(args, new EmailServiceMock()),
-          Component: eventsRoute
-        },
-        {
-          path: actionPath,
-          action: (args) => getDistanceInfoAction(args, mockDistanceService),
-          Component: () => null,
+      path: EventsRoute.PATH,
+      loader: (args) => EventsRoute.loader(args, new EmailServiceMock()),
+      action: (args) => EventsRoute.action(args, mockDistanceService),
+      Component: eventsRoute
         }
       ]);
 
-      render(<RemixStub initialEntries={[eventsPath]} />);
+      const loaderSpy = vi.spyOn(EventsRoute, "loader");
+      const actionSpy = vi.spyOn(EventsRoute, "action");
+      expect(loaderSpy).not.toHaveBeenCalled();
+
+      render(<RemixStub initialEntries={[EventsRoute.PATH]} />);
       await waitFor(() => screen.findByTestId("EVENTS_PAGE"));
+      expect(loaderSpy).toHaveBeenCalled();
 
       const getDistanceInfoButtons = screen.getAllByTestId("GET_DISTANCE_INFO_BUTTON");
 
@@ -56,8 +56,12 @@ describe("Actions on the Events page", () => {
 
       expect(mockDistanceService.getDistanceInfo).not.toHaveBeenCalled();
       fireEvent.click(getDistanceInfoButtons[0]);
-      expect(mockDistanceService.getDistanceInfo).toHaveBeenCalledOnce();
+      (getDistanceInfoButtons[0] as HTMLButtonElement).click()
+      expect(actionSpy).toHaveBeenCalled();
 
+      await waitFor(() => {
+        expect(actionSpy).toHaveBeenCalled();
+      });
     });
   });
 });
