@@ -9,6 +9,8 @@ import EmailFixtureService from "~/data/services/EmailFixtureService";
 import EmailService from "~/data/services/EmailService";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
+export const PATH = '/events'
+
 export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailService) {
   const emailService =  _emailService ?? new EmailFixtureService();
   const distanceService = new DistanceService();
