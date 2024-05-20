@@ -1,11 +1,11 @@
 import React from "react";
 
 import { EventRowJson } from "~/data/models/EventRow";
+import { Button } from "~/routes/events/components/Button";
 import { CalendarGigUI } from "~/routes/events/components/CalendarGigUI";
 import { EmailHtml } from "~/routes/events/components/EmailHtml";
 import { FullGigUI } from "~/routes/events/components/FullGigUI";
 import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
-import { SaveButton } from "~/routes/events/components/SaveButton";
 
 export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
   return (
@@ -29,7 +29,7 @@ export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
           <RoundedWrapper>
             {row.googleGig
               ? <CalendarGigUI gig={row.googleGig} hasUpdates={row.hasUpdates}/>
-              : <SaveButton data-testid={'SAVE_BUTTON'}>Save</SaveButton>}
+              : <Button data-testid={'SAVE_BUTTON'}>Save</Button>}
           </RoundedWrapper>
         </React.Fragment>
       )}

@@ -24,9 +24,11 @@ describe("Actions on the Events page", () => {
   beforeEach(() => {
     mockDistanceService = getDistanceServiceWithMocks(location);
   });
+
   afterEach(() => {
     vi.resetAllMocks();
   });
+
   describe("Updating distance info for a gig", () => {
     it("Fetches the distance info and updates the event ui", async () => {
       const RemixStub = createRemixStub([
