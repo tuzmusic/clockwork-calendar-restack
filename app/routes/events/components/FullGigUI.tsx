@@ -4,12 +4,13 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { Button } from "~/routes/events/components/Button";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
-import { PATH as eventsPath } from "~/routes/events/route";
+import { EventsActionIntent, PATH as eventsPath } from "~/routes/events/route";
 
 function GetDistanceInfoButton({ location }: { location: string }) {
   return (
     <form method="post" action={eventsPath}>
       <input name="location" type="hidden" value={location} />
+      <input name="intent" type='hidden' value={EventsActionIntent.getDistanceInfo} />
       <Button data-testid="GET_DISTANCE_INFO_BUTTON">
         Get distance info
       </Button>

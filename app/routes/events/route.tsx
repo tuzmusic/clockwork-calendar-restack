@@ -1,6 +1,8 @@
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 
+import FullCalendarGig from "~/data/models/FullCalendarGig";
+import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
@@ -26,10 +28,38 @@ export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailSer
 }
 
 
+export enum EventsActionIntent {
+  getDistanceInfo = "get-distance-info"
+}
+
 export async function action(
   args: ActionFunctionArgs,
   distanceService?: DistanceService
 ) {
+  const formData = await args.request.formData();
+  const { location, intent } = Object.fromEntries(formData) as {
+    location: string,
+    intent: EventsActionIntent
+  };
+
+  if (intent === EventsActionIntent.getDistanceInfo) {
+    // todo: send whole event, or find a way to get this info without needing an event
+    const dummyGig = FullCalendarGig.make({
+      location, distanceService, parts: [
+        new Reception(
+          "2024-12-01T19:00:00-04:00",
+          "2024-12-01T21:00:00-04:00"
+        )]
+    });
+
+    await dummyGig.fetchDistanceInfo()
+
+    // todo: we actually do need to identify the event by id,
+    //  so we should probably send the whole jsonified gig,
+    //  which means we need FullCalendarGig.makeFromJson()a
+    return json(dummyGig.getDistanceInfo())
+  }
+
   console.log("BEFORE BEFORE BEFORE");
   await distanceService?.getDistanceInfo({
     from: "",
@@ -41,7 +71,7 @@ export async function action(
 
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
-  const actionData = useActionData()
+  const actionData = useActionData();
   console.log(actionData);
   return <EventsPage eventRows={eventRowsJson} />;
 };
