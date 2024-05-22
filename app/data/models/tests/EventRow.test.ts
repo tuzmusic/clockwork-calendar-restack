@@ -1,5 +1,4 @@
 import { calendar_v3 } from "googleapis";
-import { MockProxy } from "vitest-mock-extended";
 
 import EmailGig from "~/data/models/EmailGig";
 import EventRow from "~/data/models/EventRow";
@@ -24,11 +23,12 @@ import {
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import DistanceService from "~/data/services/DistanceService";
 
-let distanceService: MockProxy<DistanceService>;
+let distanceService: DistanceService
 
 describe("EventRow", () => {
   beforeEach(() => {
     distanceService = getDistanceServiceWithMocks(location);
+    vi.spyOn(distanceService, 'getDistanceInfo')
   });
   afterEach(() => {
     vi.resetAllMocks();
