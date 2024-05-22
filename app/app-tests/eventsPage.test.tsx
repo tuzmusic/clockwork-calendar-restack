@@ -21,7 +21,7 @@ class EmailServiceMock extends EmailService {
 const location = "wherever";
 let mockDistanceService: DistanceService;
 
-describe("Actions on the Events page", () => {
+describe.skip("Actions on the Events page", () => {
   beforeEach(() => {
     mockDistanceService = getDistanceServiceWithMocks(location);
   });

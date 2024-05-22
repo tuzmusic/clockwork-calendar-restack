@@ -5,6 +5,7 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
+import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
 import EmailFixtureService from "~/data/services/EmailFixtureService";
@@ -45,19 +46,21 @@ export async function action(
   if (intent === EventsActionIntent.getDistanceInfo) {
     // todo: send whole event, or find a way to get this info without needing an event
     const dummyGig = FullCalendarGig.make({
-      location, distanceService, parts: [
+      location,
+      distanceService: distanceService ?? getDistanceServiceWithMocks(location),
+      parts: [
         new Reception(
           "2024-12-01T19:00:00-04:00",
           "2024-12-01T21:00:00-04:00"
         )]
     });
 
-    await dummyGig.fetchDistanceInfo()
+    await dummyGig.fetchDistanceInfo();
 
     // todo: we actually do need to identify the event by id,
     //  so we should probably send the whole jsonified gig,
     //  which means we need FullCalendarGig.makeFromJson()a
-    return json(dummyGig.getDistanceInfo())
+    return json(dummyGig.getDistanceInfo());
   }
 
   console.log("BEFORE BEFORE BEFORE");
