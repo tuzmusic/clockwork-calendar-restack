@@ -44,7 +44,7 @@ export async function action(
   };
 
   if (intent === EventsActionIntent.getDistanceInfo) {
-    // todo: send whole event, or find a way to get this info without needing an event
+    // todo: send whole event
     const dummyGig = FullCalendarGig.make({
       location,
       distanceService: distanceService ?? getDistanceServiceWithMocks(location),
@@ -63,18 +63,12 @@ export async function action(
     return json(dummyGig.getDistanceInfo());
   }
 
-  console.log("BEFORE BEFORE BEFORE");
-  await distanceService?.getDistanceInfo({
-    from: "",
-    to: ""
-  });
-  console.log("AFTER AFTER AFTER");
-  return { hello: "world" };
+  return null;
 }
 
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
   const actionData = useActionData();
-  console.log(actionData);
+  if (actionData) console.log(actionData);
   return <EventsPage eventRows={eventRowsJson} />;
 };
