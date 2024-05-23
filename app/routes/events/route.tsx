@@ -72,9 +72,10 @@ export default function Events() {
 
   switch (actionData?.intent) {
     case EventsActionIntent.getDistanceInfo: {
-      const updatedEvent = eventRowsJson.find(row => row.id === actionData.id);
-      if (updatedEvent) {
-        updatedEvent.appGig.distanceInfo = actionData.distanceInfo;
+      const updatedRow = eventRowsJson.find(row => row.id === actionData.id);
+      if (updatedRow) {
+        updatedRow.appGig.distanceInfo = actionData.distanceInfo;
+        updatedRow.hasUpdates = true
       }
     }
   }
