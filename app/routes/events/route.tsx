@@ -38,29 +38,28 @@ export async function action(
   distanceService?: DistanceService
 ) {
   const formData = await args.request.formData();
-  const { location, intent } = Object.fromEntries(formData) as {
-    location: string,
+  const { gig: gigStr, intent } = Object.fromEntries(formData) as {
+    gig: string,
     intent: EventsActionIntent
   };
 
+  const gig = JSON.parse(gigStr) as ReturnType<FullCalendarGig["serialize"]>;
+
   if (intent === EventsActionIntent.getDistanceInfo) {
-    // todo: send whole event
+    // todo: FullCalendarGig.makeFromJson
     const dummyGig = FullCalendarGig.make({
-      location,
-      distanceService: distanceService ?? getDistanceServiceWithMocks(location),
+      location: gig.location,
+      distanceService: distanceService ?? getDistanceServiceWithMocks(gig.location),
       parts: [
-        new Reception(
-          "2024-12-01T19:00:00-04:00",
-          "2024-12-01T21:00:00-04:00"
-        )]
+        // we have the gig but it's not really worth extracting it to make parts
+        // (although we could use makeGigPartsFromJson, sorta)
+        new Reception("2024-12-01T19:00:00-04:00", "2024-12-01T21:00:00-04:00")
+      ]
     });
 
     await dummyGig.fetchDistanceInfo();
 
-    // todo: we actually do need to identify the event by id,
-    //  so we should probably send the whole jsonified gig,
-    //  which means we need FullCalendarGig.makeFromJson()a
-    return json(dummyGig.getDistanceInfo());
+    return json({ id: gig.id, distanceInfo: dummyGig.getDistanceInfo(), intent });
   }
 
   return null;
@@ -68,7 +67,17 @@ export async function action(
 
 export default function Events() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
-  const actionData = useActionData();
-  if (actionData) console.log(actionData);
+  const actionData = useActionData<typeof action>();
+  if (actionData) console.log(actionData, eventRowsJson);
+
+  switch (actionData?.intent) {
+    case EventsActionIntent.getDistanceInfo: {
+      const updatedEvent = eventRowsJson.find(row => row.id === actionData.id);
+      if (updatedEvent) {
+        updatedEvent.appGig.distanceInfo = actionData.distanceInfo;
+      }
+    }
+  }
+
   return <EventsPage eventRows={eventRowsJson} />;
 };

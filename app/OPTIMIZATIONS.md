@@ -9,6 +9,7 @@
 - Use start time when getting route info
 - Better width/alignment in email html 
   - probably best to just construct it from data, with grid layout, and scrap the original html
+- Use local storage to persist server updates (e.g., multiple gigs can show distance info)
 
 # Functionality
 - [X] Distance info in json
@@ -16,6 +17,10 @@
   - maybe not since this is really only for hasChanged (which is returned in the event row json)
 - [X] Distance info in Full gig UI
 - [X] ~~Distance info in Calendar gig UI?~~
-- [ ] Fetching distance info (resource action)
-- [ ] Save to calendar
+- [X] Fetching distance info (resource action)
+- [ ] Save to calendar (create CalendarService)
 - [ ] Update to calendar
+- [ ] Call real services, auth
+  - Distance service (Google Maps - no auth needed)
+  - Email service (Gmail)
+  - Calendar service (Google calendar) 
