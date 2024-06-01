@@ -5,7 +5,7 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { location, receptionPart } from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { DistanceData } from "~/data/models/types";
-import CalendarService from "~/data/services/CalendarService";
+import CalendarFixtureService from "~/data/services/CalendarFixtureService";
 import DistanceService from "~/data/services/DistanceService";
 
 describe("FullCalendarGig.make", () => {
@@ -89,13 +89,13 @@ describe("FullCalendarGig.make", () => {
     });
 
     describe("Saving the event", () => {
-      const calendarService = mock<CalendarService>();
-      calendarService.post.mockResolvedValue("ok");
+      const calendarService = new CalendarFixtureService();
+      const postEventMock = vi.spyOn(calendarService, 'postEvent');
 
       const testCall = async (gig: FullCalendarGig) => {
         vi.resetAllMocks();
         await gig.store(calendarService);
-        return calendarService.post.mock.calls[0]?.[0];
+        return postEventMock.mock.calls[0]?.[0];
       };
 
       it("includes the location in the payload as extendedProperties", async ({ gig }) => {
