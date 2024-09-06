@@ -91,6 +91,7 @@ module.exports = {
             "newlines-between": "always"
           }
         ],
+        "@typescript-eslint/array-type": 0,
         "@typescript-eslint/no-unused-vars": [
           "error",
           { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }

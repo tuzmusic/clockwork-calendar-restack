@@ -16,4 +16,12 @@ export default class CalendarFixtureService extends CalendarService {
       statusText: ""
     });
   }
+
+
+  public async getEvents(): Promise<
+    GaxiosResponse<calendar_v3.Schema$Event[]>
+  > {
+    throw Error("not implemented");
+  }
 }
+
