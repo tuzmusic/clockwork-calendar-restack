@@ -5,6 +5,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
+import AccountService from "~/data/services/AccountService";
 
 dayjs.extend(timezone)
 dayjs.extend(utc)
@@ -15,8 +16,9 @@ export async function loader ({ request }: LoaderFunctionArgs) {
   if (calendarId) throw redirect('/email')
 
   // TODO part of a service?
-  const list = await getCalendarList(cookieHeader)
-  return json(list?.data.items ?? [])
+  const listResponse = await AccountService.getCalendarList(request)
+  const list = listResponse?.data.items ?? [];
+  return json(list)
 }
 
 const SelectCalendar = () => {

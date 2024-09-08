@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   oauth2Client.on("tokens", ({ access_token, refresh_token }) => {
     if (access_token) {
-      // store the refresh_token in my database!
+      // store the access_token in my database!
       oauth2Client.setCredentials({ access_token });
       console.log("access token:", access_token);
     }
@@ -26,7 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   console.log({ tokens });
 
-  return redirect("/", {
+  return redirect("/select-calendar", {
     headers: {
       "Set-Cookie": await googleTokensCookie.serialize(tokens)
     }
