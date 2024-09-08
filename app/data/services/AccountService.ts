@@ -49,6 +49,7 @@ export default class AccountService {
       version: "v3",
       auth: oauth2Client
     });
-    return await calendar.calendarList.list()
+    const listResponse = await calendar.calendarList.list()
+    return listResponse?.data.items ?? []
   }
 }

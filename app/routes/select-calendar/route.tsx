@@ -1,5 +1,5 @@
 import { json, LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -16,25 +16,22 @@ export async function loader ({ request }: LoaderFunctionArgs) {
   if (calendarId) throw redirect('/email')
 
   // TODO part of a service?
-  const listResponse = await AccountService.getCalendarList(request)
-  const list = listResponse?.data.items ?? [];
+  const list = await AccountService.getCalendarList(request)
   return json(list)
 }
 
 const SelectCalendar = () => {
   const calendars = useLoaderData<typeof loader>()
-  return <>
-    <h1>Select Calendar</h1>
+  return <div className={'p-5'}>
+    <h1 className={'font-bold'}>Select Calendar</h1>
     <ul>
       {calendars.map(cal => <li key={cal.id}>
-        <a href={`/selectedCalendar/${cal.id}`}>
+        <a className={'underline text-blue-700'} href={`/selectedCalendar/${cal.id}`}>
           {cal.summaryOverride ?? cal.summary}
         </a>
       </li>)}
     </ul>
-    <div><Link to={'/login'}>Login</Link></div>
-    <div><Link to={'/email'}>Email</Link></div>
-  </>
+  </div>
 }
 
 export default SelectCalendar
