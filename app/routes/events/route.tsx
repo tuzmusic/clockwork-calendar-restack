@@ -47,7 +47,8 @@ export async function action(
 
   if (intent === EventsActionIntent.getDistanceInfo) {
     // todo: FullCalendarGig.makeFromJson
-    const dummyGig = FullCalendarGig.make({
+    let dummyGig: FullCalendarGig;
+    dummyGig = FullCalendarGig.make({
       location: gig.location,
       distanceService: distanceService ?? getDistanceServiceWithMocks(gig.location),
       parts: [
