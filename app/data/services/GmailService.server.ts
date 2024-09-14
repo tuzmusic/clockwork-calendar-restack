@@ -4,6 +4,10 @@ import { oauth2Client } from "~/auth/auth0.server";
 import { googleTokensCookie } from "~/auth/cookies.server";
 import EmailService from "~/data/services/EmailService";
 
+// for some reason atob is working in the old remix app but not
+// the "restack". 🤷🏻 Chatgpt gave me this alternative and it works.
+const atob = (bodyData: string | null | undefined) => Buffer.from(bodyData ?? "", "base64").toString("utf-8");
+
 export default class GmailServiceServer extends EmailService {
 
   private emailData?: {
@@ -24,7 +28,7 @@ export default class GmailServiceServer extends EmailService {
     const auth = (await googleTokensCookie.parse(cookieHeader)) || {};
     oauth2Client.setCredentials(auth);
 
-    return new this()
+    return new this();
   }
 
   public async getMessageBody(): Promise<string> {
@@ -52,7 +56,7 @@ export default class GmailServiceServer extends EmailService {
       ? new Date(Number(message.data.internalDate))
       : undefined;
     const bodyData = message.data.payload?.body?.data;
-    const html = atob(bodyData ?? "");
+    const html = atob(bodyData);
 
     this.emailData = {
       date: messageDate, html
