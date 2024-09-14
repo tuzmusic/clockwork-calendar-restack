@@ -1,7 +1,6 @@
 import { google } from "googleapis";
 
 import { oauth2Client } from "~/auth/auth0.server";
-import { googleTokensCookie } from "~/auth/cookies.server";
 import EmailService from "~/data/services/EmailService";
 
 // for some reason atob is working in the old remix app but not
@@ -20,15 +19,6 @@ export default class GmailService extends EmailService {
 
   public get messageDate() {
     return this.emailData?.date;
-  }
-
-  // we should just be authenticating before we call the email service right?
-  public static async make(request: Request) {
-    const cookieHeader = request.headers.get("Cookie") ?? "";
-    const auth = (await googleTokensCookie.parse(cookieHeader)) || {};
-    oauth2Client.setCredentials(auth);
-
-    return new this();
   }
 
   public async getMessageBody(): Promise<string> {

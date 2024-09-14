@@ -21,6 +21,8 @@ export default class AccountService {
     return await googleTokensCookie.parse(this.cookieHeader)
   }
 
+  // todo: what are we doing with tokens here? I'm now using this to authenticate
+  //  and then just using the global auth in the services.
   public static async authenticate(request: Request) {
     const authService = new this(request);
     const auth = await authService.parseCookie()
