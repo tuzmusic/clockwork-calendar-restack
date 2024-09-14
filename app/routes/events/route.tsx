@@ -8,14 +8,14 @@ import Schedule from "~/data/models/Schedule";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
-import EmailFixtureService from "~/data/services/EmailFixtureService";
 import EmailService from "~/data/services/EmailService";
+import GmailServiceServer from "~/data/services/GmailService.server";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
 export const PATH = "/events";
 
-export async function loader(_args: LoaderFunctionArgs, _emailService?: EmailService) {
-  const emailService = _emailService ?? new EmailFixtureService();
+export async function loader(args: LoaderFunctionArgs, _emailService?: EmailService) {
+  const emailService = _emailService ?? await GmailServiceServer.make(args.request) // new EmailFixtureService();
   const distanceService = new DistanceService();
 
   const html = await emailService.getMessageBody();
@@ -76,7 +76,7 @@ export default function Events() {
       const updatedRow = eventRowsJson.find(row => row.id === actionData.id);
       if (updatedRow) {
         updatedRow.appGig.distanceInfo = actionData.distanceInfo;
-        updatedRow.hasUpdates = true
+        updatedRow.hasUpdates = true;
       }
     }
   }

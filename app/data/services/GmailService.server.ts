@@ -4,25 +4,37 @@ import { oauth2Client } from "~/auth/auth0.server";
 import { googleTokensCookie } from "~/auth/cookies.server";
 import EmailService from "~/data/services/EmailService";
 
-export default class GmailService extends EmailService {
+export default class GmailServiceServer extends EmailService {
 
-  // todo: these should be accessors (probably store private this.emailData and get from that)
-  public html!: string
-  public date!: Date | undefined
+  private emailData?: {
+    html: string, date: Date | undefined
+  };
+
+  public get messageBody() {
+    return this.emailData?.html;
+  }
+
+  public get messageDate() {
+    return this.emailData?.date;
+  }
 
   // we should just be authenticating before we call the email service right?
   public static async make(request: Request) {
     const cookieHeader = request.headers.get("Cookie") ?? "";
     const auth = (await googleTokensCookie.parse(cookieHeader)) || {};
     oauth2Client.setCredentials(auth);
+
+    return new this()
   }
 
   public async getMessageBody(): Promise<string> {
-    const email = this.getEmailData()
-    return
+    if (!this.messageBody) {
+      await this.getEmailData();
+    }
+    return this.messageBody ?? "Could not get message body?";
   }
 
-  public async getEmailData(): Promise<{html: string, date: Date | undefined}> {
+  public async getEmailData(): Promise<void> {
     const gmail = google.gmail({ version: "v1", auth: oauth2Client });
     const messagesResponse = await gmail.users.messages.list({
       userId: "me",
@@ -39,11 +51,11 @@ export default class GmailService extends EmailService {
     const messageDate = message.data.internalDate
       ? new Date(Number(message.data.internalDate))
       : undefined;
-    const html = atob(message.data.payload?.body?.data ?? "");
+    const bodyData = message.data.payload?.body?.data;
+    const html = atob(bodyData ?? "");
 
-    this.html = html
-    this.date = messageDate
-
-    return { html, date: messageDate };
+    this.emailData = {
+      date: messageDate, html
+    };
   }
 }

@@ -16,7 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // TODO: store selected calendar
   const cookieHeader = request.headers.get("Cookie");
   const calendarId = await selectedCalendarCookie.parse(cookieHeader);
-  if (calendarId) throw redirect("/email");
+  if (calendarId) throw redirect("/events");
 
   const list = await AccountService.getCalendarList(request);
   return json(list);
