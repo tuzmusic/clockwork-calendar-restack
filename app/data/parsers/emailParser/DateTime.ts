@@ -20,10 +20,11 @@ export default class DateTime {
     const [_hour, minute] = timeStr.split(":");
     const hour = Number(_hour);
     const am = hour === 12;
-    const actualDate = date + (am ? 1 : 0);
 
     // month is a string (i.e., 'July'), plus dates are easy
-    const dateStr = dayjs(`${month} ${actualDate} ${year}`).format("YYYY-MM-DD");
+    const dateStr = dayjs(`${month} ${date} ${year}`)
+      .add(am ? 1 : 0, "day")
+      .format("YYYY-MM-DD");
 
     const hour24 = hour === 12 ? 0 : hour + 12;
     const hourStr = hour24.toString().padStart(2, "0");
