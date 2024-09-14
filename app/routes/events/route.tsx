@@ -9,15 +9,15 @@ import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
-import GmailServiceServer from "~/data/services/GmailService.server";
+import GmailService from "~/data/services/GmailService.server";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
 export const PATH = "/events";
 
 export async function loader(args: LoaderFunctionArgs, _emailService?: EmailService) {
-  const emailService = _emailService ?? await GmailServiceServer.make(args.request); // new EmailFixtureService();
   const distanceService = new DistanceService();
 
+  const emailService = _emailService ?? await GmailService.make(args.request); // new EmailFixtureService();
   const html = await emailService.getMessageBody();
 
   const emailGigs = EmailParser.parseEmail(html);

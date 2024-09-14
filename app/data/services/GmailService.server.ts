@@ -8,7 +8,7 @@ import EmailService from "~/data/services/EmailService";
 // the "restack". 🤷🏻 Chatgpt gave me this alternative and it works.
 const atob = (bodyData: string | null | undefined) => Buffer.from(bodyData ?? "", "base64").toString("utf-8");
 
-export default class GmailServiceServer extends EmailService {
+export default class GmailService extends EmailService {
 
   private emailData?: {
     html: string, date: Date | undefined
