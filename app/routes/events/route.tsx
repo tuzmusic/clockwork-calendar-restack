@@ -15,7 +15,7 @@ import { EventsPage } from "~/routes/events/page/EventsPage";
 export const PATH = "/events";
 
 export async function loader(args: LoaderFunctionArgs, _emailService?: EmailService) {
-  const emailService = _emailService ?? await GmailServiceServer.make(args.request) // new EmailFixtureService();
+  const emailService = _emailService ?? await GmailServiceServer.make(args.request); // new EmailFixtureService();
   const distanceService = new DistanceService();
 
   const html = await emailService.getMessageBody();
@@ -47,8 +47,7 @@ export async function action(
 
   if (intent === EventsActionIntent.getDistanceInfo) {
     // todo: FullCalendarGig.makeFromJson
-    let dummyGig: FullCalendarGig;
-    dummyGig = FullCalendarGig.make({
+    const dummyGig = FullCalendarGig.make({
       location: gig.location,
       distanceService: distanceService ?? getDistanceServiceWithMocks(gig.location),
       parts: [
