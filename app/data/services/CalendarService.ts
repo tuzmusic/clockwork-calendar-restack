@@ -8,9 +8,10 @@ export default class CalendarService {
     throw Error("not implemented");
   }
 
-  public async getEvents(): Promise<
-    GaxiosResponse<calendar_v3.Schema$Event[]>
-  > {
+  public async getEvents(
+    _calendarId: string,
+    _config: { fromDate: Date | null }
+  ): Promise<calendar_v3.Schema$Event[]> {
     throw Error("not implemented");
   }
 }

@@ -1,13 +1,16 @@
-import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, json, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 
+import { selectedCalendarCookie } from "~/auth/cookies.server";
 import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
+import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
 import AccountService from "~/data/services/AccountService.server";
+import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
 import GmailService from "~/data/services/GmailService.server";
@@ -15,16 +18,37 @@ import { EventsPage } from "~/routes/events/page/EventsPage";
 
 export const PATH = "/events";
 
-export async function loader(args: LoaderFunctionArgs, _emailService?: EmailService) {
+export async function loader(
+  args: LoaderFunctionArgs,
+  _emailService?: EmailService,
+  _calendarService?: CalendarService
+) {
   await AccountService.authenticate(args.request);
+  const calendarId = await selectedCalendarCookie.parse(
+    args.request.headers.get("Cookie")
+  );
+  if (!calendarId) throw redirect("/select-calendar");
 
   const distanceService = new DistanceService();
 
   const emailService = _emailService ?? new GmailService(); // new EmailFixtureService();
-  const html = await emailService.getMessageBody();
+  let html = "";
+
+  // TODO: handle this in AccountService or something.
+  //   GmailService throws when trying to fetch something based on the auth.
+  //   If AccountService isn't throwing this, what the heck is it doing, huh?˙
+  try {
+    html = await emailService.getMessageBody();
+  } catch {
+    throw redirect("/login");
+  }
 
   const emailGigs = EmailParser.parseEmail(html);
-  const remoteGigs: GoogleGig[] = [];
+
+  const calendarService = _calendarService ?? new GoogleCalendarService();
+  const fromDate = await emailService.getMessageDate();
+  const events = await calendarService.getEvents(calendarId, { fromDate });
+  const remoteGigs: GoogleGig[] = events.map(GoogleGig.make);
   const schedule = Schedule.build({ emailGigs, remoteGigs }, distanceService);
 
   const eventRowsJson = schedule.eventSets.map(set => set.serialize());

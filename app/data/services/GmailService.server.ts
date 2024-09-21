@@ -13,12 +13,12 @@ export default class GmailService extends EmailService {
     html: string, date: Date | undefined
   };
 
-  public get messageBody() {
+  private get messageBody() {
     return this.emailData?.html;
   }
 
-  public get messageDate() {
-    return this.emailData?.date;
+  private get messageDate() {
+    return this.emailData?.date ?? null;
   }
 
   public async getMessageBody(): Promise<string> {
@@ -26,6 +26,14 @@ export default class GmailService extends EmailService {
       await this.getEmailData();
     }
     return this.messageBody ?? "Could not get message body?";
+  }
+
+  public async getMessageDate(): Promise<Date | null> {
+    if (!this.messageDate) {
+      await this.getEmailData();
+    }
+
+    return this.messageDate;
   }
 
   public async getEmailData(): Promise<void> {
