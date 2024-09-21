@@ -9,9 +9,9 @@ export default class AccountService {
   private authClient: OAuth2Client
   private constructor(private request: Request) {
     this.authClient = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      process.env.GOOGLE_OAUTH_REDIRECT_URL
+      process?.env.GOOGLE_CLIENT_ID ?? '',
+      process?.env.GOOGLE_CLIENT_SECRET ?? '',
+      process?.env.GOOGLE_OAUTH_REDIRECT_URL ?? ''
     );
 
     this.cookieHeader = request.headers.get("Cookie") ?? "";

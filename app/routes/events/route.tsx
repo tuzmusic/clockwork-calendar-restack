@@ -7,7 +7,7 @@ import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import EmailParser from "~/data/parsers/emailParser/EmailParser";
-import AccountService from "~/data/services/AccountService";
+import AccountService from "~/data/services/AccountService.server";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
 import GmailService from "~/data/services/GmailService.server";

@@ -5,7 +5,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
-import AccountService from "~/data/services/AccountService";
+import AccountService from "~/data/services/AccountService.server";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const calendarId = formData.get(CALENDAR_ID_KEY);
-  return redirect("/email", {
+  return redirect("/events", {
     headers: {
       "Set-Cookie": await selectedCalendarCookie.serialize(calendarId)
     }
