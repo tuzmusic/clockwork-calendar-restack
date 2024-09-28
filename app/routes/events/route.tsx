@@ -45,9 +45,9 @@ export async function loader(
 
   const emailGigs = EmailParser.parseEmail(html);
 
-  const calendarService = _calendarService ?? new GoogleCalendarService();
+  const calendarService = _calendarService ?? new GoogleCalendarService(calendarId);
   const fromDate = await emailService.getMessageDate();
-  const events = await calendarService.getEvents(calendarId, { fromDate });
+  const events = await calendarService.getEvents({ fromDate });
   const remoteGigs: GoogleGig[] = events.map(GoogleGig.make);
   const schedule = Schedule.build({ emailGigs, remoteGigs }, distanceService);
 
