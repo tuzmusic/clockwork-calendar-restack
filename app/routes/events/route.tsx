@@ -57,7 +57,8 @@ export async function loader(
 
 
 export enum EventsActionIntent {
-  getDistanceInfo = "get-distance-info"
+  getDistanceInfo = "get-distance-info",
+  createEvent = 'create-event',
 }
 
 export async function action(
@@ -69,6 +70,8 @@ export async function action(
     gig: string,
     intent: EventsActionIntent
   };
+
+  console.log({intent});
 
   const gig = JSON.parse(gigStr) as ReturnType<FullCalendarGig["serialize"]>;
 

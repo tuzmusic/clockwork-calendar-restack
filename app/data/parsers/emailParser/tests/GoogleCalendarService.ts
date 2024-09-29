@@ -14,7 +14,6 @@ export default class GoogleCalendarService extends CalendarService {
       version: "v3",
       auth: oauth2Client
     });
-
   }
 
   public async getEvents(

@@ -1,22 +1,9 @@
 import dayjs from "dayjs";
 
 import FullCalendarGig from "~/data/models/FullCalendarGig";
-import { Button } from "~/routes/events/components/Button";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
+import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
-import { EventsActionIntent, PATH as eventsPath } from "~/routes/events/route";
-
-function GetDistanceInfoButton({ gig }: { gig: ReturnType<FullCalendarGig["serialize"]> }) {
-  return (
-    <form method="post" action={eventsPath}>
-      <input name="gig" type="hidden" value={JSON.stringify(gig)} />
-      <input name="intent" type='hidden' value={EventsActionIntent.getDistanceInfo} />
-      <Button data-testid="GET_DISTANCE_INFO_BUTTON">
-        Get distance info
-      </Button>
-    </form>
-  );
-}
 
 export function FullGigUI({ gig }: { gig: ReturnType<FullCalendarGig["serialize"]> }) {
   const date = dayjs(gig.parts[0].startDateTime).format("MMMM D, YYYY");

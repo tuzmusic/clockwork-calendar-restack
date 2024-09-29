@@ -1,12 +1,20 @@
 import { useFetcher } from "@remix-run/react";
 
 import { EventRowJson } from "~/data/models/EventRow";
-import { Button } from "~/routes/events/components/Button";
+import { CenteredButton } from "~/routes/events/components/CenteredButton";
+import { EventsActionIntent } from "~/routes/events/route";
 
 export function SaveGigButton({ row }: { row: EventRowJson }) {
-  const { Form } = useFetcher();
+  const { Form, state } = useFetcher();
 
-  return <Form method="post" id={row.id}>
-    <Button data-testid={"SAVE_BUTTON"}>Save</Button>
-  </Form>;
+  return (
+    <Form method="post" id={row.id}>
+      <CenteredButton
+        name="intent"
+        value={EventsActionIntent.createEvent}
+        data-testid={"SAVE_BUTTON"}>
+          {state === "idle" ? "Save" : "Saving..."}
+      </CenteredButton>
+    </Form>
+  );
 }
