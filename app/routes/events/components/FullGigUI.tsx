@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 
-import FullCalendarGig from "~/data/models/FullCalendarGig";
+import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
-export function FullGigUI({ gig }: { gig: ReturnType<FullCalendarGig["serialize"]> }) {
+export function FullGigUI({ gig }: { gig: FullCalendarGigJson }) {
   const date = dayjs(gig.parts[0].startDateTime).format("MMMM D, YYYY");
 
   return (

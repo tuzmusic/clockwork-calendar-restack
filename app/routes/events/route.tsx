@@ -2,7 +2,7 @@ import { ActionFunctionArgs, json, LoaderFunctionArgs, redirect } from "@remix-r
 import { useActionData, useLoaderData } from "@remix-run/react";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
-import FullCalendarGig from "~/data/models/FullCalendarGig";
+import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleGig from "~/data/models/GoogleGig";
 import Schedule from "~/data/models/Schedule";
@@ -71,9 +71,7 @@ export async function action(
     intent: EventsActionIntent
   };
 
-  console.log({intent});
-
-  const gig = JSON.parse(gigStr) as ReturnType<FullCalendarGig["serialize"]>;
+  const gig = JSON.parse(gigStr) as FullCalendarGigJson;
 
   if (intent === EventsActionIntent.getDistanceInfo) {
     // todo: FullCalendarGig.makeFromJson

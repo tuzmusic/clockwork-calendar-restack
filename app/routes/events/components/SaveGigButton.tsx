@@ -1,18 +1,19 @@
 import { useFetcher } from "@remix-run/react";
 
 import { EventRowJson } from "~/data/models/EventRow";
+import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
 import { EventsActionIntent } from "~/routes/events/route";
 
 // TODO: "encode" event details in event name so it can be
 //  better understood at a glance
-function getEventTitle(_appGig: EventRowJson['appGig']) {
+function getEventTitle(_appGig: FullCalendarGigJson) {
   return 'Clockwork Gig'
 }
 
 /*
 
-export function constructGoogleEvent(appGig: EventRowJson['appGig']) {
+export function constructGoogleEvent(appGig: FullCalendarGigJson) {
   // if no offset is specified, google will just put it in the
   // specified time zone! 🤦
   const formatWithoutTzOffset ='YYYY-MM-DDTHH:mm:ss'
@@ -33,7 +34,7 @@ export function constructGoogleEvent(appGig: EventRowJson['appGig']) {
 }
 
 
-function makeEvent(event: EventRowJson['appGig']) {
+function makeEvent(event: FullCalendarGigJson) {
   const eventObj = constructGoogleEvent(event)
   const eventStr = JSON.stringify(eventObj)
   // if submit function is called with just a string, it makes it the key of an object,
@@ -48,7 +49,7 @@ export function SaveGigButton({ row }: { row: EventRowJson }) {
 
   return (
     <Form method="post" id={row.id} className="h-full">
-      <input type='hidden' name='appGig' value={JSON.stringify(row.appGig)}/>
+      <input type='hidden' name='gig' value={JSON.stringify(row.appGig)}/>
       <CenteredButton
         name="intent"
         value={EventsActionIntent.createEvent}

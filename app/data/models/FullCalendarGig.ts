@@ -18,6 +18,8 @@ interface MakeFromValues {
   isNew?: boolean
 }
 
+export type FullCalendarGigJson = ReturnType<FullCalendarGig['serialize']>
+
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
