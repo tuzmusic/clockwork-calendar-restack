@@ -8,7 +8,7 @@ export function SaveGigButton({ row }: { row: EventRowJson }) {
   const { Form, state } = useFetcher();
 
   return (
-    <Form method="post" id={row.id}>
+    <Form method="post" id={row.id} className="h-full">
       <CenteredButton
         name="intent"
         value={EventsActionIntent.createEvent}
