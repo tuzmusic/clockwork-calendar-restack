@@ -23,6 +23,8 @@ export type FullCalendarGigJson = ReturnType<FullCalendarGig['serialize']>
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
 
+  public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {}
+
   public static make({
                        location,
                        parts,
