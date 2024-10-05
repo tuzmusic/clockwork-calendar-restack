@@ -1,14 +1,42 @@
 import { mock } from "vitest-mock-extended";
 
 import { TIME_ZONE } from "~/data/models/constants";
-import FullCalendarGig from "~/data/models/FullCalendarGig";
-import { location, receptionPart } from "~/data/models/tests/testConstants";
+import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
+import { location, mockReceptionJSONWithActual, receptionPart } from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { DistanceData } from "~/data/models/types";
 import CalendarFixtureService from "~/data/services/CalendarFixtureService";
 import DistanceService from "~/data/services/DistanceService";
 
 describe("FullCalendarGig.make", () => {
+  describe("deserialize", () => {
+    const gigJson = mock<FullCalendarGigJson>({
+        id: '12-34-2029', // calculation doesn't matter, right?
+        location: "Boston",
+        parts: [mockReceptionJSONWithActual]
+      }
+    );
+
+    const gig = FullCalendarGig.deserialize(gigJson);
+    const parts = gig.getParts();
+
+    test("location", () => {
+      expect(gig.getLocation()).toEqual("Boston");
+    });
+
+    it("ID", () => {
+      expect(gig.getId()).toEqual(
+        // not good testing since this reproduces the implementation
+        // but whatever
+        mockReceptionJSONWithActual.actualStartDateTime.split('T')[0]
+      );
+    });
+
+    it("parts", () => {
+      expect(parts[0]).toEqual(mockReceptionJSONWithActual);
+    });
+  });
+
   describe("distance info", () => {
     test("It gets distance info from the Distance Service", async () => {
       const distanceService = mock<DistanceService>();
@@ -90,7 +118,7 @@ describe("FullCalendarGig.make", () => {
 
     describe("Saving the event", () => {
       const calendarService = new CalendarFixtureService();
-      const postEventMock = vi.spyOn(calendarService, 'postEvent');
+      const postEventMock = vi.spyOn(calendarService, "postEvent");
 
       const testCall = async (gig: FullCalendarGig) => {
         vi.resetAllMocks();
@@ -108,7 +136,8 @@ describe("FullCalendarGig.make", () => {
             dateTime: receptionPart.startDateTime,
             timeZone: TIME_ZONE
           }
-        });      });
+        });
+      });
 
       it("includes the endTime the payload as extendedProperties", async ({ gig }) => {
         expect(await testCall(gig)).toMatchObject({
@@ -139,4 +168,5 @@ describe("FullCalendarGig.make", () => {
   // storing extended props (for new gig only, right?)
   describe.todo("Event Parts");
 
-});
+})
+;
