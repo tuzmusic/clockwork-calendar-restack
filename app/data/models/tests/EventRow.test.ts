@@ -14,8 +14,8 @@ import {
   location,
   mockDistanceData,
   mockParts,
-  mockReceiptionPart,
   mockReceptionJSONWithActual,
+  mockReceptionPart,
   receptionEnd,
   receptionStart,
   start
@@ -45,7 +45,7 @@ describe("EventRow", () => {
               location
             };
 
-            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
+            const emailGig = EmailGig.make(location, [mockReceptionPart]);
             const calendarGig = GoogleGig.make(mockData);
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
             expect(row).instanceof(EventRow);
@@ -86,7 +86,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
+            const emailGig = EmailGig.make(location, [mockReceptionPart]);
             const calendarGig = GoogleGig.make(mockDataWithDistanceInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -131,7 +131,7 @@ describe("EventRow", () => {
               end: { dateTime: end },
               location
             };
-            const emailGig = EmailGig.make(updatedLocation, [mockReceiptionPart]);
+            const emailGig = EmailGig.make(updatedLocation, [mockReceptionPart]);
             const calendarGig = GoogleGig.make(mockData);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -171,7 +171,7 @@ describe("EventRow", () => {
                 }
               }
             };
-            const emailGig = EmailGig.make(updatedLocation, [mockReceiptionPart]);
+            const emailGig = EmailGig.make(updatedLocation, [mockReceptionPart]);
             const calendarGig = GoogleGig.make(mockDataWithDistanceInfo);
 
             const row = EventRow.buildRow(emailGig, calendarGig, distanceService);
@@ -209,7 +209,7 @@ describe("EventRow", () => {
       describe("Email gig only", () => {
         const it = test.extend<{ row: EventRow }>({
           row: async ({ task: _ }, use) => {
-            const emailGig = EmailGig.make(location, [mockReceiptionPart]);
+            const emailGig = EmailGig.make(location, [mockReceptionPart]);
             const row = EventRow.buildRow(emailGig, undefined, distanceService);
             expect(row).instanceof(EventRow);
             return await use(row);

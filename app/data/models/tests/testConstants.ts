@@ -23,6 +23,13 @@ export const cocktailStart = "2024-12-01T18:00:00-04:00";
 export const receptionEnd = "2024-12-01T21:00:00-04:00";
 export const receptionPart = new Reception(receptionStart, receptionEnd);
 export const cocktailHourPart = new CocktailHour(cocktailStart, cocktailEnd);
+export const cocktailHourPartJSON = {
+  type: "cocktail hour",
+  startDateTime: cocktailStart,
+  endDateTime: cocktailEnd,
+  actualStartDateTime: cocktailStart,
+  actualEndDateTime: cocktailEnd
+} satisfies GigPartJSON;
 
 export const mockReceptionJSON = {
   type: "reception",
@@ -32,7 +39,10 @@ export const mockReceptionJSON = {
   actualEndDateTime: end
 } satisfies GigPartJSON;
 
-export const mockReceiptionPart = new Reception(mockReceptionJSON.startDateTime, mockReceptionJSON.endDateTime);
+export const mockReceptionPart = new Reception(
+  mockReceptionJSON.startDateTime,
+  mockReceptionJSON.endDateTime
+);
 
 export const mockParts = [
   mockReceptionJSON

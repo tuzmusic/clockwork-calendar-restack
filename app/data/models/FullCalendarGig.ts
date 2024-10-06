@@ -2,7 +2,10 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
 import { LOCATIONS } from "~/data/models/constants";
+import { Ceremony } from "~/data/models/GigParts/Ceremony";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart } from "~/data/models/GigParts/GigPart";
+import { Reception } from "~/data/models/GigParts/Reception";
 import GigWithParts from "~/data/models/GigWithParts";
 import { DistanceData, timeObj } from "~/data/models/types";
 import { formatDuration } from "~/data/models/utilityFunctions";
@@ -18,7 +21,7 @@ interface MakeFromValues {
   isNew?: boolean
 }
 
-export type FullCalendarGigJson = ReturnType<FullCalendarGig['serialize']>
+export type FullCalendarGigJson = ReturnType<FullCalendarGig["serialize"]>
 
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
@@ -26,8 +29,22 @@ export default class FullCalendarGig extends GigWithParts {
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
     return this.make({
       location: gigJson.location,
-      parts: gigJson.parts
-    })
+      parts: gigJson.parts.map(json => {
+        const { type, startDateTime, endDateTime } = json;
+        const ctor = (() => {
+          switch (type) {
+            case "cocktail hour":
+              return CocktailHour;
+            case "ceremony":
+              return Ceremony;
+            case "reception":
+              return Reception;
+          }
+        })();
+
+        return new ctor(startDateTime, endDateTime);
+      })
+    });
   }
 
   public static make({

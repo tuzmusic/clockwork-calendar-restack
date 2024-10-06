@@ -1,10 +1,6 @@
 import { calendar_v3 } from "googleapis";
 
-import { Ceremony } from "~/data/models/GigParts/Ceremony";
-import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
-import { GigPart, GigPartJSON } from "~/data/models/GigParts/GigPart";
-import { GigTimeline } from "~/data/models/GigParts/GigTimeline";
-import { Reception } from "~/data/models/GigParts/Reception";
+import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import SimpleGig, { SimpleGigJson } from "~/data/models/SimpleGig";
 import { DistanceData } from "~/data/models/types";
 
@@ -40,21 +36,6 @@ export default class GoogleGig extends SimpleGig<{
         this.partsJson = JSON.parse(extendedProps.parts) as GigPartJSON[];
       }
     }
-  }
-
-  private makePartsFromJson(partsJson: GigPartJSON[]) {
-    const parts: GigPart[] = partsJson.map(json => {
-      switch (json.type) {
-        case "ceremony":
-          return new Ceremony(json.startDateTime, json.endDateTime);
-        case "cocktail hour":
-          return new CocktailHour(json.startDateTime, json.endDateTime);
-        case "reception":
-          return new Reception(json.startDateTime, json.endDateTime);
-      }
-    });
-
-    return GigTimeline.make(parts);
   }
 
   static make(json: calendar_v3.Schema$Event) {

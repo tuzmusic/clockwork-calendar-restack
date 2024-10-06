@@ -2,7 +2,16 @@ import { mock } from "vitest-mock-extended";
 
 import { TIME_ZONE } from "~/data/models/constants";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
-import { location, mockReceptionJSONWithActual, receptionPart } from "~/data/models/tests/testConstants";
+import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
+import { Reception } from "~/data/models/GigParts/Reception";
+import {
+  cocktailHourPart,
+  cocktailHourPartJSON,
+  location,
+  mockReceptionJSONWithActual,
+  mockReceptionPart,
+  receptionPart
+} from "~/data/models/tests/testConstants";
 import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { DistanceData } from "~/data/models/types";
 import CalendarFixtureService from "~/data/services/CalendarFixtureService";
@@ -13,7 +22,7 @@ describe("FullCalendarGig.make", () => {
     const gigJson = mock<FullCalendarGigJson>({
         id: '12-34-2029', // calculation doesn't matter, right?
         location: "Boston",
-        parts: [mockReceptionJSONWithActual]
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
       }
     );
 
@@ -33,7 +42,10 @@ describe("FullCalendarGig.make", () => {
     });
 
     it("parts", () => {
-      expect(parts[0]).toEqual(mockReceptionJSONWithActual);
+      expect(parts[0]).toBeInstanceOf(CocktailHour);
+      expect(parts[1]).toBeInstanceOf(Reception);
+      expect(parts[0]).toEqual(cocktailHourPart);
+      expect(parts[1]).toEqual(mockReceptionPart);
     });
   });
 
