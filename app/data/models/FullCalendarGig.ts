@@ -128,7 +128,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public async store(calendarService = new CalendarService()) {
-    await calendarService.postEvent({
+    return await calendarService.postEvent({
       location: this.location,
       start: timeObj(this.getStartTime()),
       end: timeObj(this.getEndTime()),

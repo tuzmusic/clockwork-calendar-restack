@@ -1,6 +1,7 @@
 import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
-import { EventsActionIntent, PATH as eventsPath } from "~/routes/events/route";
+import { EventsActionIntent } from "~/routes/events/eventsAction";
+import { PATH as eventsPath } from "~/routes/events/route";
 
 export function GetDistanceInfoButton({ gig }: { gig: FullCalendarGigJson }) {
   return (

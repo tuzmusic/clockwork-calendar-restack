@@ -3,7 +3,7 @@ import { useFetcher } from "@remix-run/react";
 import { EventRowJson } from "~/data/models/EventRow";
 import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
-import { EventsActionIntent } from "~/routes/events/route";
+import { EventsActionIntent } from "~/routes/events/eventsAction";
 
 // TODO: "encode" event details in event name so it can be
 //  better understood at a glance

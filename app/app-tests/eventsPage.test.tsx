@@ -5,6 +5,8 @@ import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { buildEvent, buildHtml, buildMonthHeader } from "~/data/parsers/emailParser/tests/htmlBuilders";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
+import { action } from "~/routes/events/eventsAction";
+import { loader } from "~/routes/events/eventsLoader";
 import eventsRoute, * as EventsRoute from "~/routes/events/route";
 
 
@@ -35,8 +37,8 @@ describe.skip("Actions on the Events page", () => {
       const RemixStub = createRemixStub([
         {
       path: EventsRoute.PATH,
-      loader: (args) => EventsRoute.loader(args, new EmailServiceMock()),
-      action: (args) => EventsRoute.action(args, mockDistanceService),
+      loader: (args) => loader(args, new EmailServiceMock()),
+      action: (args) => action(args, mockDistanceService),
       Component: eventsRoute
         }
       ]);
