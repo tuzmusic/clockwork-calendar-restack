@@ -130,6 +130,7 @@ export default class FullCalendarGig extends GigWithParts {
   public async store(calendarService = new CalendarService()) {
     return await calendarService.postEvent({
       location: this.location,
+      summary: 'Clockwork Gig',
       start: timeObj(this.getStartTime()),
       end: timeObj(this.getEndTime()),
       extendedProperties: {

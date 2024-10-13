@@ -6,6 +6,7 @@ import { EventsPage } from "~/routes/events/page/EventsPage";
 
 export const PATH = "/events";
 
+export { action, loader };
 
 export default function EventsRoute() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
