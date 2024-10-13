@@ -8,6 +8,7 @@ import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
 import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 
 export function EventsPage({ eventRows }: { eventRows: EventRowJson[] }) {
+
   return (
     <div data-testid="EVENTS_PAGE" className="p-2 grid grid-cols-3 items-start gap-3">
       <div className="col-span-3 p-2 grid grid-cols-3 gap-3 bg-gray-200 font-bold">
