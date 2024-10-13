@@ -18,9 +18,10 @@
 - [X] Distance info in Full gig UI
 - [X] ~~Distance info in Calendar gig UI?~~
 - [X] Fetching distance info (resource action)
-- [ ] Save to calendar (create CalendarService)
+- [X] Save to calendar (create CalendarService)
 - [ ] Update to calendar
+- [ ] Check on saving/retrieving extended props
 - [ ] Call real services, auth
   - Distance service (Google Maps - no auth needed)
-  - Email service (Gmail)
-  - Calendar service (Google calendar) 
+  -[X] Email service (Gmail)
+  -[X] Calendar service (Google calendar) 
