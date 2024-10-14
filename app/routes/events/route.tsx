@@ -1,6 +1,7 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 
-import { action, EventsActionIntent } from "~/routes/events/eventsAction.server";
+import { action } from "~/routes/events/eventsAction.server";
+import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 import { EventsPage } from "~/routes/events/page/EventsPage";
 
 import { loader } from "./eventsLoader.server";

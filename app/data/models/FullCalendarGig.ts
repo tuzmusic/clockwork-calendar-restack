@@ -141,3 +141,8 @@ export default class FullCalendarGig extends GigWithParts {
     });
   }
 }
+// TODO: "encode" event details in event name so it can be
+//  better understood at a glance
+function getEventTitle(_appGig: FullCalendarGigJson) {
+  return "Clockwork Gig";
+}

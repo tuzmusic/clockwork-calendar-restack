@@ -7,11 +7,7 @@ import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
 import AccountService from "~/data/services/AccountService.server";
 import DistanceService from "~/data/services/DistanceService";
-
-export enum EventsActionIntent {
-  getDistanceInfo = "get-distance-info",
-  createEvent = "create-event",
-}
+import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 
 export async function action(
   args: ActionFunctionArgs,

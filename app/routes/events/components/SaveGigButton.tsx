@@ -1,48 +1,8 @@
 import { useFetcher } from "@remix-run/react";
 
 import { EventRowJson } from "~/data/models/EventRow";
-import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
-import { EventsActionIntent } from "~/routes/events/eventsAction";
-
-// TODO: "encode" event details in event name so it can be
-//  better understood at a glance
-function getEventTitle(_appGig: FullCalendarGigJson) {
-  return 'Clockwork Gig'
-}
-
-/*
-
-export function constructGoogleEvent(appGig: FullCalendarGigJson) {
-  // if no offset is specified, google will just put it in the
-  // specified time zone! 🤦
-  const formatWithoutTzOffset ='YYYY-MM-DDTHH:mm:ss'
-
-  return {
-    summary: getEventTitle(appGig),
-    location: appGig.location,
-    description: appGig.description,
-    start: {
-      timeZone: TIME_ZONE,
-      dateTime: dayjs(appGig.startTime).format(formatWithoutTzOffset),
-    },
-    end: {
-      timeZone: TIME_ZONE,
-      dateTime: dayjs(appGig.endTime).format(formatWithoutTzOffset),
-    },
-  } satisfies calendar_v3.Schema$Event
-}
-
-
-function makeEvent(event: FullCalendarGigJson) {
-  const eventObj = constructGoogleEvent(event)
-  const eventStr = JSON.stringify(eventObj)
-  // if submit function is called with just a string, it makes it the key of an object,
-  // so we need to wrap our JSONified string in an object.
-  return { event: eventStr }
-}
-*/
-
+import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 
 export function SaveGigButton({ row }: { row: EventRowJson }) {
   const { Form, state } = useFetcher();
