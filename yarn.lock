@@ -2319,6 +2319,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googlemaps/google-maps-services-js@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@googlemaps/google-maps-services-js@npm:3.4.0"
+  dependencies:
+    "@googlemaps/url-signature": "npm:^1.0.4"
+    agentkeepalive: "npm:^4.1.0"
+    axios: "npm:^1.5.1"
+    query-string: "npm:<8.x"
+    retry-axios: "npm:<3.x"
+  checksum: 10c0/41fb7cef275db73dc5f10588b5657d8899cfc95ecf1edd3db21cd084a23cb8dc10e36d29d966da4e6af549b8afe2767b5ff027ff7d0ce8f7976ce2bc3b1bf2e9
+  languageName: node
+  linkType: hard
+
+"@googlemaps/url-signature@npm:^1.0.4":
+  version: 1.0.37
+  resolution: "@googlemaps/url-signature@npm:1.0.37"
+  dependencies:
+    crypto-js: "npm:^4.2.0"
+  checksum: 10c0/c0e86ab4f05808453bfbdf92a7396377e99df20a4a681a6a0208d026c4263ba75430207443e2360abe5a952b2d97aa6b815607a0c315e08889d32bed08a48453
+  languageName: node
+  linkType: hard
+
 "@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
   version: 9.3.0
   resolution: "@hapi/hoek@npm:9.3.0"
@@ -5406,6 +5428,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"agentkeepalive@npm:^4.1.0":
+  version: 4.5.0
+  resolution: "agentkeepalive@npm:4.5.0"
+  dependencies:
+    humanize-ms: "npm:^1.2.1"
+  checksum: 10c0/394ea19f9710f230722996e156607f48fdf3a345133b0b1823244b7989426c16019a428b56c82d3eabef616e938812981d9009f4792ecc66bd6a59e991c62612
+  languageName: node
+  linkType: hard
+
 "aggregate-error@npm:^3.0.0":
   version: 3.1.0
   resolution: "aggregate-error@npm:3.1.0"
@@ -5834,6 +5865,17 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: 10c0/89ac5712b5932ac7d23398b4cb5ba081c394a086e343acc68ba49c83472706e18e0799804e8388c779dcdacc465377deb29f2714241d3fbb389cf3a6b275c9ba
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.5.1":
+  version: 1.7.7
+  resolution: "axios@npm:1.7.7"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10c0/4499efc89e86b0b49ffddc018798de05fab26e3bf57913818266be73279a6418c3ce8f9e934c7d2d707ab8c095e837fc6c90608fb7715b94d357720b5f568af7
   languageName: node
   linkType: hard
 
@@ -6555,6 +6597,7 @@ __metadata:
   dependencies:
     "@chromatic-com/storybook": "npm:^1.4.0"
     "@faker-js/faker": "npm:^8.4.1"
+    "@googlemaps/google-maps-services-js": "npm:^3.4.0"
     "@prisma/client": "npm:^4.16.2"
     "@remix-run/dev": "npm:2.8.1"
     "@remix-run/node": "npm:2.8.1"
@@ -6891,6 +6934,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypto-js@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "crypto-js@npm:4.2.0"
+  checksum: 10c0/8fbdf9d56f47aea0794ab87b0eb9833baf80b01a7c5c1b0edc7faf25f662fb69ab18dc2199e2afcac54670ff0cd9607a9045a3f7a80336cccd18d77a55b9fdf0
+  languageName: node
+  linkType: hard
+
 "crypto-random-string@npm:^2.0.0":
   version: 2.0.0
   resolution: "crypto-random-string@npm:2.0.0"
@@ -7092,6 +7142,13 @@ __metadata:
   dependencies:
     character-entities: "npm:^2.0.0"
   checksum: 10c0/66a9fc5d9b5385a2b3675c69ba0d8e893393d64057f7dbbb585265bb4fc05ec513d76943b8e5aac7d8016d20eea4499322cbf4cd6d54b466976b78f3a7587a4c
+  languageName: node
+  linkType: hard
+
+"decode-uri-component@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "decode-uri-component@npm:0.2.2"
+  checksum: 10c0/1f4fa54eb740414a816b3f6c24818fbfcabd74ac478391e9f4e2282c994127db02010ce804f3d08e38255493cfe68608b3f5c8e09fd6efc4ae46c807691f7a31
   languageName: node
   linkType: hard
 
@@ -8815,6 +8872,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"filter-obj@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "filter-obj@npm:1.1.0"
+  checksum: 10c0/071e0886b2b50238ca5026c5bbf58c26a7c1a1f720773b8c7813d16ba93d0200de977af14ac143c5ac18f666b2cfc83073f3a5fe6a4e996c49e0863d5500fccf
+  languageName: node
+  linkType: hard
+
 "finalhandler@npm:1.2.0":
   version: 1.2.0
   resolution: "finalhandler@npm:1.2.0"
@@ -9803,6 +9867,15 @@ __metadata:
   version: 5.0.0
   resolution: "human-signals@npm:5.0.0"
   checksum: 10c0/5a9359073fe17a8b58e5a085e9a39a950366d9f00217c4ff5878bd312e09d80f460536ea6a3f260b5943a01fe55c158d1cea3fc7bee3d0520aeef04f6d915c82
+  languageName: node
+  linkType: hard
+
+"humanize-ms@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "humanize-ms@npm:1.2.1"
+  dependencies:
+    ms: "npm:^2.0.0"
+  checksum: 10c0/f34a2c20161d02303c2807badec2f3b49cbfbbb409abd4f95a07377ae01cfe6b59e3d15ac609cffcd8f2521f0eb37b7e1091acf65da99aa2a4f1ad63c21e7e7a
   languageName: node
   linkType: hard
 
@@ -12126,7 +12199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.3, ms@npm:^2.1.1":
+"ms@npm:2.1.3, ms@npm:^2.0.0, ms@npm:^2.1.1":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: 10c0/d924b57e7312b3b63ad21fc5b3dc0af5e78d61a1fc7cfb5457edaf26326bf62be5307cc87ffb6862ef1c2b33b0233cdb5d4f01c4c958cc0d660948b65a287a48
@@ -13576,6 +13649,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"query-string@npm:<8.x":
+  version: 7.1.3
+  resolution: "query-string@npm:7.1.3"
+  dependencies:
+    decode-uri-component: "npm:^0.2.2"
+    filter-obj: "npm:^1.1.0"
+    split-on-first: "npm:^1.0.0"
+    strict-uri-encode: "npm:^2.0.0"
+  checksum: 10c0/a896c08e9e0d4f8ffd89a572d11f668c8d0f7df9c27c6f49b92ab31366d3ba0e9c331b9a620ee747893436cd1f2f821a6327e2bc9776bde2402ac6c270b801b2
+  languageName: node
+  linkType: hard
+
 "querystringify@npm:^2.1.1":
   version: 2.2.0
   resolution: "querystringify@npm:2.2.0"
@@ -14227,6 +14312,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"retry-axios@npm:<3.x":
+  version: 2.6.0
+  resolution: "retry-axios@npm:2.6.0"
+  peerDependencies:
+    axios: "*"
+  checksum: 10c0/da951029dacaf9eba56b2714dd97941381e15d670d22aaa39effc13e0793b392da6b0e7b4ba36539c957d40b859bc6c46d64f85097ba625da196218074aeacf7
+  languageName: node
+  linkType: hard
+
 "retry@npm:^0.12.0":
   version: 0.12.0
   resolution: "retry@npm:0.12.0"
@@ -14748,6 +14842,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"split-on-first@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "split-on-first@npm:1.1.0"
+  checksum: 10c0/56df8344f5a5de8521898a5c090023df1d8b8c75be6228f56c52491e0fc1617a5236f2ac3a066adb67a73231eac216ccea7b5b4a2423a543c277cb2f48d24c29
+  languageName: node
+  linkType: hard
+
 "split@npm:0.3":
   version: 0.3.3
   resolution: "split@npm:0.3.3"
@@ -14890,6 +14991,13 @@ __metadata:
   version: 0.5.1
   resolution: "strict-event-emitter@npm:0.5.1"
   checksum: 10c0/f5228a6e6b6393c57f52f62e673cfe3be3294b35d6f7842fc24b172ae0a6e6c209fa83241d0e433fc267c503bc2f4ffdbe41a9990ff8ffd5ac425ec0489417f7
+  languageName: node
+  linkType: hard
+
+"strict-uri-encode@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "strict-uri-encode@npm:2.0.0"
+  checksum: 10c0/010cbc78da0e2cf833b0f5dc769e21ae74cdc5d5f5bd555f14a4a4876c8ad2c85ab8b5bdf9a722dc71a11dcd3184085e1c3c0bd50ec6bb85fffc0f28cf82597d
   languageName: node
   linkType: hard
 
