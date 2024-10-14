@@ -1,5 +1,3 @@
-import React from "react";
-
 import { EventRowJson } from "~/data/models/EventRow";
 import { EventsTable } from "~/routes/events/components/EventsTable";
 import { Filters } from "~/routes/events/filters/Filters";

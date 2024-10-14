@@ -1,8 +1,9 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 
-import { action, EventsActionIntent } from "~/routes/events/eventsAction";
-import { loader } from "~/routes/events/eventsLoader";
+import { action, EventsActionIntent } from "~/routes/events/eventsAction.server";
 import { EventsPage } from "~/routes/events/page/EventsPage";
+
+import { loader } from "./eventsLoader.server";
 
 export const PATH = "/events";
 

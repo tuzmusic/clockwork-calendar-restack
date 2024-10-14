@@ -13,10 +13,7 @@ export type AvailableFilter = keyof typeof FILTERS
 
 const FILTER_NAMES = Object.keys(FILTERS) as Array<keyof typeof FILTERS>;
 
-export function Filters({
-                          filters,
-                          toggleFilter
-                        }: {
+export function Filters({ filters, toggleFilter }: {
   filters: AvailableFilter[]
   toggleFilter: (key: AvailableFilter) => void
 }) {
