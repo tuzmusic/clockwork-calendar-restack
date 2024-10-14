@@ -1,7 +1,19 @@
 import { useState } from "react";
 
 import { EventRowJson } from "~/data/models/EventRow";
-import { AvailableFilter, FILTERS } from "~/routes/events/filters/Filters";
+
+type EventFilter = (
+  row: EventRowJson,
+  allRows: EventRowJson[]
+) => boolean
+
+export const FILTERS = {
+  "New Only": (row, _) => !row.googleGig
+} satisfies Record<string, EventFilter>;
+
+export type AvailableFilter = keyof typeof FILTERS
+
+export const FILTER_NAMES = Object.keys(FILTERS) as Array<keyof typeof FILTERS>;
 
 export function useEventFilters(rows: EventRowJson[]) {
   const [filters, setFilters] = useState<AvailableFilter[]>([

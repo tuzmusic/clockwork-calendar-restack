@@ -1,17 +1,4 @@
-import { EventRowJson } from "~/data/models/EventRow";
-
-type EventFilter = (
-  row: EventRowJson,
-  allRows: EventRowJson[]
-) => boolean
-
-export const FILTERS = {
-  "New Only": (row) => !row.googleGig
-} satisfies Record<string, EventFilter>;
-
-export type AvailableFilter = keyof typeof FILTERS
-
-const FILTER_NAMES = Object.keys(FILTERS) as Array<keyof typeof FILTERS>;
+import { AvailableFilter, FILTER_NAMES } from "~/routes/events/filters/useEventFilters";
 
 export function Filters({ filters, toggleFilter }: {
   filters: AvailableFilter[]
