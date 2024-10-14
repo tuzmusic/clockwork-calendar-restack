@@ -1,6 +1,7 @@
 import { mock } from "vitest-mock-extended";
 
 import { TIME_ZONE } from "~/data/models/constants";
+import { getDistanceServiceWithMocks } from "~/data/models/DistanceFixtureService.ts/testUtils";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { Reception } from "~/data/models/GigParts/Reception";
@@ -12,7 +13,6 @@ import {
   mockReceptionPart,
   receptionPart
 } from "~/data/models/tests/testConstants";
-import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import { DistanceData } from "~/data/models/types";
 import CalendarFixtureService from "~/data/services/CalendarFixtureService";
 import DistanceService from "~/data/services/DistanceService";

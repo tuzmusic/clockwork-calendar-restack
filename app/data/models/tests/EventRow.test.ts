@@ -1,5 +1,6 @@
 import { calendar_v3 } from "googleapis";
 
+import { getDistanceServiceWithMocks } from "~/data/models/DistanceFixtureService.ts/testUtils";
 import EmailGig from "~/data/models/EmailGig";
 import EventRow from "~/data/models/EventRow";
 import { Ceremony } from "~/data/models/GigParts/Ceremony";
@@ -20,7 +21,6 @@ import {
   receptionStart,
   start
 } from "~/data/models/tests/testConstants";
-import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import DistanceService from "~/data/services/DistanceService";
 
 let distanceService: DistanceService

@@ -1,12 +1,12 @@
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
+import { getDistanceServiceWithMocks } from "~/data/models/DistanceFixtureService.ts/testUtils";
 import { buildEvent, buildHtml, buildMonthHeader } from "~/data/parsers/emailParser/tests/htmlBuilders";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
-import { action } from "~/routes/events/eventsAction";
-import { loader } from "~/routes/events/eventsLoader";
+import { action } from "~/routes/events/eventsAction.server";
+import { loader } from "~/routes/events/eventsLoader.server";
 import eventsRoute, * as EventsRoute from "~/routes/events/route";
 
 

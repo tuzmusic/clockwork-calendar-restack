@@ -1,9 +1,9 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
+import { getDistanceServiceWithMocks } from "~/data/models/DistanceFixtureService.ts/testUtils";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
-import { getDistanceServiceWithMocks } from "~/data/models/tests/testUtils";
 import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
 import AccountService from "~/data/services/AccountService.server";
 import DistanceService from "~/data/services/DistanceService";
