@@ -1,7 +1,6 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
-import { getDistanceServiceWithMocks } from "~/data/models/DistanceFixtureService.ts/testUtils";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
@@ -37,9 +36,10 @@ export async function action(
     }
 
     case EventsActionIntent.getDistanceInfo: {
+      // todo deserialize?
       const dummyGig = FullCalendarGig.make({
         location: gigJson.location,
-        distanceService: _distanceService ?? getDistanceServiceWithMocks(gigJson.location),
+        distanceService: _distanceService ?? new DistanceService(),
         parts: [
           // we have the gigJson but it's not really worth extracting it to make parts
           // (although we could use makeGigPartsFromJson, sorta)

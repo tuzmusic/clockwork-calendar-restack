@@ -4,3 +4,4 @@ export const LOCATIONS = {
   boston: "Boston, MA",
   waltham: '15 Waltham St, Boston, MA'
 }
+export const DURATION_FORMAT = "H[h]m[m]"

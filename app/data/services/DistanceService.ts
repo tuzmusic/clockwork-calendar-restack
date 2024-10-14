@@ -1,6 +1,7 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import dayjs from "dayjs";
 
+import { DURATION_FORMAT } from "~/data/models/constants";
 import { DistanceData } from "~/data/models/types";
 
 export default class DistanceService {
@@ -27,19 +28,23 @@ export default class DistanceService {
     });
     const { legs } = response.data.routes[0];
 
+    const legValueSum = legs.reduce((acc, leg) => acc + leg.duration.value, 0);
     const duration = dayjs.duration(
       // duration.text is human-readable, but we're doing math on it so we can't use it
       // note: this might be in seconds? or 1000 seconds???
       //  if we're just using "minutes" below then we probably want to get rid of "* 1000"
-      legs.reduce((acc, leg) => acc + leg.duration.value * 1000, 0)
+      legValueSum, 'seconds'
     );
 
-    const distance = legs.reduce((acc, leg) => acc + leg.distance.value / METERS_PER_MILE, 0);
+    const miles = legs.reduce((acc, leg) => acc + leg.distance.value / METERS_PER_MILE, 0);
 
     return {
-      miles: distance,
-      minutes: duration.minutes(),
-      formattedTime: duration.format("H[h]m[m]")
+      miles: Math.ceil(miles),
+      minutes: Math.round(duration.asMinutes()),
+      // todo: helper fn that removes 0h and 0m
+      //  (pretty sure this already exists in the other repo)
+      //  or just do h:m!
+      formattedTime: duration.format(DURATION_FORMAT)
     };
   }
 }

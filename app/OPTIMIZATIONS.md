@@ -22,6 +22,9 @@
 - [ ] Update to calendar
 - [ ] Check on saving/retrieving extended props
 - [ ] Call real services, auth
-  - Distance service (Google Maps - no auth needed)
+  -[X] Distance service (Google Maps - no auth needed)
+    - [ ] Persist distance
+    - [ ] Save distance
+    - [ ] Distance (time) formatting 
   -[X] Email service (Gmail)
   -[X] Calendar service (Google calendar) 

@@ -1,14 +1,13 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
-import { LOCATIONS } from "~/data/models/constants";
+import { DURATION_FORMAT, LOCATIONS } from "~/data/models/constants";
 import { Ceremony } from "~/data/models/GigParts/Ceremony";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GigWithParts from "~/data/models/GigWithParts";
 import { DistanceData, timeObj } from "~/data/models/types";
-import { formatDuration } from "~/data/models/utilityFunctions";
 import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
 
@@ -86,6 +85,8 @@ export default class FullCalendarGig extends GigWithParts {
     if (this._distanceInfo) return this._distanceInfo;
 
     const { distanceService } = this;
+
+    // todo: simplify this with a mapped object
     const fromHome = await distanceService.getDistanceInfo({
       from: LOCATIONS.home,
       to: this.location
@@ -100,23 +101,28 @@ export default class FullCalendarGig extends GigWithParts {
     const walthamDetour = {
       miles: withWaltham.miles - fromHome.miles,
       minutes: withWaltham.minutes - fromHome.minutes,
-      formattedTime: formatDuration(
-        dayjs.duration(withWaltham.minutes - fromHome.minutes, "minutes")
-      )
+      formattedTime:
+        dayjs.duration(
+          withWaltham.minutes - fromHome.minutes, "minutes"
+        ).format(DURATION_FORMAT)
     };
+
+    const fromWaltham = await distanceService.getDistanceInfo({
+      from: LOCATIONS.waltham,
+      to: this.location
+    });
+
+    const fromBoston = await distanceService.getDistanceInfo({
+      from: LOCATIONS.boston,
+      to: this.location
+    });
 
     this._distanceInfo = {
       fromHome,
       withWaltham,
       walthamDetour,
-      fromWaltham: await distanceService.getDistanceInfo({
-        from: LOCATIONS.waltham,
-        to: this.location
-      }),
-      fromBoston: await distanceService.getDistanceInfo({
-        from: LOCATIONS.boston,
-        to: this.location
-      })
+      fromWaltham,
+      fromBoston
     };
   }
 
@@ -130,7 +136,7 @@ export default class FullCalendarGig extends GigWithParts {
   public async store(calendarService = new CalendarService()) {
     return await calendarService.postEvent({
       location: this.location,
-      summary: 'Clockwork Gig',
+      summary: "Clockwork Gig",
       start: timeObj(this.getStartTime()),
       end: timeObj(this.getEndTime()),
       extendedProperties: {
