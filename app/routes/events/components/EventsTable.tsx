@@ -10,10 +10,13 @@ import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 export function EventsTable({ eventRows }: { eventRows: EventRowJson[] }) {
   return (
     <div data-testid="EVENTS_TABLE" className="grid grid-cols-3 items-start gap-3">
-      <div className="col-span-3 p-2 grid grid-cols-3 gap-3 bg-gray-200 font-bold">
+      <div className={
+        "col-span-3 grid grid-cols-3 gap-3 font-bold "
+        + "*:bg-gray-200 *:w-full *:p-2"
+      }>
         <h2>Email</h2>
-        <h2 className="mx-auto">Final</h2>
-        <h2 className="ml-auto">Calendar</h2>
+        <h2 className="text-center">Final</h2>
+        <h2 className="text-right">Calendar</h2>
       </div>
 
       {eventRows.map((row) =>
