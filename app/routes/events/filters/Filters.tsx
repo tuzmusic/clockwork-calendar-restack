@@ -5,11 +5,11 @@ export function Filters({ filters, toggleFilter }: {
   toggleFilter: (key: AvailableFilter) => void
 }) {
   return (
-    <div>
+    <div className="flex gap-2">
       <h3> Filter: </h3>
-      <ul style={{ display: "flex", listStyle: "none", paddingInlineStart: 0 }}>
+      <ul>
         {FILTER_NAMES.map((filterName) => (
-          <li key={filterName}>
+          <li className="flex gap-1" key={filterName}>
             <input
               id={filterName}
               type="checkbox"
