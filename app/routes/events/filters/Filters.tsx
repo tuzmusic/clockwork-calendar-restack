@@ -13,10 +13,8 @@ export function Filters({ filters, toggleFilter }: {
             <input
               id={filterName}
               type="checkbox"
-              checked={filters.includes(filterName as AvailableFilter)}
-              onChange={() => {
-                toggleFilter(filterName as AvailableFilter);
-              }}
+              checked={filters.includes(filterName)}
+              onChange={() => toggleFilter(filterName)}
             />
             <label>{filterName}</label>
           </li>
