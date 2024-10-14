@@ -48,7 +48,7 @@ describe.skip("Actions on the Events page", () => {
       expect(loaderSpy).not.toHaveBeenCalled();
 
       render(<RemixStub initialEntries={[EventsRoute.PATH]} />);
-      await waitFor(() => screen.findByTestId("EVENTS_PAGE"));
+      await waitFor(() => screen.findByTestId("EVENTS_TABLE"));
       expect(loaderSpy).toHaveBeenCalled();
 
       const getDistanceInfoButtons = screen.getAllByTestId("GET_DISTANCE_INFO_BUTTON");
