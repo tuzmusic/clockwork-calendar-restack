@@ -26,11 +26,12 @@ export type FullCalendarGigJson = ReturnType<FullCalendarGig["serialize"]>
 
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
-  private googleId: string | null;
+  private readonly googleId: string | null;
 
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
     return this.make({
       location: gigJson.location,
+      googleId: gigJson.googleId ?? undefined,
       parts: gigJson.parts.map(json => {
         const { type, startDateTime, endDateTime } = json;
         const ctor = (() => {
@@ -136,6 +137,7 @@ export default class FullCalendarGig extends GigWithParts {
   public serialize() {
     return {
       ...super.serialize(), // includes parts
+      googleId: this.googleId,
       distanceInfo: this._distanceInfo,
       startTime: this.getStartTime(),
       endTime: this.getEndTime()

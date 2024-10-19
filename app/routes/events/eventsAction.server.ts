@@ -29,9 +29,15 @@ export async function action(
   const gigJson = JSON.parse(gigStr) as FullCalendarGigJson;
 
   switch (intent) {
-    case(EventsActionIntent.createEvent): {
+    case EventsActionIntent.createEvent: {
       const gig = FullCalendarGig.deserialize(gigJson);
       const response = await gig.store(calendarService);
+      return { response, intent };
+    }
+
+    case EventsActionIntent.updateEvent: {
+      const gig = FullCalendarGig.deserialize(gigJson)
+      const response = await gig.update(calendarService);
       return { response, intent };
     }
 
