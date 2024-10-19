@@ -21,6 +21,7 @@ export default abstract class GigWithParts extends SimpleGig<{
     return this.getParts().map(p => p.serialize());
   }
 
+  // For sending to client. Use #store to post to storage
   public override serialize() {
     return {
       id: this.id,

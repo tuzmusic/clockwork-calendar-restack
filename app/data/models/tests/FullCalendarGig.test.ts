@@ -128,15 +128,24 @@ describe("FullCalendarGig.make", () => {
       });
     });
 
-    describe("Saving the event", () => {
+    describe.each([
+      ['Saving', 'postEvent', 'store'],
+      ['Updating', 'updateEvent', 'update']
+    ] as const)
+    ("%s the event", (action, serviceFnName, methodName) => {
       const calendarService = new CalendarFixtureService();
-      const postEventMock = vi.spyOn(calendarService, "postEvent");
+      const serviceFnMock = vi.spyOn(calendarService, serviceFnName);
 
       const testCall = async (gig: FullCalendarGig) => {
         vi.resetAllMocks();
-        await gig.store(calendarService);
-        return postEventMock.mock.calls[0]?.[0];
+        await gig[methodName](calendarService);
+        expect(serviceFnMock).toHaveBeenCalledOnce()
+        return serviceFnMock.mock.calls[0]?.[0];
       };
+
+      it.runIf(action === 'Updating')('includes the event id', () => {
+        expect(true).toEqual(false);
+      })
 
       it("includes the location in the payload as extendedProperties", async ({ gig }) => {
         expect(await testCall(gig)).toMatchObject({ location });

@@ -134,10 +134,10 @@ export default class FullCalendarGig extends GigWithParts {
     };
   }
 
-  public async store(calendarService = new CalendarService()) {
-    return await calendarService.postEvent({
+  private getPayload() {
+    return {
       location: this.location,
-      summary: "Clockwork Gig",
+      summary: this.getEventTitle(),
       start: timeObj(this.getStartTime()),
       end: timeObj(this.getEndTime()),
       extendedProperties: {
@@ -145,11 +145,20 @@ export default class FullCalendarGig extends GigWithParts {
           distanceInfo: JSON.stringify(this.getDistanceInfo())
         }
       }
-    });
+    };
   }
-}
+
+  public async update(calendarService = new CalendarService()) {
+    return await calendarService.updateEvent(this.getPayload());
+  }
+
+  public async store(calendarService = new CalendarService()) {
+    return await calendarService.postEvent(this.getPayload());
+  }
+
 // TODO: "encode" event details in event name so it can be
 //  better understood at a glance
-function getEventTitle(_appGig: FullCalendarGigJson) {
-  return "Clockwork Gig";
+  private getEventTitle() {
+    return "Clockwork Gig";
+  }
 }
