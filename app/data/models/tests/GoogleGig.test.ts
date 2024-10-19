@@ -8,7 +8,8 @@ describe("GoogleGig.make", () => {
     const mockData: calendar_v3.Schema$Event = {
       start: { dateTime: start },
       end: { dateTime: end },
-      location
+      location,
+      id: "abcd"
     };
 
     const gig = GoogleGig.make(mockData);
@@ -18,6 +19,7 @@ describe("GoogleGig.make", () => {
       expect(gig.getStartTime()).toEqual(start);
       expect(gig.getEndTime()).toEqual(end);
       expect(gig.getId()).toEqual("2024-12-01");
+      expect(gig.getGoogleId()).toEqual("abcd");
     });
 
     it("has the route info as null", () => {
@@ -25,7 +27,7 @@ describe("GoogleGig.make", () => {
     });
 
     it("has the parts as null", () => {
-      expect(gig.getPartsJson()).toBeNull()
+      expect(gig.getPartsJson()).toBeNull();
     });
 
     it("makes has start and end times", () => {

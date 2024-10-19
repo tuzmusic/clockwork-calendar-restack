@@ -10,6 +10,7 @@ export default class GoogleGig extends SimpleGig<{
 }> {
   private readonly distanceInfo: Record<string, DistanceData> | null = null;
   private readonly partsJson: GigPartJSON[] | null = null;
+  private readonly googleId: string;
 
   public getDistanceInfo() {
     return this.distanceInfo;
@@ -19,12 +20,18 @@ export default class GoogleGig extends SimpleGig<{
     return this.partsJson;
   }
 
+  public getGoogleId() {
+    return this.googleId;
+  }
+
   private constructor(private googleJson: calendar_v3.Schema$Event) {
     super(
       googleJson.location!,
       googleJson.start!.dateTime!,
       googleJson.end!.dateTime!
     );
+
+    this.googleId = googleJson.id ?? `${googleJson.id}-id`;
 
     const extendedProps = googleJson.extendedProperties?.private;
 
