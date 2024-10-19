@@ -21,6 +21,7 @@ export function CalendarGigUI({ gig, hasUpdates }: { gig: ReturnType<GoogleGig["
       </ul>
       {hasUpdates ?
         <Form method="post" id={gig.id} className="mt-auto ml-auto w-min">
+          <input type='hidden' name='gig' value={JSON.stringify(row.appGig)} />
           <CenteredButton
             name="intent"
             value={EventsActionIntent.updateEvent}
