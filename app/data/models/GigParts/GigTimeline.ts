@@ -20,7 +20,7 @@ export class GigTimeline {
       throw Error("No parts yet!");
     }
 
-    return this.parts[0].startDateTime;
+    return this.parts[0].actualStartDateTime;
   }
 
   public getEnd() {
