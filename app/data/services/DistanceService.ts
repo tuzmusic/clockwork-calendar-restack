@@ -1,8 +1,7 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import dayjs from "dayjs";
-
-import { DURATION_FORMAT } from "~/data/models/constants";
 import { DistanceData } from "~/data/models/types";
+import { formatDuration } from "~/data/models/utilityFunctions";
 
 export default class DistanceService {
   public async getDistanceInfo({ from, to, through }: {
@@ -41,10 +40,7 @@ export default class DistanceService {
     return {
       miles: Math.ceil(miles),
       minutes: Math.round(duration.asMinutes()),
-      // todo: helper fn that removes 0h and 0m
-      //  (pretty sure this already exists in the other repo)
-      //  or just do h:m!
-      formattedTime: duration.format(DURATION_FORMAT)
+      formattedTime: formatDuration(duration)
     };
   }
 }

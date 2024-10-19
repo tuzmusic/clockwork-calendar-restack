@@ -21,10 +21,12 @@
 - [X] Save to calendar (create CalendarService)
 - [ ] Update to calendar
 - [ ] Check on saving/retrieving extended props
-- [ ] Call real services, auth
-  -[X] Distance service (Google Maps - no auth needed)
-    - [ ] Persist distance
-    - [ ] Save distance
-    - [ ] Distance (time) formatting 
+- [X] Call real services, auth
   -[X] Email service (Gmail)
   -[X] Calendar service (Google calendar) 
+-[ ] Distance service (Google Maps - no auth needed)
+  - [X] Get distance 
+  - [ ] Persist distance
+  - [ ] Save distance
+  - [ ] Distance (time) formatting 
+- [ ] Loading UI for distance, save, update
