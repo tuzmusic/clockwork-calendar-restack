@@ -14,17 +14,19 @@ import DistanceService from "~/data/services/DistanceService";
 
 dayjs.extend(duration);
 
-interface MakeFromValues {
+interface MakeFnArgs {
   location: string,
   parts: GigPart[] | null,
   distanceService?: DistanceService
   isNew?: boolean
+  googleId?: string
 }
 
 export type FullCalendarGigJson = ReturnType<FullCalendarGig["serialize"]>
 
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
+  private googleId: string | null;
 
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
     return this.make({
@@ -48,27 +50,31 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public static make({
-                       location,
-                       parts,
-                       distanceService = new DistanceService(),
-                       isNew = false
-                     }: MakeFromValues
+      location,
+      parts,
+      distanceService = new DistanceService(),
+      isNew = false,
+      googleId
+    }: MakeFnArgs
   ) {
     return new FullCalendarGig({
         location,
         parts,
-        distanceService
+        distanceService,
+        googleId
       },
       isNew
     );
   }
 
-  protected constructor({ location, parts, distanceService }: {
+  protected constructor({ location, parts, distanceService, googleId }: {
     location: string,
     parts?: GigPart[] | null,
     distanceService: DistanceService
+    googleId?: string
   }, public readonly isNew: boolean) {
     super(location, parts ?? []);
+    this.googleId = googleId ?? null;
     this.distanceService = distanceService;
   }
 
@@ -149,7 +155,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public async update(calendarService = new CalendarService()) {
-    return await calendarService.updateEvent(this.getPayload());
+    return await calendarService.updateEvent({ ...this.getPayload(), id: this.googleId });
   }
 
   public async store(calendarService = new CalendarService()) {

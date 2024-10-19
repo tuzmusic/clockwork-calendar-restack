@@ -67,15 +67,15 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
-    const it = test.extend<{ makeGig: (withId?: boolean) => Promise<FullCalendarGig> }>({
-      makeGig: async ({ task: _ }, use) => await use(async (withId) => {
+    const it = test.extend<{ makeGig: (googleId?: string) => Promise<FullCalendarGig> }>({
+      makeGig: async ({ task: _ }, use) => await use(async (googleId) => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = FullCalendarGig.make({
           location,
           parts: [receptionPart],
           distanceService,
-          ...(withId && { id: "abcd" })
+          ...(googleId && { googleId })
         });
 
         await newGig.fetchDistanceInfo();
@@ -145,7 +145,7 @@ describe("FullCalendarGig.make", () => {
       };
 
       it.runIf(action === "Updating")("includes the event id", async ({ makeGig }) => {
-        expect(await testCall(await makeGig())).toMatchObject({ id });
+        expect(await testCall(await makeGig(id))).toMatchObject({ id });
       });
 
       it("includes the location in the payload as extendedProperties", async ({ makeGig }) => {
