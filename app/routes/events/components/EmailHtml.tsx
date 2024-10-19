@@ -6,8 +6,8 @@ export function EmailHtml({ gig }: { gig: ReturnType<EmailGig["serialize"]> }) {
   const month = DayJsTz(gig.id).format("MMM");
   // replace the month in the first <td> tag of the originalHtml with the month
   const html = gig.originalHtml?.replace(
-    /<td><strong>(\d{1,2})/,
-    `<td class="text-right"><strong>${month} $1`
+    /<strong>(\d{1,2})/,
+    `<strong style="white-space: nowrap">${month} $1`
   );
 
 
