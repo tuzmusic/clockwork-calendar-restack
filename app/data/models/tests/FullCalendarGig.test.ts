@@ -20,7 +20,7 @@ import DistanceService from "~/data/services/DistanceService";
 describe("FullCalendarGig.make", () => {
   describe("deserialize", () => {
     const gigJson = mock<FullCalendarGigJson>({
-        id: '12-34-2029', // calculation doesn't matter, right?
+        id: "12-34-2029", // calculation doesn't matter, right?
         location: "Boston",
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
       }
@@ -37,7 +37,7 @@ describe("FullCalendarGig.make", () => {
       expect(gig.getId()).toEqual(
         // not good testing since this reproduces the implementation
         // but whatever
-        mockReceptionJSONWithActual.actualStartDateTime.split('T')[0]
+        mockReceptionJSONWithActual.actualStartDateTime.split("T")[0]
       );
     });
 
@@ -67,14 +67,15 @@ describe("FullCalendarGig.make", () => {
       expect(distanceService.getDistanceInfo).toHaveBeenCalled();
     });
 
-    const it = test.extend<{ gig: FullCalendarGig }>({
-      gig: async ({ task: _ }, use) => {
+    const it = test.extend<{ makeGig: (withId?: boolean) => Promise<FullCalendarGig> }>({
+      makeGig: async ({ task: _ }, use) => await use(async (withId) => {
         const distanceService = getDistanceServiceWithMocks(location);
 
         const newGig = FullCalendarGig.make({
           location,
           parts: [receptionPart],
-          distanceService
+          distanceService,
+          ...(withId && { id: "abcd" })
         });
 
         await newGig.fetchDistanceInfo();
@@ -82,45 +83,45 @@ describe("FullCalendarGig.make", () => {
         if (!distanceInfo) {
           throw Error("Fetched route info but it is null");
         }
-        return await use(newGig);
-      }
+        return newGig;
+      })
     });
 
     describe("Gets the correct distance info", () => {
-      it("withWaltham", ({ gig }) => {
-        expect(gig.getDistanceInfo()?.withWaltham).toEqual({
+      it("withWaltham", async ({ makeGig }) => {
+        expect((await makeGig()).getDistanceInfo()?.withWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 120,
           formattedTime: "2h"
         });
       });
 
-      it("fromHome", ({ gig }) => {
-        expect(gig.getDistanceInfo()?.fromHome).toEqual({
+      it("fromHome", async ({ makeGig }) => {
+        expect((await makeGig()).getDistanceInfo()?.fromHome).toEqual({
           miles: expect.any(Number),
           minutes: 90,
           formattedTime: "1h 30m"
         });
       });
 
-      it("fromWaltham", ({ gig }) => {
-        expect(gig.getDistanceInfo()?.fromWaltham).toEqual({
+      it("fromWaltham", async ({ makeGig }) => {
+        expect((await makeGig()).getDistanceInfo()?.fromWaltham).toEqual({
           miles: expect.any(Number),
           minutes: 45,
           formattedTime: "45m"
         });
       });
 
-      it("walthamDetour", ({ gig }) => {
-        expect(gig.getDistanceInfo()?.walthamDetour).toEqual({
+      it("walthamDetour", async ({ makeGig }) => {
+        expect((await makeGig()).getDistanceInfo()?.walthamDetour).toEqual({
           miles: 10,
           minutes: 30,
           formattedTime: "30m"
         });
       });
 
-      it("fromBoston", ({ gig }) => {
-        expect(gig.getDistanceInfo()?.fromBoston).toEqual({
+      it("fromBoston", async ({ makeGig }) => {
+        expect((await makeGig()).getDistanceInfo()?.fromBoston).toEqual({
           miles: 65,
           minutes: 70,
           formattedTime: "1h 10m"
@@ -129,30 +130,30 @@ describe("FullCalendarGig.make", () => {
     });
 
     describe.each([
-      ['Saving', 'postEvent', 'store'],
-      ['Updating', 'updateEvent', 'update']
+      ["Saving", "postEvent", "store"],
+      ["Updating", "updateEvent", "update"]
     ] as const)
     ("%s the event", (action, serviceFnName, methodName) => {
       const calendarService = new CalendarFixtureService();
       const serviceFnMock = vi.spyOn(calendarService, serviceFnName);
-
+      const id = "abcd";
       const testCall = async (gig: FullCalendarGig) => {
         vi.resetAllMocks();
         await gig[methodName](calendarService);
-        expect(serviceFnMock).toHaveBeenCalledOnce()
+        expect(serviceFnMock).toHaveBeenCalledOnce();
         return serviceFnMock.mock.calls[0]?.[0];
       };
 
-      it.runIf(action === 'Updating')('includes the event id', () => {
-        expect(true).toEqual(false);
-      })
-
-      it("includes the location in the payload as extendedProperties", async ({ gig }) => {
-        expect(await testCall(gig)).toMatchObject({ location });
+      it.runIf(action === "Updating")("includes the event id", async ({ makeGig }) => {
+        expect(await testCall(await makeGig())).toMatchObject({ id });
       });
 
-      it("includes the startTime the payload as extendedProperties", async ({ gig }) => {
-        expect(await testCall(gig)).toMatchObject({
+      it("includes the location in the payload as extendedProperties", async ({ makeGig }) => {
+        expect(await testCall(await makeGig())).toMatchObject({ location });
+      });
+
+      it("includes the startTime the payload as extendedProperties", async ({ makeGig }) => {
+        expect(await testCall(await makeGig())).toMatchObject({
           start: {
             dateTime: receptionPart.startDateTime,
             timeZone: TIME_ZONE
@@ -160,8 +161,8 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      it("includes the endTime the payload as extendedProperties", async ({ gig }) => {
-        expect(await testCall(gig)).toMatchObject({
+      it("includes the endTime the payload as extendedProperties", async ({ makeGig }) => {
+        expect(await testCall(await makeGig())).toMatchObject({
           end: {
             dateTime: receptionPart.endDateTime,
             timeZone: TIME_ZONE
@@ -169,8 +170,8 @@ describe("FullCalendarGig.make", () => {
         });
       });
 
-      it("includes the route info in the payload as extendedProperties", async ({ gig }) => {
-        const call = await testCall(gig);
+      it("includes the route info in the payload as extendedProperties", async ({ makeGig }) => {
+        const call = await testCall(await makeGig());
         const distanceInfoStr = call.extendedProperties!.private!.distanceInfo!;
         expect(distanceInfoStr.length).toBeLessThanOrEqual(1024);
 
