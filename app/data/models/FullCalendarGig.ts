@@ -136,7 +136,9 @@ export default class FullCalendarGig extends GigWithParts {
   public serialize() {
     return {
       ...super.serialize(), // includes parts
-      distanceInfo: this._distanceInfo
+      distanceInfo: this._distanceInfo,
+      startTime: this.getStartTime(),
+      endTime: this.getEndTime()
     };
   }
 

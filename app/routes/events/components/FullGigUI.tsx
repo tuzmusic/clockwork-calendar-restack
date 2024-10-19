@@ -16,6 +16,7 @@ export function FullGigUI({ gig }: { gig: FullCalendarGigJson }) {
       </h3>
 
       <ul>
+        {/*<li>{gig.}</li>*/}
         {gig.parts.map(part => (
           <GigPartUI key={part.type} part={part} />)
         )}

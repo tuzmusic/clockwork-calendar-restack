@@ -117,6 +117,8 @@ describe("serializers", () => {
           fromBoston: anyMiles
         },
         id: receptionStart.split("T").shift(),
+        startTime: cocktailHourPart.startDateTime,
+        endTime: receptionPart.endDateTime,
         parts: [
           cocktailJson,
           receptionJson
