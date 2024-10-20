@@ -22,14 +22,14 @@ export default class Schedule {
   ) {
     this.emailGigsTable = this.makeTableById(emailGigs);
     this.remoteGigsTable = this.makeTableById(remoteGigs);
-    this.eventSets = this.getEventSets();
+    this.eventSets = this.makeEventSets();
   }
 
   public static build(arrays: { emailGigs: EmailGig[]; remoteGigs: GoogleGig[]; }, distanceService: DistanceService) {
     return new Schedule(arrays.emailGigs, arrays.remoteGigs, distanceService);
   }
 
-  private getEventSets() {
+  private makeEventSets() {
     const rowsFromEmailGigs = Object.keys(this.emailGigsTable).map(id => {
       const emailGig = this.emailGigsTable[id];
       const remoteGig = this.remoteGigsTable[id];

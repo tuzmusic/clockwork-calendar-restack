@@ -108,6 +108,7 @@ export default class EventRow {
       location: emailGig.getLocation(),
       parts: emailGig.getParts(),
       isNew: !googleGig,
+      googleId: googleGig?.getGoogleId(),
       distanceService
     });
 
