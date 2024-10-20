@@ -28,7 +28,7 @@ export default class DateTime {
 
     const hour24 = hour === 12 ? 0 : hour + 12;
     const hourStr = hour24.toString().padStart(2, "0");
-    const finalDateStr = `${dateStr}T${hourStr}:${minute}:00-04:00`;
+    const finalDateStr = `${dateStr}T${hourStr}:${minute}:00`;
 
     return {
       dateTime: finalDateStr,
