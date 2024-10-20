@@ -31,7 +31,7 @@ export function EventsTable({ eventRows }: { eventRows: EventRowJson[] }) {
 
           <RoundedWrapper>
             {row.googleGig
-              ? <CalendarGigUI gig={row.googleGig} hasUpdates={row.hasUpdates} />
+              ? <CalendarGigUI row={row} hasUpdates={row.hasUpdates} />
               : <SaveGigButton row={row} />}
           </RoundedWrapper>
         </React.Fragment>

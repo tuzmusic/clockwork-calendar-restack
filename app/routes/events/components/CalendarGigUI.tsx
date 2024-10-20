@@ -1,17 +1,22 @@
 import { useFetcher } from "@remix-run/react";
 
 import DayJsTz from "~/data/models/DayJsTz";
-import GoogleGig from "~/data/models/GoogleGig";
+import { EventRowJson } from "~/data/models/EventRow";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
 import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 
-export function CalendarGigUI({ gig, hasUpdates }: { gig: ReturnType<GoogleGig["serialize"]>, hasUpdates: boolean }) {
+export function CalendarGigUI({ row, hasUpdates }: { row: EventRowJson, hasUpdates: boolean }) {
+  const gig = row.googleGig
   const { Form, state } = useFetcher();
+
+  if (!gig) return null
 
   const [start, end] = [gig.startDateTime, gig.endDateTime].map(
     d => DayJsTz(d).format("h:mma")
   );
+
   const date = <>{DayJsTz(gig.id).format("M/D/YY")}</>;
+
   return (
     <div className="p-2 h-full flex flex-col">
       <ul className="text-right">
