@@ -98,11 +98,13 @@ describe("serializers", () => {
         formattedTime: expect.any(String)
       } satisfies DistanceData;
 
+      const googleId = 'abcd';
       const gig = FullCalendarGig.make({
         location,
         parts: [cocktailHourPart, receptionPart],
         distanceService: mockDistanceService,
-        isNew: true
+        isNew: true,
+        googleId
       });
 
       await gig.fetchDistanceInfo()
@@ -117,6 +119,7 @@ describe("serializers", () => {
           fromBoston: anyMiles
         },
         id: receptionStart.split("T").shift(),
+        googleId,
         startTime: cocktailHourPart.startDateTime,
         endTime: receptionPart.endDateTime,
         parts: [

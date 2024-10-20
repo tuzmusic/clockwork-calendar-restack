@@ -28,6 +28,10 @@ export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
   private readonly googleId: string | null;
 
+  public getGoogleId() {
+    return this.googleId;
+  }
+
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
     return this.make({
       location: gigJson.location,
@@ -144,7 +148,7 @@ export default class FullCalendarGig extends GigWithParts {
     };
   }
 
-  private getPayload() {
+  private makePayload() {
     return {
       location: this.location,
       summary: this.getEventTitle(),
@@ -159,11 +163,11 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public async update(calendarService = new CalendarService()) {
-    return await calendarService.updateEvent({ ...this.getPayload(), id: this.googleId });
+    return await calendarService.updateEvent({ ...this.makePayload(), id: this.googleId });
   }
 
   public async store(calendarService = new CalendarService()) {
-    return await calendarService.postEvent(this.getPayload());
+    return await calendarService.postEvent(this.makePayload());
   }
 
 // TODO: "encode" event details in event name so it can be
