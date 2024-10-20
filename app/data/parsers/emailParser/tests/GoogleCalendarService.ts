@@ -27,12 +27,10 @@ export default class GoogleCalendarService extends CalendarService {
       timeMin: (fromDate ? dayjs(fromDate) : dayjs()).toISOString()
     });
 
-    // todo: error reporting
     return calResponse?.data?.items ?? [];
   }
 
   public async postEvent(json: calendar_v3.Schema$Event): Promise<GaxiosResponse<calendar_v3.Schema$Event>> {
-    // todo: error reporting
     return await this.calendar.events.insert({
       calendarId: this.calendarId,
       requestBody: json
