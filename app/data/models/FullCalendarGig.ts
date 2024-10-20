@@ -163,7 +163,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public async update(calendarService = new CalendarService()) {
-    return await calendarService.updateEvent({ ...this.makePayload(), id: this.googleId });
+    return await calendarService.updateEvent(this.googleId, this.makePayload());
   }
 
   public async store(calendarService = new CalendarService()) {

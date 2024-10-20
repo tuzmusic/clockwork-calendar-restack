@@ -39,8 +39,14 @@ export default class GoogleCalendarService extends CalendarService {
     });
   }
 
-  async updateEvent(_json: calendar_v3.Schema$Event): Promise<GaxiosResponse<calendar_v3.Schema$Event>> {
-    console.log('TODO google update');
-    return super.updateEvent(_json);
+  async updateEvent(eventId: string | null | undefined, json: calendar_v3.Schema$Event):
+    Promise<GaxiosResponse<calendar_v3.Schema$Event>> {
+    if (!eventId) throw Error(`eventId is ${eventId}`);
+
+    return await this.calendar.events.update({
+      eventId,
+      calendarId: this.calendarId,
+      requestBody: json
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { calendar_v3 } from "googleapis";
 import { mock } from "vitest-mock-extended";
 
 import { TIME_ZONE } from "~/data/models/constants";
@@ -130,10 +131,10 @@ describe("FullCalendarGig.make", () => {
     });
 
     describe.each([
-      ["Saving", "postEvent", "store"],
-      ["Updating", "updateEvent", "update"]
+      ["Saving", "postEvent", "store", 0],
+      ["Updating", "updateEvent", "update", 1]
     ] as const)
-    ("%s the event", (action, serviceFnName, methodName) => {
+    ("%s the event", (action, serviceFnName, methodName, argIndex) => {
       const calendarService = new CalendarFixtureService();
       const serviceFnMock = vi.spyOn(calendarService, serviceFnName);
       const id = "abcd";
@@ -141,19 +142,22 @@ describe("FullCalendarGig.make", () => {
         vi.resetAllMocks();
         await gig[methodName](calendarService);
         expect(serviceFnMock).toHaveBeenCalledOnce();
-        return serviceFnMock.mock.calls[0]?.[0];
+        return serviceFnMock.mock.calls[0];
       };
 
       it.runIf(action === "Updating")("includes the event id", async ({ makeGig }) => {
-        expect(await testCall(await makeGig(id))).toMatchObject({ id });
+        const call = await testCall(await makeGig(id));
+        expect(call[0]).toEqual( id );
       });
 
       it("includes the location in the payload as extendedProperties", async ({ makeGig }) => {
-        expect(await testCall(await makeGig())).toMatchObject({ location });
+        const call = await testCall(await makeGig(id));
+        expect(call[argIndex]).toMatchObject({ location });
       });
 
       it("includes the startTime the payload as extendedProperties", async ({ makeGig }) => {
-        expect(await testCall(await makeGig())).toMatchObject({
+        const call = await testCall(await makeGig(id));
+        expect(call[argIndex]).toMatchObject({
           start: {
             dateTime: receptionPart.startDateTime,
             timeZone: TIME_ZONE
@@ -162,7 +166,8 @@ describe("FullCalendarGig.make", () => {
       });
 
       it("includes the endTime the payload as extendedProperties", async ({ makeGig }) => {
-        expect(await testCall(await makeGig())).toMatchObject({
+        const call = await testCall(await makeGig(id));
+        expect(call[argIndex]).toMatchObject({
           end: {
             dateTime: receptionPart.endDateTime,
             timeZone: TIME_ZONE
@@ -172,7 +177,7 @@ describe("FullCalendarGig.make", () => {
 
       it("includes the route info in the payload as extendedProperties", async ({ makeGig }) => {
         const call = await testCall(await makeGig());
-        const distanceInfoStr = call.extendedProperties!.private!.distanceInfo!;
+        const distanceInfoStr = (call[argIndex] as calendar_v3.Schema$Event).extendedProperties!.private!.distanceInfo!;
         expect(distanceInfoStr.length).toBeLessThanOrEqual(1024);
 
         const distanceInfo = JSON.parse(distanceInfoStr);
