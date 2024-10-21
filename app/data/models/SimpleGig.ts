@@ -11,6 +11,8 @@ export default abstract class SimpleGig<T> {
     protected readonly startDateTime: string,
     protected readonly endDateTime: string
   ) {
+    this.startDateTime = startDateTime.replace(/(:00)-0.*/, "$1")
+    this.endDateTime = endDateTime.replace(/(:00)-0.*/, "$1")
     this.id = this.startDateTime.split("T")[0];
   }
 
