@@ -26,7 +26,7 @@ export function EventsTable({ eventRows }: { eventRows: EventRowJson[] }) {
           </RoundedWrapper>
 
           <RoundedWrapper>
-            <FullGigUI gig={row.appGig} />
+            <FullGigUI row={row} />
           </RoundedWrapper>
 
           <RoundedWrapper>
