@@ -41,8 +41,8 @@ describe("Parsing event parts", () => {
       testEventPart(
         reception,
         "reception",
-        "2024-07-08T18:00:00-04:00",
-        "2024-07-08T22:30:00-04:00"
+        "2024-07-08T18:00:00",
+        "2024-07-08T22:30:00"
       );
 
       assertEqualsIgnoringWhitespace(
@@ -67,8 +67,8 @@ describe("Parsing event parts", () => {
       testEventPart(
         reception,
         "reception",
-        "2024-07-08T18:00:00-04:00",
-        "2024-07-09T00:30:00-04:00"
+        "2024-07-08T18:00:00",
+        "2024-07-09T00:30:00"
       );
       expect(event.getId()).toEqual("2024-07-08");
     });
@@ -89,8 +89,8 @@ describe("Parsing event parts", () => {
       testEventPart(
         reception,
         "reception",
-        "2024-07-08T18:00:00-04:00",
-        "2024-07-09T00:00:00-04:00"
+        "2024-07-08T18:00:00",
+        "2024-07-09T00:00:00"
       );
     });
   });
@@ -123,15 +123,15 @@ describe("Parsing event parts", () => {
       testEventPart(
         reception,
         "reception",
-        "2024-07-08T18:00:00-04:00",
-        "2024-07-08T22:30:00-04:00"
+        "2024-07-08T18:00:00",
+        "2024-07-08T22:30:00"
       );
 
       testEventPart(
         cocktails,
         "cocktail hour",
-        "2024-07-08T17:00:00-04:00",
-        "2024-07-08T18:00:00-04:00"
+        "2024-07-08T17:00:00",
+        "2024-07-08T18:00:00"
       );
     });
 
@@ -154,26 +154,26 @@ describe("Parsing event parts", () => {
       testEventPart(
         reception,
         "reception",
-        "2024-07-08T18:00:00-04:00",
-        "2024-07-08T22:30:00-04:00"
+        "2024-07-08T18:00:00",
+        "2024-07-08T22:30:00"
       );
 
       testEventPart(
         cocktails,
         "cocktail hour",
-        "2024-07-08T17:00:00-04:00",
-        "2024-07-08T18:00:00-04:00"
+        "2024-07-08T17:00:00",
+        "2024-07-08T18:00:00"
       );
 
       testEventPart(
         ceremony,
         "ceremony",
-        "2024-07-08T16:30:00-04:00", // schedule says ceremony starts at 4:30
-        "2024-07-08T17:00:00-04:00"
+        "2024-07-08T16:30:00", // schedule says ceremony starts at 4:30
+        "2024-07-08T17:00:00"
       );
 
       expect(ceremony.actualStartDateTime).toEqual(
-        "2024-07-08T16:00:00-04:00" // but we start playing at 4:00
+        "2024-07-08T16:00:00" // but we start playing at 4:00
       );
     });
   });

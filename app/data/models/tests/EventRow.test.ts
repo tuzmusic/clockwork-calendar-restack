@@ -232,8 +232,8 @@ describe("EventRow", () => {
     describe("Events worth updating", () => {
       const updatedLocation = "somewhere else";
 
-      const ceremonyStart = "2024-12-01T17:30:00-04:00";
-      const receptionLaterEnd = "2024-12-01T23:30:00-04:00";
+      const ceremonyStart = "2024-12-01T17:30:00";
+      const receptionLaterEnd = "2024-12-01T23:30:00";
 
       const partsJSON: GigPartJSON[] = [
         {

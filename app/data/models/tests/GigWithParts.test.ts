@@ -4,12 +4,12 @@ import { GigPart } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
 import GigWithParts from "~/data/models/GigWithParts";
 
-const laterTime = "2024-12-01T19:00:00-04:00";
-const earlierTime = "2024-12-01T18:00:00-04:00";
-const finalTime = "2024-12-01T21:00:00-04:00";
+const laterTime = "2024-12-01T19:00:00";
+const earlierTime = "2024-12-01T18:00:00";
+const finalTime = "2024-12-01T21:00:00";
 
-const ceremonyStart = "2024-12-01T17:30:00-04:00";
-const ceremonyActualStart = "2024-12-01T17:00:00-04:00";
+const ceremonyStart = "2024-12-01T17:30:00";
+const ceremonyActualStart = "2024-12-01T17:00:00";
 
 const reception = new Reception(laterTime, finalTime);
 const cocktailHour = new CocktailHour(earlierTime, laterTime);

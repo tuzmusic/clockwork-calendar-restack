@@ -10,7 +10,7 @@ describe("DateTime", () => {
       } as const;
       const result = DateTime.makeGoogleDateFromTime(timeStr, dateParts);
 
-      expect(result.dateTime).toEqual(`2024-${expectedDate === '01' ? '06' : '05'}-${expectedDate}T00:00:00-04:00`);
+      expect(result.dateTime).toEqual(`2024-${expectedDate === '01' ? '06' : '05'}-${expectedDate}T00:00:00`);
     });
   });
 });

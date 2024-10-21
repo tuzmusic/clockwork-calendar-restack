@@ -49,7 +49,7 @@ export async function action(
         parts: [
           // we have the gigJson but it's not really worth extracting it to make parts
           // (although we could use makeGigPartsFromJson, sorta)
-          new Reception("2024-12-01T19:00:00-04:00", "2024-12-01T21:00:00-04:00")
+          new Reception("2024-12-01T19:00:00", "2024-12-01T21:00:00")
         ]
       });
 

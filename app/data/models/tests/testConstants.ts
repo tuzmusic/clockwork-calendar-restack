@@ -5,9 +5,9 @@ import { DistanceData } from "~/data/models/types";
 
 export const location = "wherever";
 
-export const start = "2024-12-01T19:00:00-04:00";
+export const start = "2024-12-01T19:00:00";
 
-export const end = "2024-12-01T23:00:00-04:00";
+export const end = "2024-12-01T23:00:00";
 
 export const mockDistanceData = {
   fromHome: { miles: 1, minutes: 10, formattedTime: "10m" },
@@ -17,10 +17,10 @@ export const mockDistanceData = {
   fromBoston: { miles: 5, minutes: 50, formattedTime: "0m" }
 } satisfies Record<string, DistanceData>;
 
-export const receptionStart = "2024-12-01T19:00:00-04:00";
+export const receptionStart = "2024-12-01T19:00:00";
 export const cocktailEnd = receptionStart
-export const cocktailStart = "2024-12-01T18:00:00-04:00";
-export const receptionEnd = "2024-12-01T21:00:00-04:00";
+export const cocktailStart = "2024-12-01T18:00:00";
+export const receptionEnd = "2024-12-01T21:00:00";
 export const receptionPart = new Reception(receptionStart, receptionEnd);
 export const cocktailHourPart = new CocktailHour(cocktailStart, cocktailEnd);
 export const cocktailHourPartJSON = {
