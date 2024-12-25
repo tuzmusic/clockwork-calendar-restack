@@ -33,25 +33,31 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
-    return this.make({
+    const parts = gigJson.parts.map(json => {
+      const { type, startDateTime, endDateTime } = json;
+      const ctor = (() => {
+        switch (type) {
+          case "cocktail hour":
+            return CocktailHour;
+          case "ceremony":
+            return Ceremony;
+          case "reception":
+            return Reception;
+        }
+      })();
+
+      return new ctor(startDateTime, endDateTime);
+
+    });
+    const gig = this.make({
       location: gigJson.location,
       googleId: gigJson.googleId ?? undefined,
-      parts: gigJson.parts.map(json => {
-        const { type, startDateTime, endDateTime } = json;
-        const ctor = (() => {
-          switch (type) {
-            case "cocktail hour":
-              return CocktailHour;
-            case "ceremony":
-              return Ceremony;
-            case "reception":
-              return Reception;
-          }
-        })();
-
-        return new ctor(startDateTime, endDateTime);
-      })
+      parts
     });
+
+    gig._distanceInfo = gigJson.distanceInfo
+
+    return gig;
   }
 
   public static make({
