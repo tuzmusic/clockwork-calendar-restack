@@ -23,7 +23,12 @@ describe("FullCalendarGig.make", () => {
     const gigJson = mock<FullCalendarGigJson>({
         id: "12-34-2029", // calculation doesn't matter, right?
         location: "Boston",
-        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
+        distanceInfo: {
+          fromSomewhere: {
+            miles: 1, minutes: 2, formattedTime: "foo"
+          }
+        }
       }
     );
 
@@ -34,7 +39,7 @@ describe("FullCalendarGig.make", () => {
       expect(gig.getLocation()).toEqual("Boston");
     });
 
-    it("ID", () => {
+    test("ID", () => {
       expect(gig.getId()).toEqual(
         // not good testing since this reproduces the implementation
         // but whatever
@@ -42,11 +47,15 @@ describe("FullCalendarGig.make", () => {
       );
     });
 
-    it("parts", () => {
+    test("parts", () => {
       expect(parts[0]).toBeInstanceOf(CocktailHour);
       expect(parts[1]).toBeInstanceOf(Reception);
       expect(parts[0]).toEqual(cocktailHourPart);
       expect(parts[1]).toEqual(mockReceptionPart);
+    });
+
+    test("distanceInfo", () => {
+      expect(gig.getDistanceInfo()).toEqual(gigJson.distanceInfo)
     });
   });
 
@@ -147,7 +156,7 @@ describe("FullCalendarGig.make", () => {
 
       it.runIf(action === "Updating")("includes the event id", async ({ makeGig }) => {
         const call = await testCall(await makeGig(id));
-        expect(call[0]).toEqual( id );
+        expect(call[0]).toEqual(id);
       });
 
       it("includes the location in the payload as extendedProperties", async ({ makeGig }) => {
