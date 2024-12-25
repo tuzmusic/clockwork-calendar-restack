@@ -33,7 +33,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
-    const parts = gigJson.parts.map(json => {
+    const makeParts = (partsJson: FullCalendarGigJson['parts']) => partsJson.map(json => {
       const { type, startDateTime, endDateTime } = json;
       const ctor = (() => {
         switch (type) {
@@ -47,14 +47,15 @@ export default class FullCalendarGig extends GigWithParts {
       })();
 
       return new ctor(startDateTime, endDateTime);
-
     });
+
     const gig = this.make({
       location: gigJson.location,
       googleId: gigJson.googleId ?? undefined,
-      parts
+      parts: makeParts(gigJson.parts)
     });
 
+    // todo: would be good to include this in .make but...
     gig._distanceInfo = gigJson.distanceInfo
 
     return gig;
