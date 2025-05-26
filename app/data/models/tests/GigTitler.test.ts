@@ -12,6 +12,7 @@ describe("GigTitler", () => {
     it.each([
       { expectedStr: "🚙1h", formatted: "1h", minutes: 60 },
       { expectedStr: "🚙1:05", formatted: "1h5m", minutes: 65 },
+      { expectedStr: "🚙1:15", formatted: "1h15m", minutes: 75 },
       { expectedStr: "🚙2:30", formatted: "2h30m", minutes: 150 },
       { expectedStr: "🚙35m", formatted: "35m", minutes: 35 }
     ] satisfies {
@@ -115,6 +116,40 @@ describe("GigTitler", () => {
       const gig = FullCalendarGig.deserialize(gigJson);
       const titler = new GigTitler(gig);
       expect(titler.getHotelStr()).toEqual("🏩");
+    });
+  });
+
+  describe("full string", () => {
+    it("returns a string for a gig without a hotel", () => {
+      const gigJson = mock<FullCalendarGigJson>({
+        location: "123 Sesame St, Provincetown, MA", // cape cod
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
+        distanceInfo: {
+          fromHome: {
+            miles: 1, minutes: 75, formattedTime: "1h15m"
+          },
+          fromBoston: { minutes: 20 } // no hotel
+        }
+      });
+      const gig = FullCalendarGig.deserialize(gigJson);
+      const titler = new GigTitler(gig);
+      expect(titler.makeTitle()).toEqual("🎹 🚙1:15 CC");
+    });
+
+    it("returns a string for a gig with a hotel", () => {
+      const gigJson = mock<FullCalendarGigJson>({
+        location: "123 Sesame St, Manchester, VT", // cape cod
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
+        distanceInfo: {
+          fromHome: {
+            miles: 140, minutes: 150, formattedTime: "2h30m"
+          },
+          fromBoston: { minutes: 200 }
+        }
+      });
+      const gig = FullCalendarGig.deserialize(gigJson);
+      const titler = new GigTitler(gig);
+      expect(titler.makeTitle()).toEqual("🎹 🚙2:30 VT 🏩");
     });
   });
 });

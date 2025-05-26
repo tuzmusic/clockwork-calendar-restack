@@ -7,6 +7,15 @@ export default class GigTitler {
   city: string;
   state: string;
 
+  public makeTitle() {
+    return [
+      "🎹",
+      this.getTimeFromHomeStr(),
+      this.getLocationHintStr(),
+      this.getHotelStr()
+    ].filter(Boolean)
+      .join(" ");
+  }
 
   constructor(private gig: FullCalendarGig) {
     // todo: handle it not being fetched yet.
@@ -27,16 +36,16 @@ export default class GigTitler {
   }
 
   public getLocationHintStr() {
-    if (this.city === 'Boston' && this.state === 'MA') {
-      return GigTitler.abbreviations['Boston'] ?? this.state
+    if (this.city === "Boston" && this.state === "MA") {
+      return GigTitler.abbreviations["Boston"] ?? this.state;
     }
-    if (this.city === 'Providence' && this.state === 'RI') {
-      return GigTitler.abbreviations["Providence"] ?? this.state
+    if (this.city === "Providence" && this.state === "RI") {
+      return GigTitler.abbreviations["Providence"] ?? this.state;
     }
-    if (this.state === 'MA' && GigTitler.CapeCodCities.includes(this.city)) {
-      return "CC"
+    if (this.state === "MA" && GigTitler.CapeCodCities.includes(this.city)) {
+      return "CC";
     }
-    return this.state
+    return this.state;
   }
 
   public getTimeFromHomeStr() {
@@ -61,9 +70,9 @@ export default class GigTitler {
   }
 
   static abbreviations = {
-    'Boston': "Bs",
-    'Providence': 'Pr'
-  }
+    "Boston": "Bs",
+    "Providence": "Pr"
+  };
 
   static CapeCodCities = [
     "Chatham",
@@ -76,6 +85,7 @@ export default class GigTitler {
     "Sagamore Beach",
     "Barnstable",
     "Hyannis",
-    "Orleans"
-  ]
+    "Orleans",
+    "Provincetown"
+  ];
 }
