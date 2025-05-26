@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import FullCalendarGig from "~/data/models/FullCalendarGig";
 
 export default class GigTitler {
@@ -8,16 +10,17 @@ export default class GigTitler {
     this.distanceInfo = gig.getDistanceInfo()!;
   }
 
-  public getTime() {
+  public getTimeFromHomeStr() {
     return "🚙" + (() => {
-      const { formattedTime } = this.distanceInfo["fromHome"];
+      const { formattedTime, minutes } = this.distanceInfo["fromHome"];
       if (!formattedTime.includes("m")) {
         return formattedTime;
       }
       if (!formattedTime.includes("h")) {
         return formattedTime;
       }
-      return formattedTime.replace("h", ":").replace("m", "");
+
+      return dayjs.duration(minutes, "minutes").format("H:mm");
     })();
   }
 }

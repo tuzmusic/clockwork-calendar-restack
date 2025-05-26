@@ -8,6 +8,7 @@ describe("GigTitler", () => {
   describe("time", () => {
     it.each([
       { expectedStr: "🚙1h", formatted: "1h", minutes: 60 },
+      { expectedStr: "🚙1:05", formatted: "1h5m", minutes: 65 },
       { expectedStr: "🚙2:30", formatted: "2h30m", minutes: 150 },
       { expectedStr: "🚙35m", formatted: "35m", minutes: 35 }
     ] satisfies {
@@ -27,7 +28,7 @@ describe("GigTitler", () => {
       const gig = FullCalendarGig.deserialize(gigJson);
       // make a titler with the gig
       const titler = new GigTitler(gig);
-      expect(titler.getTime()).toEqual(expectedStr);
+      expect(titler.getTimeFromHomeStr()).toEqual(expectedStr);
     });
   });
 
