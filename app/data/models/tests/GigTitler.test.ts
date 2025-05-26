@@ -40,6 +40,15 @@ describe("GigTitler", () => {
   });
 
   describe("Hotel", () => {
-    it.todo("hotel");
+    it.each([1, 60, 110, 119])("returns null if the gig is %d minutes from Boston", (minutes) => {
+      const gigJson = mock<FullCalendarGigJson>({
+        location: "Boston",
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
+        distanceInfo: { fromBoston: { minutes } }
+      });
+      const gig = FullCalendarGig.deserialize(gigJson);
+      const titler = new GigTitler(gig);
+      expect(titler.getHotelStr()).toBeNull()
+    });
   });
 });

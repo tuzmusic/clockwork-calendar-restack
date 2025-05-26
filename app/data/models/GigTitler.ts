@@ -23,4 +23,8 @@ export default class GigTitler {
       return dayjs.duration(minutes, "minutes").format("H:mm");
     })();
   }
+
+  public getHotelStr() {
+    return null
+  }
 }
