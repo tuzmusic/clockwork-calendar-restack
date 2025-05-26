@@ -31,8 +31,6 @@ export default class DistanceService {
     const legValueSum = legs.reduce((acc, leg) => acc + leg.duration.value, 0);
     const duration = dayjs.duration(
       // duration.text is human-readable, but we're doing math on it so we can't use it
-      // note: this might be in seconds? or 1000 seconds???
-      //  if we're just using "minutes" below then we probably want to get rid of "* 1000"
       legValueSum, 'seconds'
     );
 
