@@ -6,6 +6,7 @@ import { Ceremony } from "~/data/models/GigParts/Ceremony";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPart } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
+import GigTitler from "~/data/models/GigTitler";
 import GigWithParts from "~/data/models/GigWithParts";
 import { DistanceData, timeObj } from "~/data/models/types";
 import { formatDuration } from "~/data/models/utilityFunctions";
@@ -156,7 +157,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   private makePayload() {
-    return {
+    const payload = {
       location: this.location,
       summary: this.getEventTitle(),
       start: timeObj(this.getStartTime()),
@@ -167,6 +168,7 @@ export default class FullCalendarGig extends GigWithParts {
         }
       }
     };
+    return payload;
   }
 
   public async update(calendarService = new CalendarService()) {
@@ -180,6 +182,7 @@ export default class FullCalendarGig extends GigWithParts {
 // TODO: "encode" event details in event name so it can be
 //  better understood at a glance
   private getEventTitle() {
-    return "Clockwork Gig";
+    const titler = new GigTitler(this)
+    return `${titler.makeTitle()} Clockwork Gig`;
   }
 }

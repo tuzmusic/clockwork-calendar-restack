@@ -3,7 +3,7 @@ import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
 import { DistanceData } from "~/data/models/types";
 
-export const location = "wherever";
+export const location = "123 Sesame St, Concord, NH";
 
 export const start = "2024-12-01T19:00:00";
 

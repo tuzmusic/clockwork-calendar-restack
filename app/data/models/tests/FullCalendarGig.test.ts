@@ -55,7 +55,7 @@ describe("FullCalendarGig.make", () => {
     });
 
     test("distanceInfo", () => {
-      expect(gig.getDistanceInfo()).toEqual(gigJson.distanceInfo)
+      expect(gig.getDistanceInfo()).toEqual(gigJson.distanceInfo);
     });
   });
 
@@ -80,7 +80,6 @@ describe("FullCalendarGig.make", () => {
     const it = test.extend<{ makeGig: (googleId?: string) => Promise<FullCalendarGig> }>({
       makeGig: async ({ task: _ }, use) => await use(async (googleId) => {
         const distanceService = getDistanceServiceWithMocks(location);
-
         const newGig = FullCalendarGig.make({
           location,
           parts: [receptionPart],
@@ -162,6 +161,18 @@ describe("FullCalendarGig.make", () => {
       it("includes the location in the payload as extendedProperties", async ({ makeGig }) => {
         const call = await testCall(await makeGig(id));
         expect(call[argIndex]).toMatchObject({ location });
+      });
+
+      it("includes the title in the payload", async ({ makeGig }) => {
+        const gig = await makeGig(id);
+        const call = await testCall(gig);
+
+        // sanity checks
+        expect(gig.getDistanceInfo()!.fromHome.minutes).toEqual(90)
+        expect(gig.getDistanceInfo()!.fromBoston.miles).toBeLessThan(120)
+        expect(gig.getLocation()).toContain('NH')
+
+        expect(call[argIndex]).toMatchObject({ summary: "🎹 🚙1:30 NH Clockwork Gig" });
       });
 
       it("includes the startTime the payload as extendedProperties", async ({ makeGig }) => {
