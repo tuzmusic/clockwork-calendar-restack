@@ -58,7 +58,7 @@ describe("GigTitler", () => {
     describe("Boston", () => {
       it("returns Boston for a gig in Boston", () => {
         const titler = makeTitler("Boston", "MA");
-        expect(titler.getLocationHintStr()).toEqual("Boston");
+        expect(titler.getLocationHintStr()).toEqual(GigTitler.abbreviations["Boston"]);
       });
 
       it.each(["NH", "ME", "RI"])("returns the state for some other Boston in %s", (state) => {
@@ -70,7 +70,7 @@ describe("GigTitler", () => {
     describe("Providence", () => {
       it("returns Providence for a gig in Providence", () => {
         const titler = makeTitler("Providence", "RI");
-        expect(titler.getLocationHintStr()).toEqual("Providence");
+        expect(titler.getLocationHintStr()).toEqual(GigTitler.abbreviations["Providence"]);
       });
 
       it.each(["NH", "ME", "MA"])("returns the state for some other Providence in %s", (state) => {

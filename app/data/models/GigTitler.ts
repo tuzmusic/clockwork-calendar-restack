@@ -7,6 +7,11 @@ export default class GigTitler {
   city: string;
   state: string;
 
+  static abbreviations = {
+    'Boston': "Bs",
+    'Providence': 'Pr'
+  }
+
   constructor(private gig: FullCalendarGig) {
     // todo: handle it not being fetched yet.
     this.distanceInfo = gig.getDistanceInfo()!;
@@ -27,10 +32,10 @@ export default class GigTitler {
 
   public getLocationHintStr() {
     if (this.city === 'Boston' && this.state === 'MA') {
-      return "Boston"
+      return GigTitler.abbreviations['Boston'] ?? this.state
     }
     if (this.city === 'Providence' && this.state === 'RI') {
-      return "Providence"
+      return GigTitler.abbreviations["Providence"] ?? this.state
     }
     return this.state
   }
