@@ -11,7 +11,10 @@ export default class GigTitler {
   public getTime() {
     return "🚙" + (() => {
       const { formattedTime } = this.distanceInfo["fromHome"];
-      if (formattedTime.endsWith("h")) {
+      if (!formattedTime.includes("m")) {
+        return formattedTime;
+      }
+      if (!formattedTime.includes("h")) {
         return formattedTime;
       }
       return formattedTime.replace("h", ":").replace("m", "");

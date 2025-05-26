@@ -8,7 +8,8 @@ describe("GigTitler", () => {
   describe("time", () => {
     it.each([
       { expectedStr: "🚙1h", formatted: "1h", minutes: 60 },
-      { expectedStr: "🚙2:30", formatted: "2h30m", minutes: 150 }
+      { expectedStr: "🚙2:30", formatted: "2h30m", minutes: 150 },
+      { expectedStr: "🚙35m", formatted: "35m", minutes: 35 }
     ] satisfies {
       expectedStr: string, minutes: number, formatted: string
     }[])("returns $expectedStr if the gig is $formatted from home", ({ expectedStr, minutes, formatted }) => {
