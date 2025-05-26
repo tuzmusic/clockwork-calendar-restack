@@ -25,6 +25,9 @@ export default class GigTitler {
   }
 
   public getHotelStr() {
+    if (this.distanceInfo['fromBoston'].minutes >= 120) {
+      return '🏩'
+    }
     return null
   }
 }

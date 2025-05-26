@@ -48,7 +48,18 @@ describe("GigTitler", () => {
       });
       const gig = FullCalendarGig.deserialize(gigJson);
       const titler = new GigTitler(gig);
-      expect(titler.getHotelStr()).toBeNull()
+      expect(titler.getHotelStr()).toBeNull();
+    });
+
+    it.each([120, 121, 160, 210])("returns 🏩 if the gig is %d minutes from Boston", (minutes) => {
+      const gigJson = mock<FullCalendarGigJson>({
+        location: "Boston",
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
+        distanceInfo: { fromBoston: { minutes } }
+      });
+      const gig = FullCalendarGig.deserialize(gigJson);
+      const titler = new GigTitler(gig);
+      expect(titler.getHotelStr()).toEqual('🏩');
     });
   });
 });
