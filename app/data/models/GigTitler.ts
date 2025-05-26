@@ -12,6 +12,20 @@ export default class GigTitler {
     'Providence': 'Pr'
   }
 
+  static CapeCodCities = [
+    "Chatham",
+    "Falmouth",
+    "Mashpee",
+    "Dennis",
+    "Brewster",
+    "Harwich",
+    "Sandwich",
+    "Sagamore Beach",
+    "Barnstable",
+    "Hyannis",
+    "Orleans"
+  ]
+
   constructor(private gig: FullCalendarGig) {
     // todo: handle it not being fetched yet.
     this.distanceInfo = gig.getDistanceInfo()!;
@@ -36,6 +50,9 @@ export default class GigTitler {
     }
     if (this.city === 'Providence' && this.state === 'RI') {
       return GigTitler.abbreviations["Providence"] ?? this.state
+    }
+    if (this.state === 'MA' && GigTitler.CapeCodCities.includes(this.city)) {
+      return "CC"
     }
     return this.state
   }

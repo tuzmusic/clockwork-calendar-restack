@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { mock } from "vitest-mock-extended";
 
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
@@ -78,7 +79,19 @@ describe("GigTitler", () => {
         expect(titler.getLocationHintStr()).toEqual(state);
       });
     });
-    it.todo("Cape Cod");
+
+    describe("Cape Cod", () => {
+      it.each(GigTitler.CapeCodCities)("returns CC for a gig in %s, MA", (city) => {
+        const titler = makeTitler(city, "MA");
+        expect(titler.getLocationHintStr()).toEqual("CC");
+      });
+
+      it.each(GigTitler.CapeCodCities)("returns the state for a gig in %s in a different state", (city) => {
+        const otherState = faker.helpers.arrayElement(["NH", "VT", "CT", "RI", "ME"]);
+        const titler = makeTitler(city, otherState);
+        expect(titler.getLocationHintStr()).toEqual(otherState);
+      });
+    });
   });
 
   describe("Hotel", () => {
