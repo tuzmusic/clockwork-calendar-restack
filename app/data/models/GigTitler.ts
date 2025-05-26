@@ -26,6 +26,12 @@ export default class GigTitler {
   }
 
   public getLocationHintStr() {
+    if (this.city === 'Boston' && this.state === 'MA') {
+      return "Boston"
+    }
+    if (this.city === 'Providence' && this.state === 'RI') {
+      return "Providence"
+    }
     return this.state
   }
 

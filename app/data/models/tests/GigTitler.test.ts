@@ -34,6 +34,15 @@ describe("GigTitler", () => {
     });
   });
 
+  function makeTitler(city: string, state: string) {
+    const gigJson = mock<FullCalendarGigJson>({
+      location: `123 Sesame St, ${city}, ${state}`,
+      parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
+    });
+    const gig = FullCalendarGig.deserialize(gigJson);
+    return new GigTitler(gig);
+  }
+
   describe("location", () => {
     it.each([
       { city: "Concord", state: "NH" },
@@ -42,16 +51,33 @@ describe("GigTitler", () => {
       { city: "Portland", state: "ME" },
       { city: "Manchester", state: "VT" }
     ])("returns $state for $city, $state", ({ city, state }) => {
-      const gigJson = mock<FullCalendarGigJson>({
-        location: `123 Sesame St, ${city}, ${state}`,
-        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
-      });
-      const gig = FullCalendarGig.deserialize(gigJson);
-      const titler = new GigTitler(gig);
+      const titler = makeTitler(city, state);
       expect(titler.getLocationHintStr()).toEqual(state);
     });
-    it.todo("Boston");
-    it.todo("Providence");
+
+    describe("Boston", () => {
+      it("returns Boston for a gig in Boston", () => {
+        const titler = makeTitler("Boston", "MA");
+        expect(titler.getLocationHintStr()).toEqual("Boston");
+      });
+
+      it.each(["NH", "ME", "RI"])("returns the state for some other Boston in %s", (state) => {
+        const titler = makeTitler("Boston", state);
+        expect(titler.getLocationHintStr()).toEqual(state);
+      });
+    });
+
+    describe("Providence", () => {
+      it("returns Providence for a gig in Providence", () => {
+        const titler = makeTitler("Providence", "RI");
+        expect(titler.getLocationHintStr()).toEqual("Providence");
+      });
+
+      it.each(["NH", "ME", "MA"])("returns the state for some other Providence in %s", (state) => {
+        const titler = makeTitler("Providence", state);
+        expect(titler.getLocationHintStr()).toEqual(state);
+      });
+    });
     it.todo("Cape Cod");
   });
 
