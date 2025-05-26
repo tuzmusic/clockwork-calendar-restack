@@ -4,10 +4,29 @@ import FullCalendarGig from "~/data/models/FullCalendarGig";
 
 export default class GigTitler {
   distanceInfo: NonNullable<ReturnType<typeof this.gig["getDistanceInfo"]>>;
+  city: string;
+  state: string;
 
   constructor(private gig: FullCalendarGig) {
     // todo: handle it not being fetched yet.
     this.distanceInfo = gig.getDistanceInfo()!;
+    const [city, state] = this.getCityAndState(gig.getLocation());
+    this.city = city;
+    this.state = state;
+  }
+
+  private getCityAndState(fullAddress: string): [string, string] {
+    // todo test this ont
+    const regex = /\s*([^,]+),\s*([A-Z]{2})/;
+    const match = fullAddress.match(regex);
+    if (!match) {
+      throw new Error("Invalid address format");
+    }
+    return [match[1], match[2]];
+  }
+
+  public getLocationHintStr() {
+    return this.state
   }
 
   public getTimeFromHomeStr() {
@@ -25,9 +44,9 @@ export default class GigTitler {
   }
 
   public getHotelStr() {
-    if (this.distanceInfo['fromBoston'].minutes >= 120) {
-      return '🏩'
+    if (this.distanceInfo["fromBoston"].minutes >= 120) {
+      return "🏩";
     }
-    return null
+    return null;
   }
 }

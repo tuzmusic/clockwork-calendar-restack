@@ -4,6 +4,8 @@ import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendar
 import GigTitler from "~/data/models/GigTitler";
 import { cocktailHourPartJSON, mockReceptionJSONWithActual } from "~/data/models/tests/testConstants";
 
+const walthamFullAddress = "15 Waltham St, Boston, MA";
+
 describe("GigTitler", () => {
   describe("time", () => {
     it.each([
@@ -17,7 +19,7 @@ describe("GigTitler", () => {
 
       // make a calendar gig
       const gigJson = mock<FullCalendarGigJson>({
-        location: "Boston",
+        location: walthamFullAddress,
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
         distanceInfo: {
           fromHome: {
@@ -33,7 +35,21 @@ describe("GigTitler", () => {
   });
 
   describe("location", () => {
-    it.todo("state");
+    it.each([
+      { city: "Concord", state: "NH" },
+      { city: "Groton", state: "MA" },
+      { city: "Newport", state: "RI" },
+      { city: "Portland", state: "ME" },
+      { city: "Manchester", state: "VT" }
+    ])("returns $state for $city, $state", ({ city, state }) => {
+      const gigJson = mock<FullCalendarGigJson>({
+        location: `123 Sesame St, ${city}, ${state}`,
+        parts: [mockReceptionJSONWithActual, cocktailHourPartJSON]
+      });
+      const gig = FullCalendarGig.deserialize(gigJson);
+      const titler = new GigTitler(gig);
+      expect(titler.getLocationHintStr()).toEqual(state);
+    });
     it.todo("Boston");
     it.todo("Providence");
     it.todo("Cape Cod");
@@ -42,7 +58,7 @@ describe("GigTitler", () => {
   describe("Hotel", () => {
     it.each([1, 60, 110, 119])("returns null if the gig is %d minutes from Boston", (minutes) => {
       const gigJson = mock<FullCalendarGigJson>({
-        location: "Boston",
+        location: walthamFullAddress,
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
         distanceInfo: { fromBoston: { minutes } }
       });
@@ -53,13 +69,13 @@ describe("GigTitler", () => {
 
     it.each([120, 121, 160, 210])("returns 🏩 if the gig is %d minutes from Boston", (minutes) => {
       const gigJson = mock<FullCalendarGigJson>({
-        location: "Boston",
+        location: walthamFullAddress,
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
         distanceInfo: { fromBoston: { minutes } }
       });
       const gig = FullCalendarGig.deserialize(gigJson);
       const titler = new GigTitler(gig);
-      expect(titler.getHotelStr()).toEqual('🏩');
+      expect(titler.getHotelStr()).toEqual("🏩");
     });
   });
 });
