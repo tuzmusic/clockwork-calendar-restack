@@ -7,24 +7,6 @@ export default class GigTitler {
   city: string;
   state: string;
 
-  static abbreviations = {
-    'Boston': "Bs",
-    'Providence': 'Pr'
-  }
-
-  static CapeCodCities = [
-    "Chatham",
-    "Falmouth",
-    "Mashpee",
-    "Dennis",
-    "Brewster",
-    "Harwich",
-    "Sandwich",
-    "Sagamore Beach",
-    "Barnstable",
-    "Hyannis",
-    "Orleans"
-  ]
 
   constructor(private gig: FullCalendarGig) {
     // todo: handle it not being fetched yet.
@@ -77,4 +59,23 @@ export default class GigTitler {
     }
     return null;
   }
+
+  static abbreviations = {
+    'Boston': "Bs",
+    'Providence': 'Pr'
+  }
+
+  static CapeCodCities = [
+    "Chatham",
+    "Falmouth",
+    "Mashpee",
+    "Dennis",
+    "Brewster",
+    "Harwich",
+    "Sandwich",
+    "Sagamore Beach",
+    "Barnstable",
+    "Hyannis",
+    "Orleans"
+  ]
 }
