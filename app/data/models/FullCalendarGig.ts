@@ -34,7 +34,7 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   public static deserialize(gigJson: FullCalendarGigJson): FullCalendarGig {
-    const makeParts = (partsJson: FullCalendarGigJson['parts']) => partsJson.map(json => {
+    const makeParts = (partsJson: FullCalendarGigJson["parts"]) => partsJson.map(json => {
       const { type, startDateTime, endDateTime } = json;
       const ctor = (() => {
         switch (type) {
@@ -57,7 +57,7 @@ export default class FullCalendarGig extends GigWithParts {
     });
 
     // todo: would be good to include this in .make but...
-    gig._distanceInfo = gigJson.distanceInfo
+    gig._distanceInfo = gigJson.distanceInfo;
 
     return gig;
   }
@@ -180,7 +180,10 @@ export default class FullCalendarGig extends GigWithParts {
   }
 
   private getEventTitle() {
-    const titler = new GigTitler(this)
-    return `${titler.makeTitle()} Clockwork Gig`;
+    const titler = new GigTitler(this);
+    const baseTitle = `Clockwork Gig`;
+    return this._distanceInfo
+      ? `${titler.makeTitle()} ${baseTitle}`
+      : baseTitle;
   }
 }
