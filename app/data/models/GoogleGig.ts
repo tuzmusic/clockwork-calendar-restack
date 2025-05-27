@@ -49,9 +49,12 @@ export default class GoogleGig extends SimpleGig<{
     return new GoogleGig(json);
   }
 
-  public override serialize(): { startDateTime: string; endDateTime: string } & SimpleGigJson {
+  public override serialize():
+    { startDateTime: string; endDateTime: string; title: string }
+    & SimpleGigJson {
     return {
       id: this.id,
+      title: this.googleJson.summary ?? 'Clockwork Gig',
       location: this.location,
       startDateTime: this.startDateTime,
       endDateTime: this.endDateTime
