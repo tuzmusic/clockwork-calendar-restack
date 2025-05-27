@@ -9,7 +9,6 @@ import { Reception } from "~/data/models/GigParts/Reception";
 import DateTime from "~/data/parsers/emailParser/DateTime";
 import {
   EVENT_CELLS_COUNT,
-  FIRST_MONTH_ROW_INDEX,
   getTimesFromOtherPartText,
   userFirstName
 } from "~/data/parsers/emailParser/helpers-and-constants";
@@ -47,7 +46,7 @@ export default class EmailParser {
   private parse() {
     const allScheduleRows = this.getRowsFromEmailBody();
     allScheduleRows.each((rowIndex, el) => {
-      this.parseRow({ el, atIndex: rowIndex });
+      this.parseRow(el);
     });
     // add the last event (since the loop adds at the start)
     if (this.currentGigData) {
@@ -62,12 +61,16 @@ export default class EmailParser {
 
   public currentGigData: InProcessGigData | null = null;
 
-  private parseRow(param: { atIndex: number; el: Element }) {
-    const { atIndex: rowIndex, el } = param;
-    if (rowIndex < FIRST_MONTH_ROW_INDEX) return;
+  private scheduleStarted = false;
+
+  private parseRow(el: Element) {
     const row = this.$(el);
     const rowHtml = row.html();
-    if (this.isRowMonthDivider(row)) return;
+    if (this.isRowMonthDivider(row)) {
+      this.scheduleStarted = true;
+      return;
+    }
+    if (!this.scheduleStarted) return;
     if (this.parseMonthHeader(row)) return;
 
     // we can't add the gig after parseAdd'lParts because if there are
