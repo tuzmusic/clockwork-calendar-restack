@@ -179,8 +179,6 @@ export default class FullCalendarGig extends GigWithParts {
     return await calendarService.postEvent(this.makePayload());
   }
 
-// TODO: "encode" event details in event name so it can be
-//  better understood at a glance
   private getEventTitle() {
     const titler = new GigTitler(this)
     return `${titler.makeTitle()} Clockwork Gig`;

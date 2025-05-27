@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 export const userFirstName = "Jonathan";
-export const FIRST_MONTH_ROW_INDEX = 4;
+export const FIRST_MONTH_ROW_INDEX = 6;
 export const EVENT_CELLS_COUNT = 5;
 
 /*
