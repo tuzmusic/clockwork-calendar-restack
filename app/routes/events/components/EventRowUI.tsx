@@ -8,7 +8,7 @@ import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
 import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 
 const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
-  <RoundedWrapper className={`hidden sm:visible ${props.className ?? ""}`}>
+  <RoundedWrapper className={`hidden sm:block ${props.className ?? ""}`}>
     {props.children}
   </RoundedWrapper>;
 
@@ -22,7 +22,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
       <FullGigUI row={row} />
     </RoundedWrapper>
 
-    <MobileWrapper className={"bg-blue-200 sm:bg-blue-600"}>
+    <MobileWrapper className={"bg-blue-600 sm:bg-blue-200"}>
       {row.googleGig
         ? <CalendarGigUI row={row} hasUpdates={row.hasUpdates} />
         : <SaveGigButton row={row} />}
