@@ -5,7 +5,7 @@ export function getFixture(): EventRowJson[] {
     {
       emailGig: {
         id: "2024-07-08",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "reception",
@@ -21,12 +21,12 @@ export function getFixture(): EventRowJson[] {
         startDateTime: "2024-07-08T18:00:00",
         endDateTime: "2024-07-08T22:30:00",
         id: "2024-07-08",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         title: "Clockwork Gig"
       },
       appGig: {
         id: "2024-07-08",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "reception",
@@ -48,7 +48,7 @@ export function getFixture(): EventRowJson[] {
     {
       emailGig: {
         id: "2024-07-09",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "ceremony",
@@ -78,13 +78,13 @@ export function getFixture(): EventRowJson[] {
         startDateTime: "2024-07-09T16:30:00",
         endDateTime: "2024-07-09T22:30:00",
         id: "2024-07-09",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         title: "Clockwork Gig"
       },
       appGig: {
         id: "2024-07-09",
         googleId: "abcd-2024-07-09",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         startTime: "2024-07-09T16:00:00",
         endTime: "2024-07-09T22:30:00",
         parts: [
@@ -119,7 +119,7 @@ export function getFixture(): EventRowJson[] {
     {
       emailGig: {
         id: "2024-08-18",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "reception",
@@ -137,7 +137,7 @@ export function getFixture(): EventRowJson[] {
         googleId: "abcd-2024-08-18",
         startTime: "2024-08-18T18:00:00",
         endTime: "2024-08-18T22:30:00",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "reception",
@@ -156,7 +156,7 @@ export function getFixture(): EventRowJson[] {
     {
       emailGig: {
         id: "2024-08-19",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         parts: [
           {
             type: "reception",
@@ -172,7 +172,7 @@ export function getFixture(): EventRowJson[] {
       appGig: {
         id: "2024-08-19",
         googleId: "abcd-2024-08-19",
-        location: "Some location",
+        location: "Some location, 123 Sesame St., New York, NY",
         startTime: "2024-08-19T18:00:00",
         endTime: "2024-08-19T22:30:00",
         parts: [
