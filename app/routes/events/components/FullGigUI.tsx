@@ -14,14 +14,18 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
   const [venue, ...locationParts] = gig.location.split(",");
   const location = locationParts.join();
 
-  const timeIsDifferent = (gig.startTime !== row.googleGig?.startDateTime)
-    || (gig.endTime !== row.googleGig.endDateTime);
+  const timeIsDifferent = row.googleGig
+    && ((gig.startTime !== row.googleGig?.startDateTime)
+      || (gig.endTime !== row.googleGig?.endDateTime));
 
   return (
     <div className="[&>*]:p-2">
       <h3 className="flex justify-between border-b-2 align-middle">
         <div className="font-bold">
-          <div>{date}</div>
+          <div>
+            <span>{date}</span>
+            {!row.googleGig ? <span className={"text-green-500"}>{" "}NEW</span> : null}
+          </div>
           <div className={timeIsDifferent ? "text-red-700" : ""}>{startTime}-{endTime}</div>
         </div>
         <div className="text-right">
@@ -43,7 +47,9 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
 
       <div className={"flex justify-end gap-4"}>
         {!row.googleGig ? <SaveGigButton row={row} /> : null}
-        {row.hasUpdates ? <UpdateGigButton row={row} /> : null}
+        {/* hasUpdates is written in parsing.
+            when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture. */}
+        {timeIsDifferent || row.hasUpdates ? <UpdateGigButton row={row} /> : null}
         {!gig.distanceInfo ? <GetDistanceInfoButton row={row} /> : null}
       </div>
     </div>
