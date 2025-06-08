@@ -30,6 +30,7 @@ export const buildEvent = ({
       </tr>
 `
 export const buildMonthHeader = (month: string, year = 2024) =>
+  `<tr>___________</tr>` +
   `<tr><td><strong>${month}, ${year}</strong></td></tr>`
 
 export const buildOtherPart = ({
