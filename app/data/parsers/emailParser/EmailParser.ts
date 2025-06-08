@@ -45,9 +45,7 @@ export default class EmailParser {
 
   private parse() {
     const allScheduleRows = this.getRowsFromEmailBody();
-    allScheduleRows.each((rowIndex, el) => {
-      this.parseRow(el);
-    });
+    allScheduleRows.each((_, el) => this.parseRow(el));
     // add the last event (since the loop adds at the start)
     if (this.currentGigData) {
       this.addGigToList();

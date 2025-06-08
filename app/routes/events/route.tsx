@@ -13,7 +13,6 @@ export { action, loader };
 export default function EventsRoute() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  if (actionData) console.log(actionData, eventRowsJson);
 
   switch (actionData?.intent) {
     case EventsActionIntent.getDistanceInfo: {
