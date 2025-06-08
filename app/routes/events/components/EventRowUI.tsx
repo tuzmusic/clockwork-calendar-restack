@@ -4,8 +4,8 @@ import { EventRowJson } from "~/data/models/EventRow";
 import { CalendarGigUI } from "~/routes/events/components/CalendarGigUI";
 import { EmailHtml } from "~/routes/events/components/EmailHtml";
 import { FullGigUI } from "~/routes/events/components/FullGigUI";
+import { SaveGigButton } from "~/routes/events/components/GigButtons";
 import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
-import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 
 const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
   <RoundedWrapper className={`hidden sm:block ${props.className ?? ""}`}>

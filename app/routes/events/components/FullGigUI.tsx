@@ -5,8 +5,8 @@ import DayJsTz from "~/data/models/DayJsTz";
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
+import { SaveGigButton } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
-import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 
 export function FullGigUI({ row }: { row: EventRowJson }) {
   const gig = row.appGig;
