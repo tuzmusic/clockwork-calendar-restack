@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import DayJsTz from "~/data/models/DayJsTz";
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
-import { GetDistanceInfoButton, SaveGigButton } from "~/routes/events/components/GigButtons";
+import { GetDistanceInfoButton, SaveGigButton, UpdateGigButton } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
 export function FullGigUI({ row }: { row: EventRowJson }) {
@@ -37,13 +37,14 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
         )}
       </ul>
 
+      <div>
+        {gig.distanceInfo ? <DistanceInfo info={gig.distanceInfo} /> : null}
+      </div>
+
       <div className={"flex justify-end gap-4"}>
         {!row.googleGig ? <SaveGigButton row={row} /> : null}
-        {
-          gig.distanceInfo
-            ? <DistanceInfo info={gig.distanceInfo} />
-            : <GetDistanceInfoButton row={row} />
-        }
+        {row.hasUpdates ? <UpdateGigButton row={row} /> : null}
+        {!gig.distanceInfo ? <GetDistanceInfoButton row={row} /> : null}
       </div>
     </div>
   );
