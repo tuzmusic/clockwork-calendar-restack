@@ -1,6 +1,7 @@
 import { mock } from "vitest-mock-extended";
 
 import EmailGig from "~/data/models/EmailGig";
+import { EventRowJson } from "~/data/models/EventRow";
 import FullCalendarGig from "~/data/models/FullCalendarGig";
 import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import GoogleGig from "~/data/models/GoogleGig";
@@ -80,8 +81,9 @@ describe("serializers", () => {
         location,
         startDateTime: start,
         endDateTime: end,
-        id: receptionStart.split("T").shift(),
-      });
+        id: receptionStart.split("T").shift()!,
+        title: 'Clockwork Gig', // fallback title value
+      } satisfies EventRowJson['googleGig']);
     });
   });
 
