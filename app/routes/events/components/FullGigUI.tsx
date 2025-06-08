@@ -36,9 +36,7 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
 
 
       <ul>
-        {gig.parts.map(part => (
-          <GigPartUI key={part.type} part={part} />)
-        )}
+        {gig.parts.map(part => <GigPartUI key={part.type} part={part} />)}
       </ul>
 
       <div>
