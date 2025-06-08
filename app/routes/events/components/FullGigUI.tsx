@@ -1,11 +1,9 @@
 import dayjs from "dayjs";
-import React from "react";
 
 import DayJsTz from "~/data/models/DayJsTz";
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
-import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
-import { SaveGigButton } from "~/routes/events/components/GigButtons";
+import { GetDistanceInfoButton, SaveGigButton } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
 export function FullGigUI({ row }: { row: EventRowJson }) {
@@ -44,7 +42,7 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
         {
           gig.distanceInfo
             ? <DistanceInfo info={gig.distanceInfo} />
-            : <GetDistanceInfoButton gig={gig} />
+            : <GetDistanceInfoButton row={row} />
         }
       </div>
     </div>
