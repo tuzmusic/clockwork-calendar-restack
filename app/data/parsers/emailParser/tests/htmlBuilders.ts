@@ -1,12 +1,11 @@
 export const buildHtml = (...parts: string[]) => `
-      <body><table>
-      <!-- needs a tbody? -->
+      <body><table><tbody>
       <tr></tr>
       <tr></tr>
       <tr></tr>
       <tr></tr>
       ${parts.join('')}
-      </table></body>
+      </tbody></table></body>
     `
 export const buildEvent = ({
   dateNum,
@@ -30,8 +29,8 @@ export const buildEvent = ({
       </tr>
 `
 export const buildMonthHeader = (month: string, year = 2024) =>
-  `<tr>___________</tr>` +
-  `<tr><td><strong>${month}, ${year}</strong></td></tr>`
+  [`<tr><td>___________</td></tr>`,
+  `<tr><td><strong>${month}, ${year}</strong></td></tr>`].join('\n')
 
 export const buildOtherPart = ({
   timeStr,
