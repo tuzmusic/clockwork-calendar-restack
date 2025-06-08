@@ -17,7 +17,7 @@ export const FILTER_NAMES = Object.keys(FILTERS) as Array<keyof typeof FILTERS>;
 
 export function useEventFilters(rows: EventRowJson[]) {
   const [filters, setFilters] = useState<AvailableFilter[]>([
-    // "New Only"
+    "New Only"
   ]);
 
   const toggleFilter = (key: AvailableFilter) => {

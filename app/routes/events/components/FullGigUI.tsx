@@ -1,10 +1,12 @@
 import dayjs from "dayjs";
+import React from "react";
 
 import DayJsTz from "~/data/models/DayJsTz";
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
+import { SaveGigButton } from "~/routes/events/components/SaveGigButton";
 
 export function FullGigUI({ row }: { row: EventRowJson }) {
   const gig = row.appGig;
@@ -37,11 +39,14 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
         )}
       </ul>
 
-      {
-        gig.distanceInfo
-          ? <DistanceInfo info={gig.distanceInfo} />
-          : <GetDistanceInfoButton gig={gig} />
-      }
+      <div className={"flex justify-end gap-4"}>
+        {!row.googleGig ? <SaveGigButton row={row} /> : null}
+        {
+          gig.distanceInfo
+            ? <DistanceInfo info={gig.distanceInfo} />
+            : <GetDistanceInfoButton gig={gig} />
+        }
+      </div>
     </div>
   );
 }
