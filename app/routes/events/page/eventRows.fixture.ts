@@ -21,7 +21,8 @@ export function getFixture(): EventRowJson[] {
         startDateTime: "2024-07-08T18:00:00",
         endDateTime: "2024-07-08T22:30:00",
         id: "2024-07-08",
-        location: "Some location"
+        location: "Some location",
+        title: "Clockwork Gig"
       },
       appGig: {
         id: "2024-07-08",
@@ -35,7 +36,10 @@ export function getFixture(): EventRowJson[] {
             actualEndDateTime: "2024-07-08T22:30:00"
           }
         ],
-        distanceInfo: null
+        distanceInfo: null,
+        googleId: "abcd",
+        startTime: "2024-07-08T18:00:00",
+        endTime: "2024-07-08T22:30:00"
       },
       id: "2024-07-08",
       hasChanged: false,
@@ -74,11 +78,15 @@ export function getFixture(): EventRowJson[] {
         startDateTime: "2024-07-09T16:30:00",
         endDateTime: "2024-07-09T22:30:00",
         id: "2024-07-09",
-        location: "Some location"
+        location: "Some location",
+        title: "Clockwork Gig"
       },
       appGig: {
         id: "2024-07-09",
+        googleId: "abcd-2024-07-09",
         location: "Some location",
+        startTime: "2024-07-09T16:00:00",
+        endTime: "2024-07-09T22:30:00",
         parts: [
           {
             type: "ceremony",
@@ -126,6 +134,9 @@ export function getFixture(): EventRowJson[] {
       googleGig: null,
       appGig: {
         id: "2024-08-18",
+        googleId: "abcd-2024-08-18",
+        startTime: "2024-08-18T18:00:00",
+        endTime: "2024-08-18T22:30:00",
         location: "Some location",
         parts: [
           {
@@ -160,7 +171,10 @@ export function getFixture(): EventRowJson[] {
       googleGig: null,
       appGig: {
         id: "2024-08-19",
+        googleId: "abcd-2024-08-19",
         location: "Some location",
+        startTime: "2024-08-19T18:00:00",
+        endTime: "2024-08-19T22:30:00",
         parts: [
           {
             type: "reception",
