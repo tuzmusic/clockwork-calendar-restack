@@ -1,8 +1,7 @@
 import DayJsTz from "~/data/models/DayJsTz";
 import { EventRowJson } from "~/data/models/EventRow";
-import { UpdateGigButton } from "~/routes/events/components/GigButtons";
 
-export function CalendarGigUI({ row, hasUpdates }: { row: EventRowJson, hasUpdates: boolean }) {
+export function CalendarGigUI({ row }: { row: EventRowJson, hasUpdates: boolean }) {
   const gig = row.googleGig;
   if (!gig) return null;
 
@@ -23,7 +22,6 @@ export function CalendarGigUI({ row, hasUpdates }: { row: EventRowJson, hasUpdat
         <li>{gig.location}</li>
         <li>{start}-{end}</li>
       </ul>
-      {hasUpdates ? <UpdateGigButton row={row} /> : null}
     </div>
   );
 }
