@@ -1,6 +1,6 @@
-import { AvailableFilter, FILTER_NAMES } from "~/routes/events/filters/useEventFilters";
+import { AvailableFilter, FILTER_NAMES } from "~/routes/events/filters/filters";
 
-export function Filters({ filters, toggleFilter }: {
+export function FiltersUI({ filters, toggleFilter }: {
   filters: AvailableFilter[]
   toggleFilter: (key: AvailableFilter) => void
 }) {
