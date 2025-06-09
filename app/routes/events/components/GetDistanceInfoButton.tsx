@@ -1,13 +1,17 @@
-import { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
+import { EventRowJson } from "~/data/models/EventRow";
 import { CenteredButton } from "~/routes/events/components/CenteredButton";
 import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 
-export function GetDistanceInfoButton({ gig }: { gig: FullCalendarGigJson }) {
+export function GetDistanceInfoButton({ row }: { row: EventRowJson }) {
+  // hm, useNavigation.state() doesn't update here like you would think it should
   return (
-    <form method="post" action='/events'>
-      <input name="gig" type="hidden" value={JSON.stringify(gig)} />
-      <CenteredButton data-testid="GET_DISTANCE_INFO_BUTTON"
-                      name="intent" value={EventsActionIntent.getDistanceInfo}
+    // NOTE we are using the actual action string here,
+    //  so we can't use GigActionButton which uses its own fetcher.
+    <form method="post" action="/events">
+      <input name="gig" type="hidden" value={JSON.stringify(row.appGig)} />
+      <CenteredButton
+        data-testid="GET_DISTANCE_INFO_BUTTON"
+        name="intent" value={EventsActionIntent.getDistanceInfo}
       >
         Get distance info
       </CenteredButton>

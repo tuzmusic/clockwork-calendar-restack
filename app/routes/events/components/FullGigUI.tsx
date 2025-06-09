@@ -1,7 +1,8 @@
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { FullGigHeader } from "~/routes/events/components/FullGigHeader";
-import { GetDistanceInfoButton, SaveGigButton, UpdateGigButton } from "~/routes/events/components/GigButtons";
+import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
+import { SaveGigButton, UpdateGigButton } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
 
