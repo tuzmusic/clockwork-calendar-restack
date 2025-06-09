@@ -10,14 +10,13 @@ import CalendarService from "~/data/services/CalendarService";
 import DistanceService from "~/data/services/DistanceService";
 import EmailService from "~/data/services/EmailService";
 import GmailService from "~/data/services/GmailService.server";
-import { getFixture } from "~/routes/events/page/eventRows.fixture";
 
 export async function loader(
   args: LoaderFunctionArgs,
   _emailService?: EmailService,
   _calendarService?: CalendarService
 ) {
-  return json({ eventRowsJson: getFixture() });
+  // return json({ eventRowsJson: getFixture() });
 
   await AccountService.authenticate(args.request);
   const calendarId = await selectedCalendarCookie.parse(
