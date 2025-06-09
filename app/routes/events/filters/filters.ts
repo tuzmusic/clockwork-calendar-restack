@@ -8,7 +8,8 @@ export type EventFilter = (
 export const FILTERS = {
   // this || case is to show all gigs if none are new.
   // it would be better to somehow deactivate and disable a filter if there would be no results.
-  "New Only": (row, allRows) => !row.googleGig || allRows.every(row => row.googleGig)
+  "New Only": (row, allRows) => !row.googleGig || allRows.every(row => row.googleGig),
+  "Without Distance Info Only": (row) => !row.appGig.distanceInfo
 } satisfies Record<string, EventFilter>;
 
 export type AvailableFilter = keyof typeof FILTERS
