@@ -25,7 +25,7 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
         {gig.distanceInfo ? <DistanceInfo info={gig.distanceInfo} /> : null}
       </div>
 
-      <div className={"flex justify-end gap-4"}>
+      <div className={"flex flex-col items-end"}>
         {!row.googleGig ? <SaveGigButton row={row} /> : null}
         {/* hasUpdates is written in parsing.
             when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture. */}

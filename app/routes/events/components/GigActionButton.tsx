@@ -1,7 +1,7 @@
 import { useFetcher } from "@remix-run/react";
 
 import { EventRowJson } from "~/data/models/EventRow";
-import { CenteredButton } from "~/routes/events/components/CenteredButton";
+import { TextButton } from "~/routes/events/components/TextButton";
 import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 
 export function GigActionButton({
@@ -19,13 +19,13 @@ export function GigActionButton({
   return (
     <Form method="post" id={row.id} className="h-full">
       <input type="hidden" name="gig" value={JSON.stringify(value)} />
-      <CenteredButton
+      <TextButton
         name="intent"
         value={intent}
         {...testId && { "data-testid": testId }}
       >
         {state === "idle" ? idleText : `${loadingText}...`}
-      </CenteredButton>
+      </TextButton>
     </Form>
   );
 }
