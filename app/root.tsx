@@ -1,9 +1,8 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 import "~/tailwind.css";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async () => {
   return null
 };
 

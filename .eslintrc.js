@@ -120,7 +120,8 @@ module.exports = {
         "jest/globals": true
       },
       rules: {
-        "jest/no-standalone-expect": 0
+        "jest/no-standalone-expect": 0,
+        "jest/no-disabled-tests": 0,
       },
       settings: {
         jest: {
