@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useSearchParams } from "@remix-run/react";
 
 import { EventRowJson } from "~/data/models/EventRow";
 
 import { AvailableFilter, FILTERS } from "./filters";
 
 export function useEventFilters(rows: EventRowJson[]) {
-  const [filters, setFilters] = useState<AvailableFilter[]>([
-    // "New Only"
-  ]);
+  const [params, setParams] = useSearchParams()
+  const filters = params.getAll('filter')
+
+  // const [filters, setFilters] = useState<AvailableFilter[]>([
+  //   // "New Only"
+  // ]);
 
   const toggleFilter = (key: AvailableFilter) => {
     const newFilters = filters?.includes(key) ? filters.filter(f => f !== key) : [...filters, key];
-    setFilters(newFilters);
+    // setFilters(newFilters);
   };
 
   const filteredEvents = !filters.length
