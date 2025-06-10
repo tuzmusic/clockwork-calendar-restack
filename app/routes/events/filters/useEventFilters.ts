@@ -6,7 +6,7 @@ import { AvailableFilter, FILTERS } from "./filters";
 
 export function useEventFilters(rows: EventRowJson[]) {
   const [filters, setFilters] = useState<AvailableFilter[]>([
-    "New Only"
+    // "New Only"
   ]);
 
   const toggleFilter = (key: AvailableFilter) => {
