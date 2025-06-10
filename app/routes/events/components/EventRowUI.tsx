@@ -40,7 +40,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
       <EmailGigCell row={row} />
     </MobileWrapper>
 
-    <div>
+    <div id="MiddleComponent-and-Tabs">
       <RoundedWrapper className="relative">
         {
           // The sm:visible/hidden stuff here means that desktop will
