@@ -12,9 +12,20 @@ const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
     {props.children}
   </RoundedWrapper>;
 
+const tabNames = ["Email", "Full", "Calendar"];
+const TABS = {
+  Email: ({ row }: { row: EventRowJson }) => row.emailGig ? <EmailHtml gig={row.emailGig} /> : null,
+  Full: ({ row }: { row: EventRowJson }) => <FullGigUI row={row} />,
+  Calendar: ({ row }: { row: EventRowJson }) => row.googleGig ?
+    <CalendarGigUI row={row} hasUpdates={row.hasUpdates} /> : null
+} as const;
+// } satisfies Record<(typeof tabNames)[number], ({ row }: {
+//   row: EventRowJson
+// }) => (JSX.Element | null)>;
+
 export function EventRowUI({ row }: { row: EventRowJson }) {
-  const tabs = ["Email", "Full", "Calendar"];
-  const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("Full");
+  const [selectedTab, setSelectedTab] = useState<(keyof typeof TABS)[number]>("Full");
+  const MainComponent = TABS[selectedTab]
   return <React.Fragment key={row.id}>
     <MobileWrapper className={"bg-amber-500 sm:bg-amber-200"}>
       {row.emailGig ? <EmailHtml gig={row.emailGig} /> : null}
@@ -22,14 +33,17 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
 
     <div>
       <RoundedWrapper>
-        <FullGigUI row={row} />
+        <MainComponent row={row} />
+
       </RoundedWrapper>
+
       <div className="flex">
-        {tabs.map(name => (
-          <Tab name={name}
-               selected={selectedTab === name}
-               key={name}
-               onSelect={() => setSelectedTab(name)}
+        {tabNames.map(name => (
+          <Tab
+            name={name}
+            selected={selectedTab === name}
+            key={name}
+            onSelect={() => setSelectedTab(name)}
           />
         ))}
       </div>
@@ -46,7 +60,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
 function Tab(props: { name: string, selected: boolean, onSelect: (name: string) => void }) {
   return <button type="button"
                  onClick={() => props.onSelect(props.name)}
-                 className={`${props.selected ? "bg-gray-500" : "bg-gray-300"} p-2`}
+                 className={`${props.selected ? "bg-gray-300" : "bg-gray-100"} p-2`}
   >
     {props.name}
   </button>;
