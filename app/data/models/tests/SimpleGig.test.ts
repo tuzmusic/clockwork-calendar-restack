@@ -1,10 +1,13 @@
-import SimpleGig from "~/data/models/SimpleGig";
+import SimpleGig, { SimpleGigJson } from "~/data/models/SimpleGig";
 
 const earlierTime = "2024-12-01T18:00:00";
 const finalTime = "2024-12-01T21:00:00";
 
 describe("GigWithParts abstract class", () => {
   class simpleGigImpl extends SimpleGig {
+    public serialize(): object & SimpleGigJson {
+        throw new Error("Method not implemented.");
+    }
     public static make(location: string, startDateTime: string, endDateTime: string) {
       return new this(location, startDateTime, endDateTime);
     }

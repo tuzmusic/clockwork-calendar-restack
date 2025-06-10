@@ -3,7 +3,7 @@ export interface SimpleGigJson {
   id: string
 }
 
-export default abstract class SimpleGig<T> {
+export default abstract class SimpleGig<T = object> {
   protected readonly id: string;
 
   protected constructor(
