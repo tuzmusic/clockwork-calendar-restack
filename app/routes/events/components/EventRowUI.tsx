@@ -12,21 +12,31 @@ const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
     {props.children}
   </RoundedWrapper>;
 
-const TABS = {
-  Email: ({ row }: { row: EventRowJson }) => row.emailGig ? <EmailHtml gig={row.emailGig} /> : null,
-  Full: ({ row }: { row: EventRowJson }) => <FullGigUI row={row} />,
-  Calendar: ({ row }: { row: EventRowJson }) => row.googleGig ?
-    <CalendarGigUI row={row} hasUpdates={row.hasUpdates} /> : null
-} as const;
 
 const tabNames = ["Email", "Full", "Calendar"] satisfies Array<keyof typeof TABS>;
+
+function EmailGigCell({ row }: { row: EventRowJson }) {
+  return row.emailGig ? <EmailHtml gig={row.emailGig} /> : null;
+}
+
+function CalendarGigCell({ row }: { row: EventRowJson }) {
+  return row.googleGig
+    ? <CalendarGigUI row={row} hasUpdates={row.hasUpdates} />
+    : <SaveGigButton row={row} />;
+}
+
+const TABS = {
+  Email: EmailGigCell,
+  Full: FullGigUI,
+  Calendar: CalendarGigCell
+} as const;
 
 export function EventRowUI({ row }: { row: EventRowJson }) {
   const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Full");
   const MainComponent = TABS[selectedTab];
   return <React.Fragment key={row.id}>
     <MobileWrapper className={"bg-amber-500 sm:bg-amber-200"}>
-      {row.emailGig ? <EmailHtml gig={row.emailGig} /> : null}
+      <EmailGigCell row={row} />
     </MobileWrapper>
 
     <div>
@@ -52,9 +62,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
     </div>
 
     <MobileWrapper className={"bg-blue-600 sm:bg-blue-200"}>
-      {row.googleGig
-        ? <CalendarGigUI row={row} hasUpdates={row.hasUpdates} />
-        : <SaveGigButton row={row} />}
+      <CalendarGigCell row={row} />
     </MobileWrapper>
   </React.Fragment>;
 }
