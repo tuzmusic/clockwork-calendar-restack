@@ -8,7 +8,7 @@ import { SaveGigButton } from "~/routes/events/components/GigButtons";
 import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
 
 const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
-  <RoundedWrapper className={`hidden sm:block ${props.className ?? ""}`}>
+  <RoundedWrapper className={`hidden sm:flex ${props.className ?? ""}`}>
     {props.children}
   </RoundedWrapper>;
 
@@ -32,8 +32,9 @@ const TABS = {
 } as const;
 
 export function EventRowUI({ row }: { row: EventRowJson }) {
-  const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Full");
-  const MainComponent = TABS[selectedTab];
+  const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Calendar");
+  const MiddleComponent = TABS[selectedTab];
+
   return <React.Fragment key={row.id}>
     <MobileWrapper className={"bg-amber-500 sm:bg-amber-200"}>
       <EmailGigCell row={row} />
@@ -41,15 +42,22 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
 
     <div>
       <RoundedWrapper className="relative">
-        <div className="invisible">
+        {
+          // The sm:visible/hidden stuff here means that desktop will
+          // always only show the FullGig in the middle even if a different
+          // tab was selected when the screen was smaller.
+          // This does mean, however, that the other tab will still
+          // be selected when the screen gets smaller again.
+        }
+        <div className="invisible sm:visible">
           <FullGigUI row={row} />
         </div>
-        <div className="w-full absolute top-0 left-0">
-          <MainComponent row={row} />
+        <div className="w-full h-full absolute top-0 left-0 sm:hidden">
+          <MiddleComponent row={row} />
         </div>
       </RoundedWrapper>
 
-      <div className="w-fit overflow-hidden ml-4 border rounded-b border-black border-t-0 sm:hidden">
+      <div className="w-fit overflow-hidden ml-4 border-0 rounded-b-lg border-black border-t-0 sm:hidden">
         {tabNames.map(name => (
           <Tab
             name={name}
@@ -70,7 +78,10 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
 function Tab(props: { name: string, selected: boolean, onSelect: (name: string) => void }) {
   return <button type="button"
                  onClick={() => props.onSelect(props.name)}
-                 className={`${props.selected ? "bg-gray-300" : "bg-gray-100"} p-2`}
+                 className={`${props.selected
+                   ? "bg-gray-300 border border-black overflow-clip border-t-0"
+                   : "bg-gray-100"} 
+                   p-2 px-4 mx-0.5 rounded-b-lg`}
   >
     {props.name}
   </button>;
