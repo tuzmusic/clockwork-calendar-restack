@@ -39,7 +39,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
         </div>
       </RoundedWrapper>
 
-      <div className="flex">
+      <div className="sm:hidden">
         {tabNames.map(name => (
           <Tab
             name={name}
