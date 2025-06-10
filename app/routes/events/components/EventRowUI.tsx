@@ -39,7 +39,7 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
         </div>
       </RoundedWrapper>
 
-      <div className="sm:hidden">
+      <div className="w-fit overflow-hidden ml-4 border rounded-b border-black border-t-0 sm:hidden">
         {tabNames.map(name => (
           <Tab
             name={name}
