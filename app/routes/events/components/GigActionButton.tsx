@@ -17,7 +17,7 @@ export function GigActionButton({
   const { Form, state } = useFetcher();
 
   return (
-    <Form method="post" id={row.id} className="h-full">
+    <Form method="post" id={row.id} >
       <input type="hidden" name="gig" value={JSON.stringify(value)} />
       <TextButton
         name="intent"
