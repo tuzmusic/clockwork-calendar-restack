@@ -1,5 +1,6 @@
-import type { Cheerio, Element } from "cheerio";
+import type { Cheerio } from "cheerio";
 import * as cheerio from "cheerio";
+import type { Element } from "domhandler";
 
 import EmailGig from "~/data/models/EmailGig";
 import { Ceremony } from "~/data/models/GigParts/Ceremony";
