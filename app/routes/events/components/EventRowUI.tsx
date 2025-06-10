@@ -22,7 +22,13 @@ function EmailGigCell({ row }: { row: EventRowJson }) {
 function CalendarGigCell({ row }: { row: EventRowJson }) {
   return row.googleGig
     ? <CalendarGigUI row={row} hasUpdates={row.hasUpdates} />
-    : <SaveGigButton row={row} />;
+    : (
+      // we need these styles here for mobile,
+      // which doesn't have the MobileWrapper styles below
+      <div className={"flex h-full justify-center items-center"}>
+        <SaveGigButton row={row} />
+      </div>
+    );
 }
 
 const TABS = {
@@ -69,7 +75,10 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
       </div>
     </div>
 
-    <MobileWrapper className={"bg-blue-600 sm:bg-blue-200"}>
+    <MobileWrapper
+      className={"bg-blue-600 sm:bg-blue-200 w-full "
+        + `${row.googleGig ? "justify-end" : "justify-center items-center"}`}
+    >
       <CalendarGigCell row={row} />
     </MobileWrapper>
   </React.Fragment>;
