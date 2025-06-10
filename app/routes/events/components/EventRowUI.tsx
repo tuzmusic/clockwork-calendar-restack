@@ -30,9 +30,13 @@ export function EventRowUI({ row }: { row: EventRowJson }) {
     </MobileWrapper>
 
     <div>
-      <RoundedWrapper>
-        <MainComponent row={row} />
-
+      <RoundedWrapper className="relative">
+        <div className="invisible">
+          <FullGigUI row={row} />
+        </div>
+        <div className="w-full absolute top-0 left-0">
+          <MainComponent row={row} />
+        </div>
       </RoundedWrapper>
 
       <div className="flex">
