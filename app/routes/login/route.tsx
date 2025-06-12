@@ -19,8 +19,10 @@ export const action: LoaderFunction = async () => {
 export default function LoginPage() {
   return (
     <form method="post"
-                className="flex w-full justify-center items-start sm:items-center py-10 h-full">
+          className={"flex flex-col w-full py-10 h-full gap-2 "
+            + "items-center justify-start sm:justify-center"}>
       <button type="submit" className="border-2 p-2 h-min">Log In</button>
+      <a className={"hover:underline"} href={"/events?useFixture=true"}>Go to events page with fixture</a>
     </form>
   );
 }
