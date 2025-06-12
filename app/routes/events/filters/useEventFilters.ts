@@ -6,7 +6,7 @@ import { AvailableFilter, FILTERS } from "./filters";
 
 export function useEventFilters(rows: EventRowJson[]) {
   const [params, setParams] = useSearchParams();
-  const filters = params.getAll("filter");
+  const filters = params.getAll("filter") as AvailableFilter[];
 
   const toggleFilter = (key: AvailableFilter) => {
     const currentFilters = params.getAll("filter");
