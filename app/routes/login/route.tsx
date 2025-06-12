@@ -19,7 +19,7 @@ export const action: LoaderFunction = async () => {
 export default function LoginPage() {
   return (
     <form method="post"
-                className="flex w-full justify-center items-center sm:items-start py-10 h-full">
+                className="flex w-full justify-center items-start sm:items-center py-10 h-full">
       <button type="submit" className="border-2 p-2 h-min">Log In</button>
     </form>
   );
