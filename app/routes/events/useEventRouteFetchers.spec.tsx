@@ -13,12 +13,11 @@ vi.mock("@remix-run/react");
 describe("useEventRouteFetchers", () => {
   describe("fetchers idle", () => {
     it("returns the data from all the fetchers present, keyed by intent", () => {
-      const fetcherCreate = mock<Fetcher>({ state: "idle", data: { intent: EventsActionIntent.createEvent } });
-
-      vi.mocked(useFetchers).mockReturnValueOnce([{
-        ...fetcherCreate,
+      const fetcherCreate = {
+        ...(mock<Fetcher>({ state: "idle", data: { intent: EventsActionIntent.createEvent } })),
         key: "a"
-      }]);
+      };
+      vi.mocked(useFetchers).mockReturnValueOnce([fetcherCreate]);
 
       const { result } = renderHook(() => useEventRouteFetchers());
       expect(result.current[EventsActionIntent.createEvent]).toEqual(fetcherCreate);
