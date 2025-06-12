@@ -5,9 +5,9 @@ import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 export function GetDistanceInfoButton({ row }: { row: EventRowJson }) {
   // hm, useNavigation.state() doesn't update here like you would think it should
   return (
-    // NOTE we are using the actual action string here,
-    //  so we can't use GigActionButton which uses its own fetcher.
-    <form method="post" action="/events">
+    // we need to access this fetcher at the top of the route
+    // so it can't use its own fetcher. (without useFetchers?)
+    <form method="post">
       <input name="gig" type="hidden" value={JSON.stringify(row.appGig)} />
       <TextButton
         data-testid="GET_DISTANCE_INFO_BUTTON"
