@@ -38,7 +38,7 @@ const TABS = {
 } as const;
 
 export function EventRowUI({ row }: { row: EventRowJson }) {
-  const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Calendar");
+  const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Full");
   const MiddleComponent = TABS[selectedTab];
 
   return <React.Fragment key={row.id}>
