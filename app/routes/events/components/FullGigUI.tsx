@@ -1,8 +1,11 @@
 import { EventRowJson } from "~/data/models/EventRow";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { FullGigHeader } from "~/routes/events/components/FullGigHeader";
-import { GetDistanceInfoButton } from "~/routes/events/components/GetDistanceInfoButton";
-import { SaveGigButton, UpdateGigButton } from "~/routes/events/components/GigButtons";
+import {
+  GetDistanceInfoButtonWithFetcher,
+  SaveGigButton,
+  UpdateGigButton
+} from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 
 
@@ -30,7 +33,7 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
         {/* hasUpdates is written in parsing.
             when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture. */}
         {timeIsDifferent || row.hasUpdates ? <UpdateGigButton row={row} /> : null}
-        {!gig.distanceInfo ? <GetDistanceInfoButton row={row} /> : null}
+        {!gig.distanceInfo ? <GetDistanceInfoButtonWithFetcher row={row} /> : null}
       </div>
     </div>
   );

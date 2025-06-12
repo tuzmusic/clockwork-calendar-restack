@@ -24,7 +24,7 @@ export const UpdateGigButton = ({ row }: { row: EventRowJson }) =>
   />;
 
 
-export const GetDistanceInfoButton = ({ row }: { row: EventRowJson }) =>
+export const GetDistanceInfoButtonWithFetcher = ({ row }: { row: EventRowJson }) =>
   <GigActionButton
     value={row.appGig}
     row={row}

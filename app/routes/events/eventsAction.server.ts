@@ -13,6 +13,9 @@ export async function action(
   args: ActionFunctionArgs,
   _distanceService?: DistanceService
 ) {
+  // TODO: delete!
+  //  this is for testing fetchers so we have time to trigger multiple.
+  await new Promise<void>(resolve => setTimeout(() => resolve(), 1500))
 
   const formData = await args.request.formData();
   const { gig: gigStr, intent } = Object.fromEntries(formData) as {

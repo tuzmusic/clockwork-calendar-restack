@@ -1,4 +1,4 @@
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useFetchers, useLoaderData } from "@remix-run/react";
 
 import { action } from "~/routes/events/eventsAction.server";
 import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
@@ -13,6 +13,9 @@ export { action, loader };
 export default function EventsRoute() {
   const { eventRowsJson } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+
+  const fetchers = useFetchers()
+  console.log(fetchers);
 
   switch (actionData?.intent) {
     case EventsActionIntent.getDistanceInfo: {

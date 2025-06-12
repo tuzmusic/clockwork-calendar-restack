@@ -18,3 +18,22 @@ export function GetDistanceInfoButton({ row }: { row: EventRowJson }) {
     </form>
   );
 }
+
+const fetchers = [
+  {
+    "state": "submitting",
+    "formMethod": "POST",
+    "formAction": "/events?useFixture=true",
+    "formEncType": "application/x-www-form-urlencoded",
+    "formData": {},
+    "key": ":rb:"
+  },
+  {
+    "state": "submitting",
+    "formMethod": "POST",
+    "formAction": "/events?useFixture=true",
+    "formEncType": "application/x-www-form-urlencoded",
+    "formData": {},
+    "key": ":r7:"
+  }
+]
