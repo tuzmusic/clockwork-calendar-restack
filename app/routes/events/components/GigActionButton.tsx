@@ -8,7 +8,7 @@ export function GigActionButton({
   row, intent, idleText, testId, loadingText, value
 }: {
   row: EventRowJson
-  intent: EventsActionIntent
+  intent: (typeof EventsActionIntent)[keyof typeof EventsActionIntent]
   idleText: string
   loadingText: string
   testId?: string,
