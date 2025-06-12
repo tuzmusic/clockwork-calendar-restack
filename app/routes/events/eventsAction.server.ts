@@ -12,6 +12,20 @@ export async function action(
   args: ActionFunctionArgs,
   _distanceService?: DistanceService
 ) {
+
+  const formData = await args.request.formData();
+  const { gig: gigStr, intent } = Object.fromEntries(formData) as {
+    gig: string,
+    intent: EventsActionIntent
+  };
+  const gigJson = JSON.parse(gigStr) as FullCalendarGigJson;
+  const gig = FullCalendarGig.deserialize(gigJson);
+
+  const useFixture = new URL(args.request.url).searchParams.get("useFixture");
+  if (useFixture && useFixture !== "false") {
+    return { intent, updatedEventId: gig.getId() };
+  }
+
   await AccountService.authenticate(args.request);
   const calendarId = await selectedCalendarCookie.parse(
     args.request.headers.get("Cookie")
@@ -20,25 +34,16 @@ export async function action(
 
   const calendarService = new GoogleCalendarService(calendarId);
 
-  const formData = await args.request.formData();
-  const { gig: gigStr, intent } = Object.fromEntries(formData) as {
-    gig: string,
-    intent: EventsActionIntent
-  };
-
-  const gigJson = JSON.parse(gigStr) as FullCalendarGigJson;
 
   switch (intent) {
     case EventsActionIntent.createEvent: {
-      const gig = FullCalendarGig.deserialize(gigJson);
       const response = await gig.store(calendarService);
-      return { response, intent };
+      return { response, intent, updatedEventId: gig.getId() };
     }
 
     case EventsActionIntent.updateEvent: {
-      const gig = FullCalendarGig.deserialize(gigJson)
       const response = await gig.update(calendarService);
-      return { response, intent };
+      return { response, intent, updatedEventId: gig.getId() };
     }
 
     case EventsActionIntent.getDistanceInfo: {
