@@ -18,7 +18,10 @@ export async function loader(
   _emailService?: EmailService,
   _calendarService?: CalendarService
 ) {
-  return json({ eventRowsJson: getFixture() });
+  const useFixture = new URL(args.request.url).searchParams.get("useFixture");
+  if (useFixture && useFixture !== "false") {
+    return json({ eventRowsJson: getFixture() });
+  }
 
   await AccountService.authenticate(args.request);
   const calendarId = await selectedCalendarCookie.parse(
