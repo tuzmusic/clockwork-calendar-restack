@@ -3,6 +3,7 @@ import { ActionFunctionArgs, json } from "@remix-run/node";
 import { selectedCalendarCookie } from "~/auth/cookies.server";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
+import { DistanceData } from "~/data/models/types";
 import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
 import AccountService from "~/data/services/AccountService.server";
 import DistanceService from "~/data/services/DistanceService";
@@ -23,7 +24,17 @@ export async function action(
 
   const useFixture = new URL(args.request.url).searchParams.get("useFixture");
   if (useFixture && useFixture !== "false") {
-    return { intent, updatedEventId: gig.getId() };
+    switch (intent) {
+      case EventsActionIntent.getDistanceInfo:
+        return {
+          intent,
+          id: gig.getId(),
+          distanceInfo: {} satisfies Record<string, DistanceData>
+        };
+      case EventsActionIntent.updateEvent:
+      case EventsActionIntent.createEvent:
+        return { intent, id: gig.getId() };
+    }
   }
 
   await AccountService.authenticate(args.request);
@@ -38,12 +49,12 @@ export async function action(
   switch (intent) {
     case EventsActionIntent.createEvent: {
       const response = await gig.store(calendarService);
-      return { response, intent, updatedEventId: gig.getId() };
+      return { response, intent, id: gig.getId() };
     }
 
     case EventsActionIntent.updateEvent: {
       const response = await gig.update(calendarService);
-      return { response, intent, updatedEventId: gig.getId() };
+      return { response, intent, id: gig.getId() };
     }
 
     case EventsActionIntent.getDistanceInfo: {
