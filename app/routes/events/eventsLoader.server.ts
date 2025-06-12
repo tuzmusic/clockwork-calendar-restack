@@ -1,4 +1,4 @@
-import { json, LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
 import GoogleGig from "~/data/models/GoogleGig";
@@ -20,7 +20,7 @@ export async function loader(
 ) {
   const useFixture = new URL(args.request.url).searchParams.get("useFixture");
   if (useFixture && useFixture !== "false") {
-    return json({ eventRowsJson: getFixture() });
+    return { eventRowsJson: getFixture() };
   }
 
   await AccountService.authenticate(args.request);
@@ -52,5 +52,5 @@ export async function loader(
   const schedule = Schedule.build({ emailGigs, remoteGigs }, distanceService);
 
   const eventRowsJson = schedule.eventSets.map(set => set.serialize());
-  return json({ eventRowsJson });
+  return { eventRowsJson };
 }
