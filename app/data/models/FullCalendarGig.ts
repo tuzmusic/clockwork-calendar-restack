@@ -25,6 +25,13 @@ interface MakeFnArgs {
 
 export type FullCalendarGigJson = ReturnType<FullCalendarGig["serialize"]>
 
+type DistanceKey = "fromHome" |
+  "withWaltham" |
+  "walthamDetour" |
+  "fromWaltham" |
+  "fromBoston";
+
+export type FullDistanceInfoObj = Record<DistanceKey, DistanceData>;
 export default class FullCalendarGig extends GigWithParts {
   private distanceService: DistanceService;
   private readonly googleId: string | null;
@@ -91,13 +98,13 @@ export default class FullCalendarGig extends GigWithParts {
     this.distanceService = distanceService;
   }
 
-  private _distanceInfo: Record<string, DistanceData> | null = null;
+  private _distanceInfo: FullDistanceInfoObj | null = null;
 
   public getDistanceInfo() {
     return this._distanceInfo;
   }
 
-  public setDistanceInfo(distanceInfo: Record<string, DistanceData>) {
+  public setDistanceInfo(distanceInfo: FullDistanceInfoObj) {
     this._distanceInfo = distanceInfo;
   }
 

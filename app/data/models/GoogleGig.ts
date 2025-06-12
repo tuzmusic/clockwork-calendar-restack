@@ -1,14 +1,14 @@
 import { calendar_v3 } from "googleapis";
 
+import { FullDistanceInfoObj } from "~/data/models/FullCalendarGig";
 import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import SimpleGig, { SimpleGigJson } from "~/data/models/SimpleGig";
-import { DistanceData } from "~/data/models/types";
 
 export default class GoogleGig extends SimpleGig<{
   startDateTime: string,
   endDateTime: string
 }> {
-  private readonly distanceInfo: Record<string, DistanceData> | null = null;
+  private readonly distanceInfo: FullDistanceInfoObj | null = null;
   private readonly partsJson: GigPartJSON[] | null = null;
   private readonly googleId: string;
 

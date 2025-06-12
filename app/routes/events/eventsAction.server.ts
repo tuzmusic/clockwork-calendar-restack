@@ -3,7 +3,7 @@ import { ActionFunctionArgs, json } from "@remix-run/node";
 import { selectedCalendarCookie } from "~/auth/cookies.server";
 import FullCalendarGig, { FullCalendarGigJson } from "~/data/models/FullCalendarGig";
 import { Reception } from "~/data/models/GigParts/Reception";
-import { DistanceData } from "~/data/models/types";
+import { mockDistanceData } from "~/data/models/tests/testConstants";
 import GoogleCalendarService from "~/data/parsers/emailParser/tests/GoogleCalendarService";
 import AccountService from "~/data/services/AccountService.server";
 import DistanceService from "~/data/services/DistanceService";
@@ -29,7 +29,7 @@ export async function action(
         return {
           intent,
           id: gig.getId(),
-          distanceInfo: {} satisfies Record<string, DistanceData>
+          distanceInfo: mockDistanceData
         };
       case EventsActionIntent.updateEvent:
       case EventsActionIntent.createEvent:

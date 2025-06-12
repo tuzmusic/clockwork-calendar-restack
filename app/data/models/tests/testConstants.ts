@@ -1,7 +1,7 @@
+import { FullDistanceInfoObj } from "~/data/models/FullCalendarGig";
 import { CocktailHour } from "~/data/models/GigParts/CocktailHour";
 import { GigPartJSON } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
-import { DistanceData } from "~/data/models/types";
 
 export const location = "123 Sesame St, Concord, NH";
 
@@ -15,7 +15,7 @@ export const mockDistanceData = {
   walthamDetour: { miles: 3, minutes: 30, formattedTime: "30m" },
   fromWaltham: { miles: 4, minutes: 40, formattedTime: "40m" },
   fromBoston: { miles: 5, minutes: 50, formattedTime: "0m" }
-} satisfies Record<string, DistanceData>;
+} satisfies FullDistanceInfoObj;
 
 export const receptionStart = "2024-12-01T19:00:00";
 export const cocktailEnd = receptionStart

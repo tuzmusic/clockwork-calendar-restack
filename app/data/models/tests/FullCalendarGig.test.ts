@@ -25,7 +25,7 @@ describe("FullCalendarGig.make", () => {
         location: "Boston",
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
         distanceInfo: {
-          fromSomewhere: {
+          fromBoston: {
             miles: 1, minutes: 2, formattedTime: "foo"
           }
         }
