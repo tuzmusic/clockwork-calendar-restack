@@ -21,6 +21,13 @@ export function useEventRouteFetchers() {
         result[fetcher.data.intent] = intentArr ? intentArr.concat(fetcher) : [fetcher];
       }
     }
+
+    if (fetcher.state === "submitting") {
+      const intent = fetcher.formData?.get('intent') as keyof typeof EventsActionIntent
+      const intentArr = result[intent];
+      result[intent] = intentArr ? intentArr.concat(fetcher) : [fetcher];
+    }
   });
+
   return result;
 }
