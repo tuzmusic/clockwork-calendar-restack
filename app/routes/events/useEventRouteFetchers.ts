@@ -8,16 +8,17 @@ function isValidIntent(intent: string) {
 
 export function useEventRouteFetchers() {
   const fetchers = useFetchers();
-  const result: Record<(typeof EventsActionIntent)[keyof typeof EventsActionIntent], Fetcher | null> = {
-    [EventsActionIntent.createEvent]: null,
-    [EventsActionIntent.updateEvent]: null,
-    [EventsActionIntent.getDistanceInfo]: null
+  const result: Record<(typeof EventsActionIntent)[keyof typeof EventsActionIntent], Fetcher[]> = {
+    [EventsActionIntent.createEvent]: [],
+    [EventsActionIntent.updateEvent]: [],
+    [EventsActionIntent.getDistanceInfo]: []
   };
 
   fetchers.forEach(fetcher => {
     if (fetcher.state === "idle" || fetcher.state === "loading") {
       if ("intent" in fetcher.data && isValidIntent(fetcher.data.intent)) {
-        result[fetcher.data.intent] = fetcher;
+        const intentArr = result[fetcher.data.intent];
+        result[fetcher.data.intent] = intentArr ? intentArr.concat(fetcher) : [fetcher];
       }
     }
   });
