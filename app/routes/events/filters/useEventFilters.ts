@@ -26,9 +26,10 @@ const useToggleFilter = () => {
 
 export function useEventFilters(rows: EventRowJson[]) {
   const [params] = useSearchParams();
+  const filters = params.getAll("filter") as AvailableFilter[];
+
   const toggleFilter = useToggleFilter()
 
-  const filters = params.getAll("filter") as AvailableFilter[];
   const alwaysShow = params.getAll("alwaysShow");
 
   const filteredEvents = !filters.length
