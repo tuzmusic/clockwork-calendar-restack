@@ -19,7 +19,7 @@ export const useToggleParamValue = (key: string) => {
     newParams.delete(key); // clear existing values
     newValues.forEach(val => newParams.append(key, val)); // re-add filtered ones
 
-    setParams(newParams);
+    setParams(newParams, { preventScrollReset: true });
   }, [key, params, setParams]);
 };
 
