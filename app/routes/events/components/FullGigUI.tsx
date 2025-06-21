@@ -21,12 +21,7 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
   const fetchers = useEventRouteFetchers();
   const thisDistanceInfo = fetchers[EventsActionIntent.getDistanceInfo]
     .find(f => f.data?.id === row.id);
-
-  // first fixture row
-  if (row.id === "2024-07-08") {
-    console.log(thisDistanceInfo);
-  }
-
+  
   const distanceInfo = thisDistanceInfo?.data.distanceInfo ?? gig.distanceInfo
 
   return (
