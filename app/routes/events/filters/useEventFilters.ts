@@ -6,35 +6,34 @@ import { EventRowJson } from "~/data/models/EventRow";
 import { AvailableFilter, FILTERS } from "./filters";
 
 
-const useToggleFilter = () => {
+const useToggleParamValue = (key: string) => {
   const [params, setParams] = useSearchParams();
-  return useCallback((key: AvailableFilter) => {
-    const currentFilters = params.getAll("filter");
-    const hasFilter = currentFilters.includes(key);
+  return useCallback((value: AvailableFilter) => {
+    const currentValues = params.getAll(key);
+    const hasValue = currentValues.includes(value);
 
-    const newFilters = hasFilter
-      ? currentFilters.filter(f => f !== key)
-      : [...currentFilters, key];
+    const newValues = hasValue
+      ? currentValues.filter(f => f !== value)
+      : [...currentValues, value];
 
     const newParams = new URLSearchParams(params);
-    newParams.delete("filter"); // clear existing filters
-    newFilters.forEach(f => newParams.append("filter", f)); // re-add filtered ones
+    newParams.delete(key); // clear existing values
+    newValues.forEach(val => newParams.append(key, val)); // re-add filtered ones
 
     setParams(newParams);
-  }, [params, setParams]);
+  }, [key, params, setParams]);
 };
 
 export function useEventFilters(rows: EventRowJson[]) {
+  const toggleFilter = useToggleParamValue('filter')
+
   const [params] = useSearchParams();
   const filters = params.getAll("filter") as AvailableFilter[];
-
-  const toggleFilter = useToggleFilter()
-
   const alwaysShow = params.getAll("alwaysShow");
 
   const filteredEvents = !filters.length
     ? rows
-    : rows?.filter(row =>
+    : rows.filter(row =>
       filters.reduce((yet, filter) => {
         if (alwaysShow.includes(row.id)) return true;
         return yet && FILTERS[filter as AvailableFilter](row, rows);
