@@ -7,6 +7,8 @@ import {
   UpdateGigButton
 } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
+import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
+import { useEventRouteFetchers } from "~/routes/events/useEventRouteFetchers";
 
 
 export function FullGigUI({ row }: { row: EventRowJson }) {
@@ -16,16 +18,27 @@ export function FullGigUI({ row }: { row: EventRowJson }) {
     && ((gig.startTime !== row.googleGig?.startDateTime)
       || (gig.endTime !== row.googleGig?.endDateTime));
 
+  const fetchers = useEventRouteFetchers();
+  const thisDistanceInfo = fetchers[EventsActionIntent.getDistanceInfo]
+    .find(f => f.data?.id === row.id);
+
+  // first fixture row
+  if (row.id === "2024-07-08") {
+    console.log(thisDistanceInfo);
+  }
+
+  const distanceInfo = thisDistanceInfo?.data.distanceInfo ?? gig.distanceInfo
+
   return (
     <div className="[&>*]:p-2">
-      <FullGigHeader row={row} timeIsDifferent={timeIsDifferent}/>
+      <FullGigHeader row={row} timeIsDifferent={timeIsDifferent} />
 
       <ul>
         {gig.parts.map(part => <GigPartUI key={part.type} part={part} />)}
       </ul>
 
       <div>
-        {gig.distanceInfo ? <DistanceInfo info={gig.distanceInfo} /> : null}
+        {distanceInfo ? <DistanceInfo info={distanceInfo} /> : null}
       </div>
 
       <div className={"flex flex-col items-end"}>
