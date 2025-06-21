@@ -58,15 +58,17 @@ export function FullGigUI(props: { row: EventRowJson }) {
         {thisDistanceInfo ?? gig.distanceInfo ? <DistanceInfo info={thisDistanceInfo ?? gig.distanceInfo} /> : null}
       </div>
 
-      <div className={'flex justify-between'}>
-        <label className="flex gap-1">
-          <input
-            type="checkbox"
-            checked={alwaysShown}
-            onChange={() => toggleAlwaysShow(row.id)}
-          />
-          <span>Always Shown</span>
-        </label>
+      <div className={"flex justify-between"}>
+        <div>
+          <label className="flex gap-1">
+            <input
+              type="checkbox"
+              checked={alwaysShown}
+              onChange={() => toggleAlwaysShow(row.id)}
+            />
+            <span>Always Shown</span>
+          </label>
+        </div>
 
         <div className={"flex flex-col items-end"}>
           {!row.googleGig ? <SaveGigButton row={row} /> : null}
