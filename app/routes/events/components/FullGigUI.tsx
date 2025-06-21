@@ -26,8 +26,10 @@ export function FullGigUI(props: { row: EventRowJson }) {
     }
   } satisfies EventRowJson;
 
-  const timeIsDifferent = row.googleGig
-    && ((gig.startTime !== row.googleGig?.startDateTime)
+  // hasUpdates is written in parsing.
+  // when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture.
+  const timeIsDifferent = row.googleGig &&
+    ((gig.startTime !== row.googleGig?.startDateTime)
       || (gig.endTime !== row.googleGig?.endDateTime));
 
   return (
@@ -44,8 +46,6 @@ export function FullGigUI(props: { row: EventRowJson }) {
 
       <div className={"flex flex-col items-end"}>
         {!row.googleGig ? <SaveGigButton row={row} /> : null}
-        {/* hasUpdates is written in parsing.
-            when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture. */}
         {timeIsDifferent || row.hasUpdates ? <UpdateGigButton row={row} /> : null}
         {!gig.distanceInfo ? <GetDistanceInfoButtonWithFetcher row={row} /> : null}
       </div>
