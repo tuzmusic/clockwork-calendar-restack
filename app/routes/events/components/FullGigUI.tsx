@@ -26,20 +26,25 @@ function useFetchedDistanceInfo(row: EventRowJson) {
   return thisDistanceInfo?.data.distanceInfo;
 }
 
+function useAlwaysShown(row: EventRowJson) {
+  const toggleAlwaysShow = useToggleParamValue("alwaysShow");
+  const [params] = useSearchParams();
+  const alwaysShown = params.getAll("alwaysShow").includes(row.id);
+  return { toggleAlwaysShow, alwaysShown };
+}
+
 export function FullGigUI(props: { row: EventRowJson }) {
   const gig = props.row.appGig;
   const thisDistanceInfo = useFetchedDistanceInfo(props.row);
   const row = addDistanceInfoToRow(props.row, thisDistanceInfo ?? gig.distanceInfo);
+  const { toggleAlwaysShow, alwaysShown } = useAlwaysShown(row);
 
   // hasUpdates is written in parsing.
   // when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture.
+
   const timeIsDifferent = row.googleGig &&
     ((gig.startTime !== row.googleGig?.startDateTime)
       || (gig.endTime !== row.googleGig?.endDateTime));
-
-  const toggleAlwaysShow = useToggleParamValue('alwaysShow')
-  const [params] = useSearchParams();
-  const alwaysShown = params.getAll('alwaysShow').includes(row.id)
 
   return (
     <div className="[&>*]:p-2">
