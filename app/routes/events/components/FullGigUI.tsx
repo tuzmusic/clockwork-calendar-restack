@@ -1,3 +1,5 @@
+import { useSearchParams } from "@remix-run/react";
+
 import { EventRowJson } from "~/data/models/EventRow";
 import { FullDistanceInfoObj } from "~/data/models/FullCalendarGig";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
@@ -9,6 +11,7 @@ import {
 } from "~/routes/events/components/GigButtons";
 import { GigPartUI } from "~/routes/events/components/GigPartUI";
 import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
+import { useToggleParamValue } from "~/routes/events/filters/useEventFilters";
 import { useEventRouteFetchers } from "~/routes/events/useEventRouteFetchers";
 
 
@@ -34,6 +37,10 @@ export function FullGigUI(props: { row: EventRowJson }) {
     ((gig.startTime !== row.googleGig?.startDateTime)
       || (gig.endTime !== row.googleGig?.endDateTime));
 
+  const toggleAlwaysShow = useToggleParamValue('alwaysShow')
+  const [params] = useSearchParams();
+  const alwaysShown = params.getAll('alwaysShow').includes(row.id)
+
   return (
     <div className="[&>*]:p-2">
       <FullGigHeader row={row} timeIsDifferent={timeIsDifferent} />
@@ -46,10 +53,21 @@ export function FullGigUI(props: { row: EventRowJson }) {
         {thisDistanceInfo ?? gig.distanceInfo ? <DistanceInfo info={thisDistanceInfo ?? gig.distanceInfo} /> : null}
       </div>
 
-      <div className={"flex flex-col items-end"}>
-        {!row.googleGig ? <SaveGigButton row={row} /> : null}
-        {timeIsDifferent || row.hasUpdates ? <UpdateGigButton row={row} /> : null}
-        {!gig.distanceInfo ? <GetDistanceInfoButtonWithFetcher row={row} /> : null}
+      <div className={'flex justify-between'}>
+        <label className="flex gap-1">
+          <input
+            type="checkbox"
+            checked={alwaysShown}
+            onChange={() => toggleAlwaysShow(row.id)}
+          />
+          <span>Always Shown</span>
+        </label>
+
+        <div className={"flex flex-col items-end"}>
+          {!row.googleGig ? <SaveGigButton row={row} /> : null}
+          {timeIsDifferent || row.hasUpdates ? <UpdateGigButton row={row} /> : null}
+          {!gig.distanceInfo ? <GetDistanceInfoButtonWithFetcher row={row} /> : null}
+        </div>
       </div>
     </div>
   );

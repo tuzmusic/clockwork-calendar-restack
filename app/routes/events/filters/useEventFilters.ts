@@ -5,10 +5,9 @@ import { EventRowJson } from "~/data/models/EventRow";
 
 import { AvailableFilter, FILTERS } from "./filters";
 
-
-const useToggleParamValue = (key: string) => {
+export const useToggleParamValue = (key: string) => {
   const [params, setParams] = useSearchParams();
-  return useCallback((value: AvailableFilter) => {
+  return useCallback((value: string) => {
     const currentValues = params.getAll(key);
     const hasValue = currentValues.includes(value);
 
