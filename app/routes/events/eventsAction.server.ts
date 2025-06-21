@@ -22,7 +22,7 @@ export async function action(
   const gig = FullCalendarGig.deserialize(gigJson);
 
   const useFixture = new URL(args.request.url).searchParams.get("useFixture");
-  if (useFixture !== "false") {
+  if (useFixture && useFixture !== "false") {
     switch (intent) {
       case EventsActionIntent.getDistanceInfo:
         return {

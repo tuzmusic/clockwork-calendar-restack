@@ -11,18 +11,24 @@ import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 import { useEventRouteFetchers } from "~/routes/events/useEventRouteFetchers";
 
 
-export function FullGigUI({ row }: { row: EventRowJson }) {
-  const gig = row.appGig;
+export function FullGigUI(props: { row: EventRowJson }) {
+  const gig = props.row.appGig;
+  const fetchers = useEventRouteFetchers();
+  const thisDistanceInfo = fetchers[EventsActionIntent.getDistanceInfo]
+    .find(f => f.data?.id === props.row.id);
+  const distanceInfo = thisDistanceInfo?.data.distanceInfo ?? gig.distanceInfo;
+
+  const row = {
+    ...props.row,
+    appGig: {
+      ...props.row.appGig,
+      distanceInfo: thisDistanceInfo?.data.distanceInfo ?? props.row.appGig.distanceInfo
+    }
+  } satisfies EventRowJson;
 
   const timeIsDifferent = row.googleGig
     && ((gig.startTime !== row.googleGig?.startDateTime)
       || (gig.endTime !== row.googleGig?.endDateTime));
-
-  const fetchers = useEventRouteFetchers();
-  const thisDistanceInfo = fetchers[EventsActionIntent.getDistanceInfo]
-    .find(f => f.data?.id === row.id);
-  
-  const distanceInfo = thisDistanceInfo?.data.distanceInfo ?? gig.distanceInfo
 
   return (
     <div className="[&>*]:p-2">
