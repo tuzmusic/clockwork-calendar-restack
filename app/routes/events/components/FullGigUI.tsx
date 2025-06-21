@@ -1,4 +1,5 @@
 import { EventRowJson } from "~/data/models/EventRow";
+import { FullDistanceInfoObj } from "~/data/models/FullCalendarGig";
 import { DistanceInfo } from "~/routes/events/components/DistanceInfo";
 import { FullGigHeader } from "~/routes/events/components/FullGigHeader";
 import {
@@ -11,20 +12,21 @@ import { EventsActionIntent } from "~/routes/events/EventsActionIntent";
 import { useEventRouteFetchers } from "~/routes/events/useEventRouteFetchers";
 
 
-export function FullGigUI(props: { row: EventRowJson }) {
-  const gig = props.row.appGig;
+function addDistanceInfoToRow(row: EventRowJson, distanceInfo: FullDistanceInfoObj) {
+  return { ...row, appGig: { ...row.appGig, distanceInfo } } satisfies EventRowJson;
+}
+
+function useFetchedDistanceInfo(row: EventRowJson) {
   const fetchers = useEventRouteFetchers();
   const thisDistanceInfo = fetchers[EventsActionIntent.getDistanceInfo]
-    .find(f => f.data?.id === props.row.id);
-  const distanceInfo = thisDistanceInfo?.data.distanceInfo ?? gig.distanceInfo;
+    .find(f => f.data?.id === row.id);
+  return thisDistanceInfo?.data.distanceInfo;
+}
 
-  const row = {
-    ...props.row,
-    appGig: {
-      ...props.row.appGig,
-      distanceInfo: thisDistanceInfo?.data.distanceInfo ?? props.row.appGig.distanceInfo
-    }
-  } satisfies EventRowJson;
+export function FullGigUI(props: { row: EventRowJson }) {
+  const gig = props.row.appGig;
+  const thisDistanceInfo = useFetchedDistanceInfo(props.row);
+  const row = addDistanceInfoToRow(props.row, thisDistanceInfo ?? gig.distanceInfo);
 
   // hasUpdates is written in parsing.
   // when using fixtures, timeIsDifferent will calculate even if we forgot to mark the fixture.
@@ -41,7 +43,7 @@ export function FullGigUI(props: { row: EventRowJson }) {
       </ul>
 
       <div>
-        {distanceInfo ? <DistanceInfo info={distanceInfo} /> : null}
+        {thisDistanceInfo ?? gig.distanceInfo ? <DistanceInfo info={thisDistanceInfo ?? gig.distanceInfo} /> : null}
       </div>
 
       <div className={"flex flex-col items-end"}>
