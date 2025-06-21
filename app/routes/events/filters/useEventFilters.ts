@@ -25,7 +25,7 @@ const useToggleParamValue = (key: string) => {
 };
 
 export function useEventFilters(rows: EventRowJson[]) {
-  const toggleFilter = useToggleParamValue('filter')
+  const toggleFilter = useToggleParamValue("filter");
 
   const [params] = useSearchParams();
   const filters = params.getAll("filter") as AvailableFilter[];
@@ -35,8 +35,11 @@ export function useEventFilters(rows: EventRowJson[]) {
     ? rows
     : rows.filter(row =>
       filters.reduce((yet, filter) => {
+        const filterFn = FILTERS[filter as AvailableFilter];
+        if (!filterFn) return yet;
+
         if (alwaysShow.includes(row.id)) return true;
-        return yet && FILTERS[filter as AvailableFilter](row, rows);
+        return yet && filterFn(row, rows);
       }, true)
     );
 
