@@ -6,6 +6,7 @@ import { EmailHtml } from "~/routes/events/components/EmailHtml";
 import { FullGigUI } from "~/routes/events/components/FullGigUI";
 import { SaveGigButton } from "~/routes/events/components/GigButtons";
 import { RoundedWrapper } from "~/routes/events/components/RoundedWrapper";
+import { useAlwaysShowSavedGig } from "~/routes/events/components/useAlwaysShowSavedGig";
 
 const MobileWrapper = (props: ComponentProps<typeof RoundedWrapper>) =>
   <RoundedWrapper className={`hidden sm:flex ${props.className ?? ""}`}>
@@ -38,6 +39,8 @@ const TABS = {
 } as const;
 
 export function EventRowUI({ row }: { row: EventRowJson }) {
+  useAlwaysShowSavedGig(row.id)
+
   const [selectedTab, setSelectedTab] = useState<keyof typeof TABS>("Full");
   const MiddleComponent = TABS[selectedTab];
 
