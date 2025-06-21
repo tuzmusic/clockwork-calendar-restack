@@ -13,10 +13,6 @@ export async function action(
   args: ActionFunctionArgs,
   _distanceService?: DistanceService
 ) {
-  // TODO: delete!
-  //  this is for testing fetchers so we have time to trigger multiple.
-  await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
-
   const formData = await args.request.formData();
   const { gig: gigStr, intent } = Object.fromEntries(formData) as {
     gig: string,
@@ -26,13 +22,13 @@ export async function action(
   const gig = FullCalendarGig.deserialize(gigJson);
 
   const useFixture = new URL(args.request.url).searchParams.get("useFixture");
-  if (useFixture && useFixture !== "false") {
+  if (useFixture !== "false") {
     switch (intent) {
       case EventsActionIntent.getDistanceInfo:
         return {
           intent,
           id: gig.getId(),
-          distanceInfo: mockDistanceData
+          distanceInfo: makeMockDistanceInfo(gig)
         };
       case EventsActionIntent.updateEvent:
       case EventsActionIntent.createEvent:
@@ -82,4 +78,15 @@ export async function action(
   }
 
   return null;
+}
+
+function makeMockDistanceInfo(gig: FullCalendarGig) {
+  const shortDate = gig.getId().split('-').slice(1).join('/')
+  return {
+    ...mockDistanceData,
+    fromHome: {
+      ...mockDistanceData.fromHome,
+      formattedTime: `${mockDistanceData.fromHome.formattedTime} (${shortDate})`
+    }
+  };
 }
