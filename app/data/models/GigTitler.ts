@@ -12,9 +12,14 @@ export default class GigTitler {
       "🎹",
       this.getTimeFromHomeStr(),
       this.getLocationHintStr(),
-      this.getHotelStr()
+      this.getHotelStr(),
+      this.getDistanceStr()
     ].filter(Boolean)
       .join(" ");
+  }
+
+  private getDistanceStr() {
+    return this.distanceInfo!.fromHome.miles + 'mi';
   }
 
   constructor(private gig: FullCalendarGig) {
@@ -70,8 +75,8 @@ export default class GigTitler {
   }
 
   static abbreviations = {
-    "Boston": "Bs",
-    "Providence": "Pr"
+    "Boston": "BS",
+    "Providence": "PR"
   };
 
   static CapeCodCities = [
