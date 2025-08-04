@@ -172,7 +172,7 @@ describe("FullCalendarGig.make", () => {
         expect(gig.getDistanceInfo()!.fromBoston.miles).toBeLessThan(120)
         expect(gig.getLocation()).toContain('NH')
 
-        expect(call[argIndex]).toMatchObject({ summary: "🎹 🚙1:30 NH Clockwork Gig" });
+        expect(call[argIndex]).toMatchObject({ summary: "🎹 🚙1:30 NH 100mi Clockwork Gig" });
       });
 
       it("includes the startTime the payload as extendedProperties", async ({ makeGig }) => {

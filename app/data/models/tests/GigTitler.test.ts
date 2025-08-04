@@ -126,14 +126,14 @@ describe("GigTitler", () => {
         parts: [mockReceptionJSONWithActual, cocktailHourPartJSON],
         distanceInfo: {
           fromHome: {
-            miles: 1, minutes: 75, formattedTime: "1h15m"
+            miles: 100, minutes: 75, formattedTime: "1h15m"
           },
           fromBoston: { minutes: 20 } // no hotel
         }
       });
       const gig = FullCalendarGig.deserialize(gigJson);
       const titler = new GigTitler(gig);
-      expect(titler.makeTitle()).toEqual("🎹 🚙1:15 CC");
+      expect(titler.makeTitle()).toEqual("🎹 🚙1:15 CC 100mi");
     });
 
     it("returns a string for a gig with a hotel", () => {
@@ -149,7 +149,7 @@ describe("GigTitler", () => {
       });
       const gig = FullCalendarGig.deserialize(gigJson);
       const titler = new GigTitler(gig);
-      expect(titler.makeTitle()).toEqual("🎹 🚙2:30 VT 🏩");
+      expect(titler.makeTitle()).toEqual("🎹 🚙2:30 VT 🏩 140mi");
     });
   });
 });
