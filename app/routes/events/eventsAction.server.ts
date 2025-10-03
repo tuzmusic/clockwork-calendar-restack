@@ -18,6 +18,15 @@ export async function action(
     gig: string,
     intent: (typeof EventsActionIntent)[keyof typeof EventsActionIntent]
   };
+
+  if (intent === EventsActionIntent.getAllDistanceInfo) {
+
+
+    console.log("getAllDistanceInfo");
+    return json({ action: "getAllDistanceInfo" });
+  }
+
+
   const gigJson = JSON.parse(gigStr) as FullCalendarGigJson;
   const gig = FullCalendarGig.deserialize(gigJson);
 
@@ -43,7 +52,6 @@ export async function action(
   if (!calendarId) throw json("Could not get calendar id to post new event", 500);
 
   const calendarService = new GoogleCalendarService(calendarId);
-
 
   switch (intent) {
     case EventsActionIntent.createEvent: {
@@ -81,7 +89,7 @@ export async function action(
 }
 
 function makeMockDistanceInfo(gig: FullCalendarGig) {
-  const shortDate = gig.getId().split('-').slice(1).join('/')
+  const shortDate = gig.getId().split("-").slice(1).join("/");
   return {
     ...mockDistanceData,
     fromHome: {

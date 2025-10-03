@@ -50,7 +50,7 @@ export async function loader(
   const events = await calendarService.getEvents({ fromDate });
   const remoteGigs: GoogleGig[] = events.map(GoogleGig.make);
   const schedule = Schedule.build({ emailGigs, remoteGigs }, distanceService);
-
+  await schedule.fetchDistanceInfoForNewEvents()
   const eventRowsJson = schedule.eventSets.map(set => set.serialize());
   return { eventRowsJson };
 }

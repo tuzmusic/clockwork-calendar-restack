@@ -55,6 +55,9 @@ export default class EventRow {
     return !this.partsMatch;
   }
 
+  public get hasEmailGigOnly() {
+    return !this.googleGig;
+  }
 
   public get hasUpdates() {
     const { googleGig, appGig } = this;

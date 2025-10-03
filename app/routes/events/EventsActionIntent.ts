@@ -1,5 +1,6 @@
 export const EventsActionIntent = {
   getDistanceInfo: "get-distance-info",
   createEvent: "create-event",
-  updateEvent: 'update-event'
+  updateEvent: 'update-event',
+  getAllDistanceInfo: 'get-all-distance-info'
 }

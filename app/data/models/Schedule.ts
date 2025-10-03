@@ -9,6 +9,12 @@ export default class Schedule {
   private readonly remoteGigsTable: Record<string, GoogleGig>;
   public readonly eventSets: EventRow[];
 
+  public async fetchDistanceInfoForNewEvents() {
+    const newEvents = this.eventSets.filter(e => e.hasEmailGigOnly)
+    const distancePromises = newEvents.map(event => event.appGig.fetchDistanceInfo())
+    return Promise.all(distancePromises)
+  }
+
   private makeTableById<T extends SimpleGig<unknown>>(gigs: T[]): Record<string, T> {
     return gigs.reduce((acc, gig) => ({
       ...acc, [gig.getId()]: gig
