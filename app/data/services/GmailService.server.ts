@@ -2,12 +2,16 @@ import { google } from "googleapis";
 
 import { oauth2Client } from "~/auth/auth0.server";
 import EmailService from "~/data/services/EmailService";
+import { OAuth2Client } from "google-auth-library";
 
 // for some reason atob is working in the old remix app but not
 // the "restack". 🤷🏻 Chatgpt gave me this alternative and it works.
 const atob = (bodyData: string | null | undefined) => Buffer.from(bodyData ?? "", "base64").toString("utf-8");
 
 export default class GmailService extends EmailService {
+  constructor(private oauth2Client: OAuth2Client) {
+    super();
+  }
 
   private emailData?: {
     html: string, date: Date | undefined
@@ -37,7 +41,7 @@ export default class GmailService extends EmailService {
   }
 
   public async getEmailData(): Promise<void> {
-    const gmail = google.gmail({ version: "v1", auth: oauth2Client });
+    const gmail = google.gmail({ version: "v1", auth: this.oauth2Client });
     const messagesResponse = await gmail.users.messages.list({
       userId: "me",
       q: "subject:(\"Clockwork East Coast - Schedule\")"

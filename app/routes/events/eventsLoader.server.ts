@@ -12,6 +12,9 @@ import EmailService from "~/data/services/EmailService";
 import GmailService from "~/data/services/GmailService.server";
 
 import { getFixture } from "./page/eventRows.fixture";
+import { getOAuthClient } from "~/data/getOAuthClient";
+import { createClerkClient } from "@clerk/remix/api.server";
+import { getAuth } from "@clerk/remix/ssr.server";
 
 export async function loader(
   args: LoaderFunctionArgs,
@@ -23,15 +26,26 @@ export async function loader(
     return { eventRowsJson: getFixture() };
   }
 
-  await AccountService.authenticate(args.request);
+  const { isAuthenticated, userId } = await getAuth(args);
+
+  // Protect the route by checking if the user is signed in
+  if (!isAuthenticated) {
+    return redirect("/sign-in?redirect_url=" + args.request.url);
+  }
+
   const calendarId = await selectedCalendarCookie.parse(
     args.request.headers.get("Cookie")
   );
   if (!calendarId) throw redirect("/select-calendar");
 
   const distanceService = new DistanceService();
+  const { CLERK_SECRET_KEY } = process.env;
 
-  const emailService = _emailService ?? new GmailService(); // new EmailFixtureService();
+  const clerkClient = createClerkClient({ secretKey: CLERK_SECRET_KEY });
+  const user = await clerkClient.users.getUser(userId);
+  const oauth2Client = await getOAuthClient(user, clerkClient);
+
+  const emailService = _emailService ?? new GmailService(oauth2Client); // new EmailFixtureService();
   let html = "";
 
   // TODO: handle this in AccountService or something.

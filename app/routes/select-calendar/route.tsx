@@ -10,10 +10,10 @@ import { useLoaderData } from "@remix-run/react";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { google } from "googleapis";
 
 import { selectedCalendarCookie } from "~/auth/cookies.server";
 import AccountService from "~/data/services/AccountService.server";
+import { getOAuthClient } from "~/data/getOAuthClient";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -29,29 +29,10 @@ export async function loader(args: LoaderFunctionArgs) {
     return redirect("/sign-in?redirect_url=" + args.request.url);
   }
 
-  // Get the user's full `Backend User` object
-  const clerkClient = createClerkClient({
-    secretKey: process.env.CLERK_SECRET_KEY,
-  });
+  const { CLERK_SECRET_KEY } = process.env;
+  const clerkClient = createClerkClient({ secretKey: CLERK_SECRET_KEY });
   const user = await clerkClient.users.getUser(userId);
-  console.log(user);
-
-  // Find the Google external account
-  const googleAccount = user.externalAccounts.find(
-    (account) => account.provider.replace("oauth_", "") === "google",
-  );
-
-  if (!googleAccount) {
-    throw new Error("Google account not connected");
-  }
-
-  const clerkResponse = await clerkClient.users.getUserOauthAccessToken(
-    user.id,
-    "google",
-  );
-  const accessToken = clerkResponse.data[0].token || "";
-  const oauth2Client = new google.auth.OAuth2();
-  oauth2Client.setCredentials({ access_token: accessToken });
+  const oauth2Client = await getOAuthClient(user, clerkClient);
 
   const list = await AccountService.getCalendarList(oauth2Client);
   return json(list);
