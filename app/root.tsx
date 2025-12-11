@@ -1,3 +1,7 @@
+import "~/tailwind.css";
+import { ClerkApp } from "@clerk/remix";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { LoaderFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -6,13 +10,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import "~/tailwind.css";
-import { rootAuthLoader } from "@clerk/remix/ssr.server";
-import { LoaderFunction } from "@remix-run/node";
-
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
-export default function App() {
+function App() {
   return (
     <html lang="en" className="h-full">
       <head>
@@ -29,3 +29,5 @@ export default function App() {
     </html>
   );
 }
+
+export default ClerkApp(App);
