@@ -44,9 +44,7 @@ export default class AccountService {
     return authService
   }
 
-  public static async getCalendarList(request: Request) {
-    await AccountService.authenticate(request)
-
+  public static async getCalendarList(oauth2Client:OAuth2Client) {
     const calendar = google.calendar({
       version: "v3",
       auth: oauth2Client
