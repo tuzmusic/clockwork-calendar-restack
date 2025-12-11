@@ -26,7 +26,6 @@
     "/public/build"
   ],
   "dependencies": {
-    "@clerk/react-router": "^2.3.4",
     "@clerk/remix": "^4.13.24",
     "@googlemaps/google-maps-services-js": "^3.4.0",
     "@prisma/client": "^4.16.2",

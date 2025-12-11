@@ -1738,24 +1738,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clerk/react-router@npm:^2.3.4":
-  version: 2.3.4
-  resolution: "@clerk/react-router@npm:2.3.4"
-  dependencies:
-    "@clerk/backend": "npm:^2.27.0"
-    "@clerk/clerk-react": "npm:^5.58.1"
-    "@clerk/shared": "npm:^3.39.0"
-    "@clerk/types": "npm:^4.101.6"
-    cookie: "npm:0.7.2"
-    tslib: "npm:2.8.1"
-  peerDependencies:
-    react: ^18.0.0 || ^19.0.0 || ^19.0.0-0
-    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-0
-    react-router: ^7.9.0
-  checksum: 10c0/74b0b55505ffed378451b25300b86c456d2c140573b307037aee5a37d8b732843ebee22becf4dc6f2a5c538e816b92b0041fdddbd404994c8c97381bc046f24c
-  languageName: node
-  linkType: hard
-
 "@clerk/remix@npm:^4.13.24":
   version: 4.13.24
   resolution: "@clerk/remix@npm:4.13.24"
@@ -6760,7 +6742,6 @@ __metadata:
   resolution: "clockwork-remix-restack-3536@workspace:."
   dependencies:
     "@chromatic-com/storybook": "npm:^1.4.0"
-    "@clerk/react-router": "npm:^2.3.4"
     "@clerk/remix": "npm:^4.13.24"
     "@faker-js/faker": "npm:^8.4.1"
     "@googlemaps/google-maps-services-js": "npm:^3.4.0"
@@ -7028,13 +7009,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.7.2, cookie@npm:^0.7.2":
-  version: 0.7.2
-  resolution: "cookie@npm:0.7.2"
-  checksum: 10c0/9596e8ccdbf1a3a88ae02cf5ee80c1c50959423e1022e4e60b91dd87c622af1da309253d8abdb258fb5e3eacb4f08e579dc58b4897b8087574eee0fd35dfa5d2
-  languageName: node
-  linkType: hard
-
 "cookie@npm:1.0.2":
   version: 1.0.2
   resolution: "cookie@npm:1.0.2"
@@ -7046,6 +7020,13 @@ __metadata:
   version: 0.5.0
   resolution: "cookie@npm:0.5.0"
   checksum: 10c0/c01ca3ef8d7b8187bae434434582288681273b5a9ed27521d4d7f9f7928fe0c920df0decd9f9d3bbd2d14ac432b8c8cf42b98b3bdd5bfe0e6edddeebebe8b61d
+  languageName: node
+  linkType: hard
+
+"cookie@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "cookie@npm:0.7.2"
+  checksum: 10c0/9596e8ccdbf1a3a88ae02cf5ee80c1c50959423e1022e4e60b91dd87c622af1da309253d8abdb258fb5e3eacb4f08e579dc58b4897b8087574eee0fd35dfa5d2
   languageName: node
   linkType: hard
 
