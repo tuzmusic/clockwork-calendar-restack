@@ -1,10 +1,16 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
 
 import "~/tailwind.css";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { LoaderFunction } from "@remix-run/node";
 
-export const loader = async () => {
-  return null
-};
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
 export default function App() {
   return (
