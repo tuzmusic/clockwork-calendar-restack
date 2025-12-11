@@ -1756,6 +1756,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clerk/remix@npm:^4.13.24":
+  version: 4.13.24
+  resolution: "@clerk/remix@npm:4.13.24"
+  dependencies:
+    "@clerk/backend": "npm:^2.27.0"
+    "@clerk/clerk-react": "npm:^5.58.1"
+    "@clerk/shared": "npm:^3.39.0"
+    "@clerk/types": "npm:^4.101.6"
+    cookie: "npm:1.0.2"
+    tslib: "npm:2.8.1"
+  peerDependencies:
+    "@remix-run/react": ^2.0.0
+    "@remix-run/server-runtime": ^2.0.0
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-0
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-0
+    react-router: ^6.0.0
+  checksum: 10c0/d3073b9222037f5375973d42f48b9c84b8025e0d7156b1963c713e1941c289456d932c8eaaf19c134397c0c16da78882f3c9327e6f1f078cb4dfcbd211405aba
+  languageName: node
+  linkType: hard
+
 "@clerk/shared@npm:^3.39.0":
   version: 3.39.0
   resolution: "@clerk/shared@npm:3.39.0"
@@ -6741,6 +6761,7 @@ __metadata:
   dependencies:
     "@chromatic-com/storybook": "npm:^1.4.0"
     "@clerk/react-router": "npm:^2.3.4"
+    "@clerk/remix": "npm:^4.13.24"
     "@faker-js/faker": "npm:^8.4.1"
     "@googlemaps/google-maps-services-js": "npm:^3.4.0"
     "@netlify/remix-adapter": "npm:^2.6.1"
