@@ -9,7 +9,7 @@ import { GigPart } from "~/data/models/GigParts/GigPart";
 import { Reception } from "~/data/models/GigParts/Reception";
 import DateTime from "~/data/parsers/emailParser/DateTime";
 import {
-  EVENT_CELLS_COUNT,
+  EVENT_CELLS_MINIMUM,
   getTimesFromOtherPartText,
   userFirstName
 } from "~/data/parsers/emailParser/helpers-and-constants";
@@ -119,7 +119,7 @@ export default class EmailParser {
 
   private parseGig(row: Cheerio<Element>) {
     const tds = row.children("td");
-    if (tds.length !== EVENT_CELLS_COUNT) return false;
+    if (tds.length < EVENT_CELLS_MINIMUM) return false;
 
     if (this.currentGigData) this.addGigToList();
     this.resetGig();
